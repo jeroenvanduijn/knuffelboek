@@ -25,12 +25,17 @@ export default function Button({
   type = 'button',
   className = '',
 }: ButtonProps) {
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-full transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
+  // Base styles - licht afgeronde hoeken (niet volledig rond)
+  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
 
+  // Variant styles met nieuwe brand kleuren
   const variantStyles = {
-    primary: 'bg-primary text-white hover:bg-primary-dark hover:shadow-lg hover:-translate-y-0.5',
-    secondary: 'bg-secondary text-white hover:bg-secondary-dark hover:shadow-lg hover:-translate-y-0.5',
-    outline: 'bg-transparent border-2 border-primary text-primary hover:bg-primary hover:text-white',
+    // Primary: Abrikoos knop met nachtblauwe tekst
+    primary: 'bg-abrikoos text-nachtblauw hover:bg-abrikoos-dark hover:shadow-lg hover:-translate-y-0.5',
+    // Secondary: Pastelblauw knop met nachtblauwe tekst
+    secondary: 'bg-pastelblauw text-nachtblauw hover:bg-pastelblauw/80 hover:shadow-lg hover:-translate-y-0.5',
+    // Outline: Transparant met nachtblauwe rand
+    outline: 'bg-transparent border-2 border-nachtblauw text-nachtblauw hover:bg-nachtblauw hover:text-wolwit',
   };
 
   const sizeStyles = {

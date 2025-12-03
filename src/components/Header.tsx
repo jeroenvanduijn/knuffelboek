@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import SheepMascot from './SheepMascot';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -15,15 +16,13 @@ export default function Header() {
   ];
 
   return (
-    <header className="bg-white shadow-sm sticky top-0 z-50">
+    <header className="bg-wolwit shadow-sm sticky top-0 z-50">
       <nav className="container mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo */}
+          {/* Logo - Schaapje + woordmerk */}
           <Link href="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center">
-              <span className="text-white text-xl">K</span>
-            </div>
-            <span className="text-xl font-bold text-text">Knuffelboek</span>
+            <SheepMascot variant="default" size="sm" />
+            <span className="text-xl font-bold text-nachtblauw">Knuffelboek</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -32,14 +31,14 @@ export default function Header() {
               <Link
                 key={link.href}
                 href={link.href}
-                className="text-text-light hover:text-primary transition-colors font-medium"
+                className="text-nachtblauw/70 hover:text-nachtblauw transition-colors font-medium"
               >
                 {link.label}
               </Link>
             ))}
           </div>
 
-          {/* CTA Button */}
+          {/* CTA Button - Abrikoos met nachtblauwe tekst */}
           <div className="hidden lg:block">
             <Link href="/maak-je-boek" className="btn btn-primary">
               Start met jouw knuffel
@@ -49,7 +48,7 @@ export default function Header() {
           {/* Mobile menu button */}
           <button
             type="button"
-            className="lg:hidden p-2 rounded-md text-text-light hover:text-text hover:bg-sky transition-colors"
+            className="lg:hidden p-2 rounded-lg text-nachtblauw/70 hover:text-nachtblauw hover:bg-zand transition-colors"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
             aria-label="Menu openen"
           >
@@ -67,13 +66,13 @@ export default function Header() {
 
         {/* Mobile Navigation */}
         {mobileMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-sky">
+          <div className="lg:hidden py-4 border-t border-zand">
             <div className="flex flex-col space-y-3">
               {navLinks.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="text-text-light hover:text-primary transition-colors font-medium py-2"
+                  className="text-nachtblauw/70 hover:text-nachtblauw transition-colors font-medium py-2"
                   onClick={() => setMobileMenuOpen(false)}
                 >
                   {link.label}

@@ -2,15 +2,12 @@
 
 import { useState, useCallback } from 'react';
 import Link from 'next/link';
-import { Button } from '@/components';
+import { Button, SheepMascot } from '@/components';
 
 // Types
 interface BookData {
-  // Step 1: Photo
   toyPhoto: File | null;
   toyPhotoPreview: string | null;
-
-  // Step 2: Personalization
   childName: string;
   childAge: string;
   toyName: string;
@@ -18,11 +15,7 @@ interface BookData {
   petName: string;
   parent1Name: string;
   parent2Name: string;
-
-  // Step 3: Theme
   theme: string;
-
-  // Step 5: Order
   coverType: 'softcover' | 'hardcover';
   quantity: number;
 }
@@ -54,7 +47,7 @@ const themes = [
 const ages = ['2 jaar', '3 jaar', '4 jaar', '5 jaar', '6 jaar', '7 jaar', '8 jaar'];
 
 // Step indicator component
-function StepIndicator({ currentStep, totalSteps }: { currentStep: number; totalSteps: number }) {
+function StepIndicator({ currentStep }: { currentStep: number }) {
   const steps = ['Foto', 'Personaliseren', 'Thema', 'Preview', 'Bestellen'];
 
   return (
@@ -65,20 +58,20 @@ function StepIndicator({ currentStep, totalSteps }: { currentStep: number; total
             <div
               className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all ${
                 index + 1 < currentStep
-                  ? 'bg-primary text-white'
+                  ? 'bg-saliegroen text-nachtblauw'
                   : index + 1 === currentStep
-                  ? 'bg-primary text-white ring-4 ring-primary/20'
-                  : 'bg-sky text-text-light'
+                  ? 'bg-abrikoos text-nachtblauw ring-4 ring-abrikoos/20'
+                  : 'bg-zand text-nachtblauw/50'
               }`}
             >
               {index + 1 < currentStep ? '✓' : index + 1}
             </div>
-            <span className={`text-xs mt-2 hidden sm:block ${index + 1 === currentStep ? 'text-primary font-medium' : 'text-text-light'}`}>
+            <span className={`text-xs mt-2 hidden sm:block ${index + 1 === currentStep ? 'text-abrikoos font-medium' : 'text-nachtblauw/50'}`}>
               {step}
             </span>
           </div>
           {index < steps.length - 1 && (
-            <div className={`w-8 lg:w-16 h-1 mx-1 lg:mx-2 ${index + 1 < currentStep ? 'bg-primary' : 'bg-sky'}`} />
+            <div className={`w-8 lg:w-16 h-1 mx-1 lg:mx-2 ${index + 1 < currentStep ? 'bg-saliegroen' : 'bg-zand'}`} />
           )}
         </div>
       ))}
@@ -128,10 +121,10 @@ function Step1Photo({
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-text mb-3">
+        <h2 className="text-2xl lg:text-3xl font-bold text-nachtblauw mb-3">
           Stap 1: Maak een foto van de knuffel
         </h2>
-        <p className="text-text-light">
+        <p className="text-nachtblauw/70">
           Upload een duidelijke foto van de lievelingsknuffel van je kind.
         </p>
       </div>
@@ -139,7 +132,7 @@ function Step1Photo({
       {/* Upload Area */}
       <div
         className={`border-2 border-dashed rounded-2xl p-8 lg:p-12 text-center transition-all cursor-pointer ${
-          data.toyPhotoPreview ? 'border-primary bg-primary/5' : 'border-sky-dark hover:border-primary hover:bg-sky/50'
+          data.toyPhotoPreview ? 'border-saliegroen bg-saliegroen/10' : 'border-nachtblauw/20 hover:border-abrikoos hover:bg-zand/50'
         }`}
         onDragOver={(e) => e.preventDefault()}
         onDrop={handleDrop}
@@ -162,13 +155,13 @@ function Step1Photo({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex items-center justify-center gap-2 text-primary">
+            <div className="flex items-center justify-center gap-2 text-saliegroen">
               <span>✓</span>
               <span className="font-medium">Foto geüpload - achtergrond wordt automatisch verwijderd</span>
             </div>
             <button
               type="button"
-              className="text-sm text-text-light hover:text-primary underline"
+              className="text-sm text-nachtblauw/60 hover:text-abrikoos underline"
               onClick={(e) => {
                 e.stopPropagation();
                 updateData({ toyPhoto: null, toyPhotoPreview: null });
@@ -179,35 +172,34 @@ function Step1Photo({
           </div>
         ) : (
           <div className="space-y-4">
-            <div className="w-24 h-24 mx-auto bg-sky rounded-full flex items-center justify-center">
-              <span className="text-4xl">📸</span>
-            </div>
+            {/* Schaapje kijkt nieuwsgierig naar camera */}
+            <SheepMascot variant="camera" size="lg" className="mx-auto" />
             <div>
-              <p className="font-semibold text-text mb-1">Sleep je foto hierheen</p>
-              <p className="text-text-light text-sm">of klik om een bestand te kiezen</p>
+              <p className="font-semibold text-nachtblauw mb-1">Maak een foto van de knuffel om te beginnen</p>
+              <p className="text-nachtblauw/60 text-sm">Sleep je foto hierheen of klik om een bestand te kiezen</p>
             </div>
           </div>
         )}
       </div>
 
       {/* Tips */}
-      <div className="mt-8 bg-sky/50 rounded-xl p-6">
-        <h3 className="font-semibold text-text mb-3">Tips voor de beste foto:</h3>
-        <ul className="space-y-2 text-sm text-text-light">
+      <div className="mt-8 bg-zand rounded-xl p-6">
+        <h3 className="font-semibold text-nachtblauw mb-3">Tips voor de beste foto:</h3>
+        <ul className="space-y-2 text-sm text-nachtblauw/70">
           <li className="flex items-start gap-2">
-            <span className="text-primary">•</span>
+            <span className="text-abrikoos">•</span>
             Kies een neutrale, lichte achtergrond (wit of lichtgrijs)
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-primary">•</span>
+            <span className="text-abrikoos">•</span>
             Zorg voor goede belichting – daglicht werkt het beste
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-primary">•</span>
+            <span className="text-abrikoos">•</span>
             Fotografeer de knuffel van voren, met het gezicht goed zichtbaar
           </li>
           <li className="flex items-start gap-2">
-            <span className="text-primary">•</span>
+            <span className="text-abrikoos">•</span>
             De achtergrond wordt automatisch verwijderd
           </li>
         </ul>
@@ -254,22 +246,22 @@ function Step2Personalize({
   return (
     <div className="max-w-2xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-text mb-3">
+        <h2 className="text-2xl lg:text-3xl font-bold text-nachtblauw mb-3">
           Stap 2: Personaliseren
         </h2>
-        <p className="text-text-light">
+        <p className="text-nachtblauw/70">
           Vul de gegevens in zodat het verhaal op maat wordt gemaakt.
         </p>
       </div>
 
       <div className="space-y-6">
         {/* Required fields */}
-        <div className="bg-white rounded-xl border border-sky-dark/30 p-6 space-y-5">
-          <h3 className="font-semibold text-text">Verplichte gegevens</h3>
+        <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6 space-y-5">
+          <h3 className="font-semibold text-nachtblauw">Verplichte gegevens</h3>
 
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="childName" className="block text-sm font-medium text-text mb-2">
+              <label htmlFor="childName" className="block text-sm font-medium text-nachtblauw mb-2">
                 Naam van het kind *
               </label>
               <input
@@ -277,19 +269,19 @@ function Step2Personalize({
                 id="childName"
                 value={data.childName}
                 onChange={(e) => updateData({ childName: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
                 placeholder="Bijv. Emma"
               />
             </div>
             <div>
-              <label htmlFor="childAge" className="block text-sm font-medium text-text mb-2">
+              <label htmlFor="childAge" className="block text-sm font-medium text-nachtblauw mb-2">
                 Leeftijd *
               </label>
               <select
                 id="childAge"
                 value={data.childAge}
                 onChange={(e) => updateData({ childAge: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white"
+                className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
               >
                 <option value="">Kies leeftijd...</option>
                 {ages.map((age) => (
@@ -300,7 +292,7 @@ function Step2Personalize({
           </div>
 
           <div>
-            <label htmlFor="toyName" className="block text-sm font-medium text-text mb-2">
+            <label htmlFor="toyName" className="block text-sm font-medium text-nachtblauw mb-2">
               Naam van de knuffel *
             </label>
             <input
@@ -308,24 +300,24 @@ function Step2Personalize({
               id="toyName"
               value={data.toyName}
               onChange={(e) => updateData({ toyName: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
               placeholder="Bijv. Beer, Konijn, Draakje"
             />
-            <p className="text-xs text-text-light mt-1">Dit is hoe de knuffel in het verhaal wordt genoemd</p>
+            <p className="text-xs text-nachtblauw/60 mt-1">Dit is hoe de knuffel in het verhaal wordt genoemd</p>
           </div>
         </div>
 
         {/* Optional fields */}
-        <div className="bg-white rounded-xl border border-sky-dark/30 p-6 space-y-5">
-          <h3 className="font-semibold text-text">Optioneel - extra personages</h3>
-          <p className="text-sm text-text-light -mt-2">
+        <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6 space-y-5">
+          <h3 className="font-semibold text-nachtblauw">Optioneel - extra personages</h3>
+          <p className="text-sm text-nachtblauw/60 -mt-2">
             Voeg familieleden toe die een rol kunnen spelen in het verhaal.
           </p>
 
           {/* Parents */}
           <div className="grid sm:grid-cols-2 gap-5">
             <div>
-              <label htmlFor="parent1Name" className="block text-sm font-medium text-text mb-2">
+              <label htmlFor="parent1Name" className="block text-sm font-medium text-nachtblauw mb-2">
                 Ouder 1 (bijv. Mama)
               </label>
               <input
@@ -333,12 +325,12 @@ function Step2Personalize({
                 id="parent1Name"
                 value={data.parent1Name}
                 onChange={(e) => updateData({ parent1Name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
                 placeholder="Mama, Mam, Moeder..."
               />
             </div>
             <div>
-              <label htmlFor="parent2Name" className="block text-sm font-medium text-text mb-2">
+              <label htmlFor="parent2Name" className="block text-sm font-medium text-nachtblauw mb-2">
                 Ouder 2 (bijv. Papa)
               </label>
               <input
@@ -346,7 +338,7 @@ function Step2Personalize({
                 id="parent2Name"
                 value={data.parent2Name}
                 onChange={(e) => updateData({ parent2Name: e.target.value })}
-                className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
                 placeholder="Papa, Pap, Vader..."
               />
             </div>
@@ -354,7 +346,7 @@ function Step2Personalize({
 
           {/* Siblings */}
           <div>
-            <label className="block text-sm font-medium text-text mb-2">
+            <label className="block text-sm font-medium text-nachtblauw mb-2">
               Broertje(s) / zusje(s)
             </label>
             {data.siblings.map((sibling, index) => (
@@ -363,13 +355,13 @@ function Step2Personalize({
                   type="text"
                   value={sibling.name}
                   onChange={(e) => updateSibling(index, 'name', e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+                  className="flex-1 px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
                   placeholder="Naam"
                 />
                 <select
                   value={sibling.age}
                   onChange={(e) => updateSibling(index, 'age', e.target.value)}
-                  className="w-32 px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all bg-white"
+                  className="w-32 px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
                 >
                   <option value="">Leeftijd</option>
                   {ages.map((age) => (
@@ -379,7 +371,7 @@ function Step2Personalize({
                 <button
                   type="button"
                   onClick={() => removeSibling(index)}
-                  className="px-3 text-text-light hover:text-error transition-colors"
+                  className="px-3 text-nachtblauw/40 hover:text-red-500 transition-colors"
                 >
                   ✕
                 </button>
@@ -388,7 +380,7 @@ function Step2Personalize({
             <button
               type="button"
               onClick={addSibling}
-              className="text-sm text-primary hover:underline"
+              className="text-sm text-abrikoos hover:underline"
             >
               + Broertje/zusje toevoegen
             </button>
@@ -396,7 +388,7 @@ function Step2Personalize({
 
           {/* Pet */}
           <div>
-            <label htmlFor="petName" className="block text-sm font-medium text-text mb-2">
+            <label htmlFor="petName" className="block text-sm font-medium text-nachtblauw mb-2">
               Huisdier
             </label>
             <input
@@ -404,7 +396,7 @@ function Step2Personalize({
               id="petName"
               value={data.petName}
               onChange={(e) => updateData({ petName: e.target.value })}
-              className="w-full px-4 py-3 rounded-xl border border-sky-dark/30 focus:border-primary focus:ring-2 focus:ring-primary/20 outline-none transition-all"
+              className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
               placeholder="Bijv. Poes Minoes, Hond Max"
             />
           </div>
@@ -436,7 +428,6 @@ function Step3Theme({
   onNext: () => void;
   onBack: () => void;
 }) {
-  // Filter themes based on child age
   const getAgeGroup = (age: string) => {
     const num = parseInt(age);
     if (num <= 3) return '2-3';
@@ -452,14 +443,14 @@ function Step3Theme({
   return (
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-text mb-3">
+        <h2 className="text-2xl lg:text-3xl font-bold text-nachtblauw mb-3">
           Stap 3: Kies een thema
         </h2>
-        <p className="text-text-light">
+        <p className="text-nachtblauw/70">
           Selecteer het avontuur dat het beste bij {data.childName || 'je kind'} past.
         </p>
         {data.childAge && (
-          <p className="text-sm text-primary mt-2">
+          <p className="text-sm text-abrikoos mt-2">
             Getoond: thema&apos;s geschikt voor {data.childAge}
           </p>
         )}
@@ -474,15 +465,15 @@ function Step3Theme({
             onClick={() => updateData({ theme: theme.id })}
             className={`p-6 rounded-2xl text-left transition-all ${
               data.theme === theme.id
-                ? 'bg-primary text-white ring-4 ring-primary/20'
-                : 'bg-sky hover:bg-sky-dark'
+                ? 'bg-abrikoos text-nachtblauw ring-4 ring-abrikoos/20'
+                : 'bg-zand hover:bg-zand/80 border border-nachtblauw/5'
             }`}
           >
             <span className="text-4xl block mb-3">{theme.icon}</span>
-            <h3 className={`font-bold mb-1 ${data.theme === theme.id ? 'text-white' : 'text-text'}`}>
+            <h3 className="font-bold mb-1 text-nachtblauw">
               {theme.name}
             </h3>
-            <p className={`text-sm ${data.theme === theme.id ? 'text-white/80' : 'text-text-light'}`}>
+            <p className={`text-sm ${data.theme === theme.id ? 'text-nachtblauw/80' : 'text-nachtblauw/60'}`}>
               {theme.description}
             </p>
           </button>
@@ -525,28 +516,29 @@ function Step4Preview({
 
   // Demo pages
   const demoPages = [
-    { bg: 'bg-lavender', text: `Dit is het verhaal van ${data.childName} en ${data.toyName}.` },
-    { bg: 'bg-sky', text: `${data.toyName} was de beste vriend van ${data.childName}.` },
-    { bg: 'bg-peach', text: `Samen beleefden ze de mooiste avonturen...` },
-    { bg: 'bg-mint', text: `"Kom mee!" riep ${data.toyName}. "Ik heb een idee!"` },
-    { bg: 'bg-cream', text: `En zo begon hun grootste avontuur ooit...` },
-    { bg: 'bg-lavender', text: `Einde. ${data.childName} en ${data.toyName} leefden nog lang en gelukkig.` },
+    { bg: 'bg-pastelblauw/30', text: `Dit is het verhaal van ${data.childName} en ${data.toyName}.` },
+    { bg: 'bg-zand', text: `${data.toyName} was de beste vriend van ${data.childName}.` },
+    { bg: 'bg-abrikoos/20', text: `Samen beleefden ze de mooiste avonturen...` },
+    { bg: 'bg-saliegroen/20', text: `"Kom mee!" riep ${data.toyName}. "Ik heb een idee!"` },
+    { bg: 'bg-zand', text: `En zo begon hun grootste avontuur ooit...` },
+    { bg: 'bg-pastelblauw/30', text: `Einde. ${data.childName} en ${data.toyName} leefden nog lang en gelukkig.` },
   ];
 
   if (isGenerating) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        <div className="w-24 h-24 mx-auto mb-6 bg-sky rounded-full flex items-center justify-center animate-pulse">
-          <span className="text-4xl">✨</span>
+        {/* Schaapje op wolkje - loading state */}
+        <div className="mb-6">
+          <SheepMascot variant="cloud" size="xl" className="mx-auto animate-pulse" />
         </div>
-        <h2 className="text-2xl font-bold text-text mb-3">
+        <h2 className="text-2xl font-bold text-nachtblauw mb-3">
           We maken jouw boek...
         </h2>
-        <p className="text-text-light mb-8">
+        <p className="text-nachtblauw/70 mb-8">
           {data.toyName} en {data.childName} komen tot leven in een uniek verhaal.
         </p>
-        <div className="w-48 h-2 bg-sky rounded-full mx-auto overflow-hidden">
-          <div className="h-full bg-primary rounded-full animate-[loading_2s_ease-in-out_infinite]" style={{ width: '60%' }} />
+        <div className="w-48 h-2 bg-zand rounded-full mx-auto overflow-hidden">
+          <div className="h-full bg-abrikoos rounded-full animate-pulse" style={{ width: '60%' }} />
         </div>
       </div>
     );
@@ -555,10 +547,10 @@ function Step4Preview({
   return (
     <div className="max-w-4xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-text mb-3">
+        <h2 className="text-2xl lg:text-3xl font-bold text-nachtblauw mb-3">
           Stap 4: Bekijk je boek
         </h2>
-        <p className="text-text-light">
+        <p className="text-nachtblauw/70">
           Blader door je gepersonaliseerde boek en controleer of alles klopt.
         </p>
       </div>
@@ -566,25 +558,25 @@ function Step4Preview({
       {/* Book title */}
       <div className="text-center mb-6">
         <span className="text-3xl mr-2">{selectedTheme?.icon}</span>
-        <h3 className="inline text-xl font-bold text-text">
+        <h3 className="inline text-xl font-bold text-nachtblauw">
           {data.childName} en {data.toyName}: {selectedTheme?.name}
         </h3>
       </div>
 
       {/* Book viewer */}
-      <div className="bg-white rounded-3xl shadow-xl p-6 lg:p-8">
+      <div className="bg-wolwit rounded-3xl shadow-xl p-6 lg:p-8 border border-nachtblauw/5">
         {/* Page display */}
         <div className={`aspect-square max-w-md mx-auto ${demoPages[currentPage].bg} rounded-2xl p-8 flex flex-col justify-between mb-6`}>
-          <span className="text-xs text-text-light">Pagina {currentPage + 1}</span>
+          <span className="text-xs text-nachtblauw/50">Pagina {currentPage + 1}</span>
           <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="w-32 h-32 bg-white/50 rounded-xl flex items-center justify-center mb-4">
+            <div className="w-32 h-32 bg-wolwit/50 rounded-xl flex items-center justify-center mb-4">
               {data.toyPhotoPreview ? (
                 <img src={data.toyPhotoPreview} alt={data.toyName} className="w-24 h-24 object-cover rounded-lg" />
               ) : (
-                <span className="text-5xl">🧸</span>
+                <SheepMascot variant="default" size="md" />
               )}
             </div>
-            <p className="text-center text-text italic">{demoPages[currentPage].text}</p>
+            <p className="text-center text-nachtblauw italic">{demoPages[currentPage].text}</p>
           </div>
         </div>
 
@@ -595,7 +587,7 @@ function Step4Preview({
               key={index}
               onClick={() => setCurrentPage(index)}
               className={`w-3 h-3 rounded-full transition-all ${
-                currentPage === index ? 'bg-primary' : 'bg-sky-dark'
+                currentPage === index ? 'bg-abrikoos' : 'bg-nachtblauw/20'
               }`}
             />
           ))}
@@ -606,14 +598,14 @@ function Step4Preview({
           <button
             onClick={() => setCurrentPage(Math.max(0, currentPage - 1))}
             disabled={currentPage === 0}
-            className="px-4 py-2 rounded-lg bg-sky text-text disabled:opacity-50"
+            className="px-4 py-2 rounded-lg bg-zand text-nachtblauw disabled:opacity-50"
           >
             ← Vorige
           </button>
           <button
             onClick={() => setCurrentPage(Math.min(demoPages.length - 1, currentPage + 1))}
             disabled={currentPage === demoPages.length - 1}
-            className="px-4 py-2 rounded-lg bg-sky text-text disabled:opacity-50"
+            className="px-4 py-2 rounded-lg bg-zand text-nachtblauw disabled:opacity-50"
           >
             Volgende →
           </button>
@@ -621,7 +613,7 @@ function Step4Preview({
       </div>
 
       {/* Info */}
-      <p className="text-center text-sm text-text-light mt-4">
+      <p className="text-center text-sm text-nachtblauw/60 mt-4">
         Dit is een vereenvoudigde preview. Het echte boek bevat {data.childAge?.includes('2') || data.childAge?.includes('3') ? '16' : '20-24'} volledig geïllustreerde pagina&apos;s.
       </p>
 
@@ -660,7 +652,6 @@ function Step5Order({
 
   const handleOrder = async () => {
     setIsOrdering(true);
-    // Simulate order processing
     await new Promise(resolve => setTimeout(resolve, 2000));
     setIsOrdering(false);
     setOrderComplete(true);
@@ -669,33 +660,33 @@ function Step5Order({
   if (orderComplete) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        <div className="w-24 h-24 mx-auto mb-6 bg-mint rounded-full flex items-center justify-center">
-          <span className="text-5xl">✓</span>
+        <div className="mb-6">
+          <SheepMascot variant="happy" size="xl" className="mx-auto" />
         </div>
-        <h2 className="text-3xl font-bold text-text mb-4">
+        <h2 className="text-3xl font-bold text-nachtblauw mb-4">
           Bedankt voor je bestelling!
         </h2>
-        <p className="text-text-light mb-8">
+        <p className="text-nachtblauw/70 mb-8">
           We gaan direct aan de slag met het boek van {data.childName} en {data.toyName}.
           Je ontvangt een bevestiging per e-mail.
         </p>
-        <div className="bg-sky/50 rounded-xl p-6 mb-8 text-left">
-          <h3 className="font-semibold text-text mb-3">Wat gebeurt er nu?</h3>
-          <ul className="space-y-2 text-text-light">
+        <div className="bg-zand rounded-xl p-6 mb-8 text-left">
+          <h3 className="font-semibold text-nachtblauw mb-3">Wat gebeurt er nu?</h3>
+          <ul className="space-y-2 text-nachtblauw/70">
             <li className="flex items-start gap-2">
-              <span className="text-primary">1.</span>
+              <span className="text-saliegroen">1.</span>
               We maken de illustraties met jouw knuffel
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">2.</span>
+              <span className="text-saliegroen">2.</span>
               Het boek wordt geprint en gebonden
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">3.</span>
+              <span className="text-saliegroen">3.</span>
               Verzending binnen 5-7 werkdagen
             </li>
             <li className="flex items-start gap-2">
-              <span className="text-primary">4.</span>
+              <span className="text-saliegroen">4.</span>
               Je ontvangt track &amp; trace per e-mail
             </li>
           </ul>
@@ -710,10 +701,10 @@ function Step5Order({
   return (
     <div className="max-w-3xl mx-auto">
       <div className="text-center mb-8">
-        <h2 className="text-2xl lg:text-3xl font-bold text-text mb-3">
+        <h2 className="text-2xl lg:text-3xl font-bold text-nachtblauw mb-3">
           Stap 5: Bestellen
         </h2>
-        <p className="text-text-light">
+        <p className="text-nachtblauw/70">
           Controleer je bestelling en rond af.
         </p>
       </div>
@@ -722,78 +713,78 @@ function Step5Order({
         {/* Order summary */}
         <div className="lg:col-span-3 space-y-6">
           {/* Book summary */}
-          <div className="bg-white rounded-xl border border-sky-dark/30 p-6">
-            <h3 className="font-semibold text-text mb-4">Je boek</h3>
+          <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6">
+            <h3 className="font-semibold text-nachtblauw mb-4">Je boek</h3>
             <div className="flex gap-4">
-              <div className="w-20 h-24 bg-sky rounded-lg flex items-center justify-center flex-shrink-0">
+              <div className="w-20 h-24 bg-zand rounded-lg flex items-center justify-center flex-shrink-0">
                 <span className="text-3xl">{selectedTheme?.icon}</span>
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-text">{data.childName} en {data.toyName}: {selectedTheme?.name}</p>
-                <p className="text-sm text-text-light">Kind: {data.childName}, {data.childAge}</p>
-                <p className="text-sm text-text-light">Knuffel: {data.toyName}</p>
+                <p className="font-semibold text-nachtblauw">{data.childName} en {data.toyName}: {selectedTheme?.name}</p>
+                <p className="text-sm text-nachtblauw/60">Kind: {data.childName}, {data.childAge}</p>
+                <p className="text-sm text-nachtblauw/60">Knuffel: {data.toyName}</p>
               </div>
             </div>
           </div>
 
           {/* Cover type */}
-          <div className="bg-white rounded-xl border border-sky-dark/30 p-6">
-            <h3 className="font-semibold text-text mb-4">Kies je cover</h3>
+          <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6">
+            <h3 className="font-semibold text-nachtblauw mb-4">Kies je cover</h3>
             <div className="grid sm:grid-cols-2 gap-4">
               <button
                 type="button"
                 onClick={() => updateData({ coverType: 'softcover' })}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   data.coverType === 'softcover'
-                    ? 'border-primary bg-primary/5'
-                    : 'border-sky-dark/30 hover:border-primary/50'
+                    ? 'border-abrikoos bg-abrikoos/10'
+                    : 'border-nachtblauw/10 hover:border-abrikoos/50'
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="font-semibold text-text">Softcover</span>
-                  <span className="text-text-light text-sm">Inbegrepen</span>
+                  <span className="font-semibold text-nachtblauw">Softcover</span>
+                  <span className="text-nachtblauw/60 text-sm">Inbegrepen</span>
                 </div>
-                <p className="text-sm text-text-light">Flexibele kaft, ideaal voor dagelijks gebruik</p>
+                <p className="text-sm text-nachtblauw/60">Flexibele kaft, ideaal voor dagelijks gebruik</p>
               </button>
               <button
                 type="button"
                 onClick={() => updateData({ coverType: 'hardcover' })}
                 className={`p-4 rounded-xl border-2 text-left transition-all ${
                   data.coverType === 'hardcover'
-                    ? 'border-primary bg-primary/5'
-                    : 'border-sky-dark/30 hover:border-primary/50'
+                    ? 'border-abrikoos bg-abrikoos/10'
+                    : 'border-nachtblauw/10 hover:border-abrikoos/50'
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
-                  <span className="font-semibold text-text">Hardcover</span>
-                  <span className="text-secondary text-sm font-medium">+€5,00</span>
+                  <span className="font-semibold text-nachtblauw">Hardcover</span>
+                  <span className="text-abrikoos text-sm font-medium">+€5,00</span>
                 </div>
-                <p className="text-sm text-text-light">Extra stevig, perfect als cadeau</p>
+                <p className="text-sm text-nachtblauw/60">Extra stevig, perfect als cadeau</p>
               </button>
             </div>
           </div>
 
           {/* Quantity */}
-          <div className="bg-white rounded-xl border border-sky-dark/30 p-6">
-            <h3 className="font-semibold text-text mb-4">Aantal exemplaren</h3>
+          <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6">
+            <h3 className="font-semibold text-nachtblauw mb-4">Aantal exemplaren</h3>
             <div className="flex items-center gap-4">
               <button
                 type="button"
                 onClick={() => updateData({ quantity: Math.max(1, data.quantity - 1) })}
-                className="w-10 h-10 rounded-full bg-sky flex items-center justify-center text-text hover:bg-sky-dark transition-colors"
+                className="w-10 h-10 rounded-full bg-zand flex items-center justify-center text-nachtblauw hover:bg-zand/80 transition-colors"
               >
                 -
               </button>
-              <span className="text-2xl font-bold text-text w-12 text-center">{data.quantity}</span>
+              <span className="text-2xl font-bold text-nachtblauw w-12 text-center">{data.quantity}</span>
               <button
                 type="button"
                 onClick={() => updateData({ quantity: data.quantity + 1 })}
-                className="w-10 h-10 rounded-full bg-sky flex items-center justify-center text-text hover:bg-sky-dark transition-colors"
+                className="w-10 h-10 rounded-full bg-zand flex items-center justify-center text-nachtblauw hover:bg-zand/80 transition-colors"
               >
                 +
               </button>
               {data.quantity > 1 && (
-                <span className="text-sm text-text-light ml-4">
+                <span className="text-sm text-nachtblauw/60 ml-4">
                   Extra exemplaren: €19,95 per stuk
                 </span>
               )}
@@ -803,33 +794,33 @@ function Step5Order({
 
         {/* Price summary */}
         <div className="lg:col-span-2">
-          <div className="bg-sky/50 rounded-xl p-6 sticky top-24">
-            <h3 className="font-semibold text-text mb-4">Overzicht</h3>
+          <div className="bg-zand rounded-xl p-6 sticky top-24">
+            <h3 className="font-semibold text-nachtblauw mb-4">Overzicht</h3>
             <div className="space-y-3 text-sm">
               <div className="flex justify-between">
-                <span className="text-text-light">Knuffelboek (softcover)</span>
-                <span className="text-text">€29,95</span>
+                <span className="text-nachtblauw/60">Knuffelboek (softcover)</span>
+                <span className="text-nachtblauw">€29,95</span>
               </div>
               {data.coverType === 'hardcover' && (
                 <div className="flex justify-between">
-                  <span className="text-text-light">Hardcover upgrade</span>
-                  <span className="text-text">€5,00</span>
+                  <span className="text-nachtblauw/60">Hardcover upgrade</span>
+                  <span className="text-nachtblauw">€5,00</span>
                 </div>
               )}
               {data.quantity > 1 && (
                 <div className="flex justify-between">
-                  <span className="text-text-light">{data.quantity - 1}x extra exemplaar</span>
-                  <span className="text-text">€{((data.quantity - 1) * 19.95).toFixed(2)}</span>
+                  <span className="text-nachtblauw/60">{data.quantity - 1}x extra exemplaar</span>
+                  <span className="text-nachtblauw">€{((data.quantity - 1) * 19.95).toFixed(2)}</span>
                 </div>
               )}
               <div className="flex justify-between">
-                <span className="text-text-light">Verzending (NL/BE)</span>
-                <span className="text-primary">Gratis</span>
+                <span className="text-nachtblauw/60">Verzending (NL/BE)</span>
+                <span className="text-saliegroen">Gratis</span>
               </div>
-              <div className="border-t border-sky-dark/30 pt-3 mt-3">
+              <div className="border-t border-nachtblauw/10 pt-3 mt-3">
                 <div className="flex justify-between text-lg">
-                  <span className="font-semibold text-text">Totaal</span>
-                  <span className="font-bold text-primary">€{total.toFixed(2)}</span>
+                  <span className="font-semibold text-nachtblauw">Totaal</span>
+                  <span className="font-bold text-abrikoos">€{total.toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -843,7 +834,7 @@ function Step5Order({
               {isOrdering ? 'Verwerken...' : 'Afrekenen →'}
             </Button>
 
-            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-text-light">
+            <div className="mt-4 flex items-center justify-center gap-2 text-xs text-nachtblauw/50">
               <span>🔒</span>
               <span>Veilig betalen via iDEAL, Bancontact of creditcard</span>
             </div>
@@ -876,24 +867,24 @@ export default function MaakJeBoekPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-sky/30 to-white">
+    <div className="min-h-screen bg-gradient-to-b from-zand/50 to-wolwit">
       <div className="container mx-auto px-4 lg:px-6 py-8 lg:py-12">
         {/* Header */}
         <div className="text-center mb-8">
-          <Link href="/" className="inline-flex items-center gap-2 text-text-light hover:text-primary transition-colors mb-4">
+          <Link href="/" className="inline-flex items-center gap-2 text-nachtblauw/60 hover:text-abrikoos transition-colors mb-4">
             <span>←</span>
             <span>Terug naar home</span>
           </Link>
-          <h1 className="text-3xl lg:text-4xl font-bold text-text">
+          <h1 className="text-3xl lg:text-4xl font-bold text-nachtblauw">
             Maak je Knuffelboek
           </h1>
         </div>
 
         {/* Step Indicator */}
-        <StepIndicator currentStep={step} totalSteps={5} />
+        <StepIndicator currentStep={step} />
 
         {/* Step Content */}
-        <div className="bg-white/50 rounded-3xl p-6 lg:p-10">
+        <div className="bg-wolwit/80 rounded-3xl p-6 lg:p-10 shadow-sm border border-nachtblauw/5">
           {step === 1 && (
             <Step1Photo
               data={bookData}

@@ -1,17 +1,17 @@
 import Link from 'next/link';
-import { Button, SectionTitle } from '@/components';
+import { Button, SectionTitle, SheepMascot } from '@/components';
 
 // Hero Section
 function HeroSection() {
   return (
-    <section className="relative bg-gradient-to-br from-sky via-peach/30 to-cream py-16 lg:py-24 overflow-hidden">
+    <section className="relative bg-wolwit py-16 lg:py-24 overflow-hidden">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
-            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-text leading-tight mb-6">
-              Maak een <span className="text-primary">echt boek</span> met de knuffel van je kind in de hoofdrol
+            <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-nachtblauw leading-tight mb-6">
+              Maak een <span className="text-abrikoos">echt boek</span> met de knuffel van je kind in de hoofdrol
             </h1>
-            <p className="text-lg lg:text-xl text-text-light mb-8 max-w-xl mx-auto lg:mx-0">
+            <p className="text-lg lg:text-xl text-nachtblauw/70 mb-8 max-w-xl mx-auto lg:mx-0">
               Upload een foto, kies een avontuur, en wij drukken een persoonlijk kinderboek dat thuis wordt bezorgd.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
@@ -24,18 +24,16 @@ function HeroSection() {
             </div>
           </div>
           <div className="relative">
-            {/* Placeholder for hero image */}
-            <div className="aspect-square max-w-lg mx-auto bg-white rounded-3xl shadow-xl p-8 flex items-center justify-center">
+            {/* Schaapje met boek */}
+            <div className="aspect-square max-w-lg mx-auto bg-zand rounded-3xl shadow-xl p-8 flex items-center justify-center">
               <div className="text-center">
-                <div className="w-32 h-32 mx-auto mb-4 bg-gradient-to-br from-peach to-secondary rounded-full flex items-center justify-center">
-                  <span className="text-6xl">🧸</span>
-                </div>
-                <p className="text-text-light">Kind leest met knuffel en boek</p>
+                <SheepMascot variant="book" size="xl" className="mx-auto mb-4" />
+                <p className="text-nachtblauw/60 text-sm">Het schaapje leest voor...</p>
               </div>
             </div>
             {/* Decorative elements */}
-            <div className="absolute -top-4 -right-4 w-20 h-20 bg-lavender rounded-full opacity-60" />
-            <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-mint rounded-full opacity-60" />
+            <div className="absolute -top-4 -right-4 w-20 h-20 bg-pastelblauw/40 rounded-full" />
+            <div className="absolute -bottom-6 -left-6 w-16 h-16 bg-saliegroen/40 rounded-full" />
           </div>
         </div>
       </div>
@@ -64,7 +62,7 @@ function HowItWorksSection() {
   ];
 
   return (
-    <section className="section bg-white">
+    <section className="section bg-zand">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="In drie simpele stappen naar een uniek kinderboek">
           Hoe het werkt
@@ -72,14 +70,14 @@ function HowItWorksSection() {
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step, index) => (
             <div key={index} className="text-center">
-              <div className="w-24 h-24 mx-auto mb-6 bg-sky rounded-full flex items-center justify-center">
+              <div className="w-24 h-24 mx-auto mb-6 bg-wolwit rounded-full flex items-center justify-center shadow-sm">
                 <span className="text-4xl">{step.icon}</span>
               </div>
-              <div className="w-8 h-8 mx-auto mb-4 bg-primary text-white rounded-full flex items-center justify-center font-bold">
+              <div className="w-8 h-8 mx-auto mb-4 bg-abrikoos text-nachtblauw rounded-full flex items-center justify-center font-bold">
                 {index + 1}
               </div>
-              <h3 className="text-xl font-bold text-text mb-3">{step.title}</h3>
-              <p className="text-text-light">{step.description}</p>
+              <h3 className="text-xl font-bold text-nachtblauw mb-3">{step.title}</h3>
+              <p className="text-nachtblauw/70">{step.description}</p>
             </div>
           ))}
         </div>
@@ -96,14 +94,14 @@ function HowItWorksSection() {
 // Example Books Section
 function ExampleBooksSection() {
   const examples = [
-    { name: 'Lotte', title: 'Lotte en de Dappere Draakbeer', age: '5 jaar', theme: 'Dapper zijn', color: 'bg-peach' },
-    { name: 'Tim', title: 'Tim en het Slaapavontuur', age: '3 jaar', theme: 'Bedtijd', color: 'bg-lavender' },
-    { name: 'Emma', title: "Emma's Verjaardagsfeest", age: '4 jaar', theme: 'Verjaardag', color: 'bg-mint' },
-    { name: 'Lucas', title: 'Lucas en de Vriendschap', age: '6 jaar', theme: 'Vriendschap', color: 'bg-cream' },
+    { name: 'Lotte', title: 'Lotte en de Dappere Draakbeer', age: '5 jaar', theme: 'Dapper zijn', color: 'bg-abrikoos/30' },
+    { name: 'Tim', title: 'Tim en het Slaapavontuur', age: '3 jaar', theme: 'Bedtijd', color: 'bg-pastelblauw/30' },
+    { name: 'Emma', title: "Emma's Verjaardagsfeest", age: '4 jaar', theme: 'Verjaardag', color: 'bg-saliegroen/30' },
+    { name: 'Lucas', title: 'Lucas en de Vriendschap', age: '6 jaar', theme: 'Vriendschap', color: 'bg-zand' },
   ];
 
   return (
-    <section className="section bg-sky/30">
+    <section className="section bg-wolwit">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Bekijk wat andere ouders hebben gemaakt">
           Voorbeeldboeken
@@ -114,12 +112,12 @@ function ExampleBooksSection() {
               <div className={`aspect-[3/4] ${book.color} rounded-lg mb-4 flex items-center justify-center`}>
                 <div className="text-center p-4">
                   <span className="text-5xl block mb-2">📖</span>
-                  <p className="text-sm font-medium text-text">{book.title}</p>
+                  <p className="text-sm font-medium text-nachtblauw">{book.title}</p>
                 </div>
               </div>
               <div className="space-y-1">
-                <p className="font-semibold text-text">{book.name}, {book.age}</p>
-                <p className="text-sm text-text-light">Thema: {book.theme}</p>
+                <p className="font-semibold text-nachtblauw">{book.name}, {book.age}</p>
+                <p className="text-sm text-nachtblauw/70">Thema: {book.theme}</p>
               </div>
             </div>
           ))}
@@ -137,16 +135,16 @@ function ExampleBooksSection() {
 // Themes Section
 function ThemesSection() {
   const themes = [
-    { name: 'Bedtijd Avontuur', ages: '2-5 jaar', icon: '🌙', color: 'bg-lavender' },
-    { name: 'Dapper Zijn', ages: '3-6 jaar', icon: '🦁', color: 'bg-secondary/20' },
-    { name: 'Verjaardag', ages: '2-8 jaar', icon: '🎂', color: 'bg-peach' },
-    { name: 'Vriendschap', ages: '4-7 jaar', icon: '💕', color: 'bg-mint' },
-    { name: 'Natuur Ontdekken', ages: '3-6 jaar', icon: '🌿', color: 'bg-mint' },
-    { name: 'Fantasie Wereld', ages: '5-8 jaar', icon: '🏰', color: 'bg-sky' },
+    { name: 'Bedtijd Avontuur', ages: '2-5 jaar', icon: '🌙', color: 'bg-pastelblauw/30' },
+    { name: 'Dapper Zijn', ages: '3-6 jaar', icon: '🦁', color: 'bg-abrikoos/30' },
+    { name: 'Verjaardag', ages: '2-8 jaar', icon: '🎂', color: 'bg-abrikoos/20' },
+    { name: 'Vriendschap', ages: '4-7 jaar', icon: '💕', color: 'bg-saliegroen/30' },
+    { name: 'Natuur Ontdekken', ages: '3-6 jaar', icon: '🌿', color: 'bg-saliegroen/20' },
+    { name: 'Fantasie Wereld', ages: '5-8 jaar', icon: '🏰', color: 'bg-pastelblauw/20' },
   ];
 
   return (
-    <section className="section bg-white">
+    <section className="section bg-zand">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Kies het perfecte avontuur voor jouw kind">
           Thema&apos;s &amp; leeftijden
@@ -156,13 +154,13 @@ function ThemesSection() {
             <Link
               key={index}
               href={`/themas#${theme.name.toLowerCase().replace(/\s/g, '-')}`}
-              className={`${theme.color} p-6 rounded-2xl hover:shadow-lg transition-all hover:-translate-y-1`}
+              className={`${theme.color} p-6 rounded-2xl hover:shadow-lg transition-all hover:-translate-y-1 border border-nachtblauw/5`}
             >
               <div className="flex items-center gap-4">
                 <span className="text-4xl">{theme.icon}</span>
                 <div>
-                  <h3 className="font-bold text-text">{theme.name}</h3>
-                  <span className="text-sm text-text-light">{theme.ages}</span>
+                  <h3 className="font-bold text-nachtblauw">{theme.name}</h3>
+                  <span className="text-sm text-nachtblauw/70">{theme.ages}</span>
                 </div>
               </div>
             </Link>
@@ -204,7 +202,7 @@ function USPsSection() {
   ];
 
   return (
-    <section className="section bg-gradient-to-br from-primary/5 to-secondary/5">
+    <section className="section bg-wolwit">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Dit maakt Knuffelboek zo bijzonder">
           Waarom ouders Knuffelboek kiezen
@@ -212,11 +210,11 @@ function USPsSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {usps.map((usp, index) => (
             <div key={index} className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-white rounded-2xl shadow-sm flex items-center justify-center">
+              <div className="w-16 h-16 mx-auto mb-4 bg-zand rounded-2xl shadow-sm flex items-center justify-center">
                 <span className="text-3xl">{usp.icon}</span>
               </div>
-              <h3 className="font-bold text-text mb-2">{usp.title}</h3>
-              <p className="text-sm text-text-light">{usp.description}</p>
+              <h3 className="font-bold text-nachtblauw mb-2">{usp.title}</h3>
+              <p className="text-sm text-nachtblauw/70">{usp.description}</p>
             </div>
           ))}
         </div>
@@ -246,21 +244,21 @@ function ReviewsSection() {
   ];
 
   return (
-    <section className="section bg-white">
+    <section className="section bg-zand">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Lees wat andere ouders zeggen">
           Blije kinderen, blije ouders
         </SectionTitle>
         <div className="grid md:grid-cols-3 gap-8">
           {reviews.map((review, index) => (
-            <div key={index} className="card">
+            <div key={index} className="bg-wolwit rounded-2xl p-6 shadow-sm">
               <div className="flex mb-4">
                 {[...Array(review.stars)].map((_, i) => (
-                  <span key={i} className="text-secondary text-xl">★</span>
+                  <span key={i} className="text-abrikoos text-xl">★</span>
                 ))}
               </div>
-              <p className="text-text-light mb-4 italic">&quot;{review.quote}&quot;</p>
-              <p className="text-sm font-semibold text-text">{review.author}</p>
+              <p className="text-nachtblauw/70 mb-4 italic">&quot;{review.quote}&quot;</p>
+              <p className="text-sm font-semibold text-nachtblauw">{review.author}</p>
             </div>
           ))}
         </div>
@@ -272,40 +270,40 @@ function ReviewsSection() {
 // Pricing Section
 function PricingSection() {
   return (
-    <section className="section bg-cream/50">
+    <section className="section bg-wolwit">
       <div className="container mx-auto px-4 lg:px-6">
         <div className="max-w-3xl mx-auto text-center">
           <SectionTitle subtitle="Transparante prijzen, geen verrassingen">
             Simpele prijzen
           </SectionTitle>
-          <div className="bg-white rounded-3xl shadow-lg p-8 lg:p-12">
+          <div className="bg-zand rounded-3xl shadow-lg p-8 lg:p-12">
             <div className="mb-8">
-              <span className="text-5xl lg:text-6xl font-bold text-primary">€29,95</span>
-              <p className="text-text-light mt-2">Inclusief verzending binnen Nederland & België</p>
+              <span className="text-5xl lg:text-6xl font-bold text-abrikoos">€29,95</span>
+              <p className="text-nachtblauw/70 mt-2">Inclusief verzending binnen Nederland & België</p>
             </div>
             <ul className="text-left max-w-md mx-auto space-y-3 mb-8">
               <li className="flex items-center gap-3">
-                <span className="text-success text-xl">✓</span>
-                <span>Gepersonaliseerd softcover boek</span>
+                <span className="text-saliegroen text-xl">✓</span>
+                <span className="text-nachtblauw">Gepersonaliseerd softcover boek</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="text-success text-xl">✓</span>
-                <span>16-24 pagina&apos;s met unieke illustraties</span>
+                <span className="text-saliegroen text-xl">✓</span>
+                <span className="text-nachtblauw">16-24 pagina&apos;s met unieke illustraties</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="text-success text-xl">✓</span>
-                <span>Verhaal op maat van jouw kind</span>
+                <span className="text-saliegroen text-xl">✓</span>
+                <span className="text-nachtblauw">Verhaal op maat van jouw kind</span>
               </li>
               <li className="flex items-center gap-3">
-                <span className="text-success text-xl">✓</span>
-                <span>Bezorging binnen 5-7 werkdagen</span>
+                <span className="text-saliegroen text-xl">✓</span>
+                <span className="text-nachtblauw">Bezorging binnen 5-7 werkdagen</span>
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button href="/maak-je-boek" size="lg">
                 Maak je boek
               </Button>
-              <Link href="/prijzen" className="text-primary hover:underline font-medium">
+              <Link href="/prijzen" className="text-abrikoos hover:underline font-medium">
                 Bekijk alle opties →
               </Link>
             </div>
@@ -319,15 +317,16 @@ function PricingSection() {
 // CTA Section
 function CTASection() {
   return (
-    <section className="py-16 lg:py-24 bg-gradient-to-r from-primary to-primary-dark text-white">
+    <section className="py-16 lg:py-24 bg-nachtblauw text-wolwit">
       <div className="container mx-auto px-4 lg:px-6 text-center">
+        <SheepMascot variant="happy" size="lg" className="mx-auto mb-6" />
         <h2 className="text-3xl lg:text-4xl font-bold mb-4">
           Klaar om een magisch moment te creëren?
         </h2>
-        <p className="text-xl text-white/90 mb-8 max-w-2xl mx-auto">
+        <p className="text-xl text-wolwit/80 mb-8 max-w-2xl mx-auto">
           Van de lievelingsknuffel van je kind, naar een echt verhaaltje voor het slapengaan – in een paar minuten geregeld.
         </p>
-        <Button href="/maak-je-boek" variant="secondary" size="lg">
+        <Button href="/maak-je-boek" size="lg">
           Start met jouw knuffel
         </Button>
       </div>
