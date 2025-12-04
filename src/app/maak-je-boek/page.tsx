@@ -1,13 +1,17 @@
 'use client';
 
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import Link from 'next/link';
 import { Button, SheepMascot } from '@/components';
+import * as api from '@/lib/api';
+import type { ToyAnalysis, Book } from '@/lib/api';
 
 // Types
 interface BookData {
   toyPhoto: File | null;
   toyPhotoPreview: string | null;
+  toyPhotoBase64: string | null;
+  toyAnalysis: ToyAnalysis | null;
   childName: string;
   childAge: string;
   toyName: string;
@@ -18,11 +22,14 @@ interface BookData {
   theme: string;
   coverType: 'softcover' | 'hardcover';
   quantity: number;
+  generatedBook: Book | null;
 }
 
 const initialBookData: BookData = {
   toyPhoto: null,
   toyPhotoPreview: null,
+  toyPhotoBase64: null,
+  toyAnalysis: null,
   childName: '',
   childAge: '',
   toyName: '',
@@ -33,6 +40,7 @@ const initialBookData: BookData = {
   theme: '',
   coverType: 'softcover',
   quantity: 1,
+  generatedBook: null,
 };
 
 const themes = [
@@ -79,7 +87,7 @@ function StepIndicator({ currentStep }: { currentStep: number }) {
   );
 }
 
-// Step 1: Photo Upload
+// Step 1: Photo Upload with AI Analysis
 function Step1Photo({
   data,
   updateData,
@@ -89,15 +97,37 @@ function Step1Photo({
   updateData: (updates: Partial<BookData>) => void;
   onNext: () => void;
 }) {
-  const handleFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+  const [isAnalyzing, setIsAnalyzing] = useState(false);
+  const [analyzeError, setAnalyzeError] = useState<string | null>(null);
+
+  const handleFileChange = useCallback(async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) {
       const reader = new FileReader();
-      reader.onload = () => {
+      reader.onload = async () => {
+        const base64 = reader.result as string;
         updateData({
           toyPhoto: file,
-          toyPhotoPreview: reader.result as string,
+          toyPhotoPreview: base64,
+          toyPhotoBase64: base64.split(',')[1], // Remove data:image/...;base64, prefix
         });
+
+        // Analyze the toy with AI
+        setIsAnalyzing(true);
+        setAnalyzeError(null);
+        try {
+          const analysis = await api.analyzeToy(base64.split(',')[1]);
+          updateData({
+            toyAnalysis: analysis,
+            toyName: analysis.suggestedName || '',
+          });
+        } catch (err) {
+          // Analysis is optional, continue without it
+          console.error('Toy analysis failed:', err);
+          setAnalyzeError('Kon knuffel niet automatisch herkennen. Je kunt handmatig doorgaan.');
+        } finally {
+          setIsAnalyzing(false);
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -107,16 +137,10 @@ function Step1Photo({
     e.preventDefault();
     const file = e.dataTransfer.files?.[0];
     if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        updateData({
-          toyPhoto: file,
-          toyPhotoPreview: reader.result as string,
-        });
-      };
-      reader.readAsDataURL(file);
+      const fakeEvent = { target: { files: [file] } } as unknown as React.ChangeEvent<HTMLInputElement>;
+      handleFileChange(fakeEvent);
     }
-  }, [updateData]);
+  }, [handleFileChange]);
 
   return (
     <div className="max-w-2xl mx-auto">
@@ -155,16 +179,44 @@ function Step1Photo({
                 className="w-full h-full object-cover"
               />
             </div>
-            <div className="flex items-center justify-center gap-2 text-saliegroen">
-              <span>✓</span>
-              <span className="font-medium">Foto geüpload - achtergrond wordt automatisch verwijderd</span>
-            </div>
+
+            {isAnalyzing ? (
+              <div className="flex items-center justify-center gap-2 text-abrikoos">
+                <SheepMascot variant="cloud" size="sm" className="animate-pulse" />
+                <span className="font-medium">AI analyseert de knuffel...</span>
+              </div>
+            ) : data.toyAnalysis ? (
+              <div className="bg-wolwit rounded-xl p-4 text-left max-w-sm mx-auto">
+                <p className="text-sm font-medium text-nachtblauw mb-2">
+                  AI herkenning:
+                </p>
+                <p className="text-nachtblauw/70 text-sm">
+                  Type: <span className="font-medium">{data.toyAnalysis.toyType}</span>
+                </p>
+                {data.toyAnalysis.colors.length > 0 && (
+                  <p className="text-nachtblauw/70 text-sm">
+                    Kleuren: {data.toyAnalysis.colors.join(', ')}
+                  </p>
+                )}
+                <p className="text-xs text-nachtblauw/50 mt-2">
+                  Betrouwbaarheid: {Math.round(data.toyAnalysis.confidence * 100)}%
+                </p>
+              </div>
+            ) : analyzeError ? (
+              <p className="text-abrikoos text-sm">{analyzeError}</p>
+            ) : (
+              <div className="flex items-center justify-center gap-2 text-saliegroen">
+                <span>✓</span>
+                <span className="font-medium">Foto geüpload - achtergrond wordt automatisch verwijderd</span>
+              </div>
+            )}
+
             <button
               type="button"
               className="text-sm text-nachtblauw/60 hover:text-abrikoos underline"
               onClick={(e) => {
                 e.stopPropagation();
-                updateData({ toyPhoto: null, toyPhotoPreview: null });
+                updateData({ toyPhoto: null, toyPhotoPreview: null, toyPhotoBase64: null, toyAnalysis: null });
               }}
             >
               Andere foto kiezen
@@ -172,7 +224,6 @@ function Step1Photo({
           </div>
         ) : (
           <div className="space-y-4">
-            {/* Schaapje kijkt nieuwsgierig naar camera */}
             <SheepMascot variant="camera" size="lg" className="mx-auto" />
             <div>
               <p className="font-semibold text-nachtblauw mb-1">Maak een foto van de knuffel om te beginnen</p>
@@ -200,14 +251,14 @@ function Step1Photo({
           </li>
           <li className="flex items-start gap-2">
             <span className="text-abrikoos">•</span>
-            De achtergrond wordt automatisch verwijderd
+            De achtergrond wordt automatisch verwijderd door AI
           </li>
         </ul>
       </div>
 
       {/* Navigation */}
       <div className="mt-8 flex justify-end">
-        <Button onClick={onNext} disabled={!data.toyPhotoPreview} size="lg">
+        <Button onClick={onNext} disabled={!data.toyPhotoPreview || isAnalyzing} size="lg">
           Volgende stap →
         </Button>
       </div>
@@ -275,7 +326,7 @@ function Step2Personalize({
             </div>
             <div>
               <label htmlFor="childAge" className="block text-sm font-medium text-nachtblauw mb-2">
-                Leeftijd *
+                Leeftijd (2-8 jaar) *
               </label>
               <select
                 id="childAge"
@@ -303,7 +354,12 @@ function Step2Personalize({
               className="w-full px-4 py-3 rounded-xl border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none transition-all bg-wolwit"
               placeholder="Bijv. Beer, Konijn, Draakje"
             />
-            <p className="text-xs text-nachtblauw/60 mt-1">Dit is hoe de knuffel in het verhaal wordt genoemd</p>
+            <p className="text-xs text-nachtblauw/60 mt-1">
+              Dit is hoe de knuffel in het verhaal wordt genoemd
+              {data.toyAnalysis && (
+                <span className="text-saliegroen ml-1">(AI suggestie: {data.toyAnalysis.suggestedName})</span>
+              )}
+            </p>
           </div>
         </div>
 
@@ -493,52 +549,138 @@ function Step3Theme({
   );
 }
 
-// Step 4: Preview
+// Step 4: Preview with real book generation
 function Step4Preview({
   data,
+  updateData,
   onNext,
   onBack,
 }: {
   data: BookData;
+  updateData: (updates: Partial<BookData>) => void;
   onNext: () => void;
   onBack: () => void;
 }) {
   const [isGenerating, setIsGenerating] = useState(true);
+  const [generateError, setGenerateError] = useState<string | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [generationProgress, setGenerationProgress] = useState(0);
 
-  // Simulate generation
-  useState(() => {
-    const timer = setTimeout(() => setIsGenerating(false), 3000);
-    return () => clearTimeout(timer);
-  });
+  // Generate book on mount
+  useEffect(() => {
+    const generateBook = async () => {
+      setIsGenerating(true);
+      setGenerateError(null);
+
+      try {
+        const bookRequest = {
+          toyImage: data.toyPhotoBase64 || '',
+          childName: data.childName,
+          childAge: parseInt(data.childAge),
+          toyName: data.toyName,
+          theme: data.theme,
+          siblings: data.siblings.map(s => ({ name: s.name, age: parseInt(s.age) || 0 })),
+          petName: data.petName || undefined,
+          parent1Name: data.parent1Name || undefined,
+          parent2Name: data.parent2Name || undefined,
+        };
+
+        const book = await api.createBook(bookRequest);
+        updateData({ generatedBook: book });
+
+        // If book is still generating, poll for status
+        if (book.status === 'generating') {
+          const pollStatus = async () => {
+            try {
+              const status = await api.getBookStatus(book.id);
+              setGenerationProgress(status.progress || 0);
+
+              if (status.status === 'ready') {
+                const updatedBook = await api.getBook(book.id);
+                updateData({ generatedBook: updatedBook });
+                setIsGenerating(false);
+              } else {
+                setTimeout(pollStatus, 2000);
+              }
+            } catch {
+              setTimeout(pollStatus, 2000);
+            }
+          };
+          pollStatus();
+        } else {
+          setIsGenerating(false);
+        }
+      } catch (err) {
+        setGenerateError(err instanceof Error ? err.message : 'Kon boek niet genereren');
+        setIsGenerating(false);
+      }
+    };
+
+    // Only generate if we don't have a book yet
+    if (!data.generatedBook) {
+      generateBook();
+    } else {
+      setIsGenerating(false);
+    }
+  }, []);
 
   const selectedTheme = themes.find((t) => t.id === data.theme);
+  const book = data.generatedBook;
 
-  // Demo pages
-  const demoPages = [
-    { bg: 'bg-pastelblauw/30', text: `Dit is het verhaal van ${data.childName} en ${data.toyName}.` },
-    { bg: 'bg-zand', text: `${data.toyName} was de beste vriend van ${data.childName}.` },
-    { bg: 'bg-abrikoos/20', text: `Samen beleefden ze de mooiste avonturen...` },
-    { bg: 'bg-saliegroen/20', text: `"Kom mee!" riep ${data.toyName}. "Ik heb een idee!"` },
-    { bg: 'bg-zand', text: `En zo begon hun grootste avontuur ooit...` },
-    { bg: 'bg-pastelblauw/30', text: `Einde. ${data.childName} en ${data.toyName} leefden nog lang en gelukkig.` },
+  // Demo pages as fallback
+  const demoPages = book?.pages || [
+    { pageNumber: 1, text: `Dit is het verhaal van ${data.childName} en ${data.toyName}.` },
+    { pageNumber: 2, text: `${data.toyName} was de beste vriend van ${data.childName}.` },
+    { pageNumber: 3, text: `Samen beleefden ze de mooiste avonturen...` },
+    { pageNumber: 4, text: `"Kom mee!" riep ${data.toyName}. "Ik heb een idee!"` },
+    { pageNumber: 5, text: `En zo begon hun grootste avontuur ooit...` },
+    { pageNumber: 6, text: `Einde. ${data.childName} en ${data.toyName} leefden nog lang en gelukkig.` },
   ];
 
   if (isGenerating) {
     return (
       <div className="max-w-2xl mx-auto text-center py-12">
-        {/* Schaapje op wolkje - loading state */}
         <div className="mb-6">
           <SheepMascot variant="cloud" size="xl" className="mx-auto animate-pulse" />
         </div>
         <h2 className="text-2xl font-bold text-nachtblauw mb-3">
-          We maken jouw boek...
+          We genereren jouw boek met AI...
         </h2>
         <p className="text-nachtblauw/70 mb-8">
-          {data.toyName} en {data.childName} komen tot leven in een uniek verhaal.
+          {data.toyName} en {data.childName} komen tot leven in een uniek verhaal met illustraties.
         </p>
-        <div className="w-48 h-2 bg-zand rounded-full mx-auto overflow-hidden">
-          <div className="h-full bg-abrikoos rounded-full animate-pulse" style={{ width: '60%' }} />
+        <div className="w-64 h-2 bg-zand rounded-full mx-auto overflow-hidden mb-2">
+          <div
+            className="h-full bg-abrikoos rounded-full transition-all duration-500"
+            style={{ width: `${Math.max(generationProgress, 20)}%` }}
+          />
+        </div>
+        <p className="text-sm text-nachtblauw/50">
+          Dit kan 1-2 minuten duren...
+        </p>
+      </div>
+    );
+  }
+
+  if (generateError) {
+    return (
+      <div className="max-w-2xl mx-auto text-center py-12">
+        <div className="mb-6">
+          <SheepMascot variant="camera" size="lg" className="mx-auto" />
+        </div>
+        <h2 className="text-2xl font-bold text-nachtblauw mb-3">
+          Oeps, er ging iets mis
+        </h2>
+        <p className="text-nachtblauw/70 mb-8">
+          {generateError}
+        </p>
+        <div className="flex gap-4 justify-center">
+          <Button onClick={onBack} variant="outline">
+            ← Terug
+          </Button>
+          <Button onClick={() => window.location.reload()}>
+            Probeer opnieuw
+          </Button>
         </div>
       </div>
     );
@@ -559,29 +701,37 @@ function Step4Preview({
       <div className="text-center mb-6">
         <span className="text-3xl mr-2">{selectedTheme?.icon}</span>
         <h3 className="inline text-xl font-bold text-nachtblauw">
-          {data.childName} en {data.toyName}: {selectedTheme?.name}
+          {book?.title || `${data.childName} en ${data.toyName}: ${selectedTheme?.name}`}
         </h3>
       </div>
 
       {/* Book viewer */}
       <div className="bg-wolwit rounded-3xl shadow-xl p-6 lg:p-8 border border-nachtblauw/5">
         {/* Page display */}
-        <div className={`aspect-square max-w-md mx-auto ${demoPages[currentPage].bg} rounded-2xl p-8 flex flex-col justify-between mb-6`}>
+        <div className="aspect-square max-w-md mx-auto bg-zand rounded-2xl p-8 flex flex-col justify-between mb-6">
           <span className="text-xs text-nachtblauw/50">Pagina {currentPage + 1}</span>
           <div className="flex-1 flex flex-col items-center justify-center">
-            <div className="w-32 h-32 bg-wolwit/50 rounded-xl flex items-center justify-center mb-4">
-              {data.toyPhotoPreview ? (
-                <img src={data.toyPhotoPreview} alt={data.toyName} className="w-24 h-24 object-cover rounded-lg" />
-              ) : (
-                <SheepMascot variant="default" size="md" />
-              )}
-            </div>
-            <p className="text-center text-nachtblauw italic">{demoPages[currentPage].text}</p>
+            {demoPages[currentPage]?.illustrationUrl ? (
+              <img
+                src={demoPages[currentPage].illustrationUrl}
+                alt={`Pagina ${currentPage + 1}`}
+                className="w-full h-40 object-contain mb-4 rounded-lg"
+              />
+            ) : (
+              <div className="w-32 h-32 bg-wolwit/50 rounded-xl flex items-center justify-center mb-4">
+                {data.toyPhotoPreview ? (
+                  <img src={data.toyPhotoPreview} alt={data.toyName} className="w-24 h-24 object-cover rounded-lg" />
+                ) : (
+                  <SheepMascot variant="default" size="md" />
+                )}
+              </div>
+            )}
+            <p className="text-center text-nachtblauw italic">{demoPages[currentPage]?.text}</p>
           </div>
         </div>
 
         {/* Navigation dots */}
-        <div className="flex justify-center gap-2 mb-4">
+        <div className="flex justify-center gap-2 mb-4 flex-wrap">
           {demoPages.map((_, index) => (
             <button
               key={index}
@@ -612,6 +762,32 @@ function Step4Preview({
         </div>
       </div>
 
+      {/* PDF Download */}
+      {book && (
+        <div className="text-center mt-6">
+          <Button
+            variant="outline"
+            onClick={async () => {
+              try {
+                const blob = await api.downloadBookPdf(book.id);
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `knuffelboek-${book.id}.pdf`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+              } catch {
+                alert('Kon PDF niet downloaden');
+              }
+            }}
+          >
+            📄 Download PDF
+          </Button>
+        </div>
+      )}
+
       {/* Info */}
       <p className="text-center text-sm text-nachtblauw/60 mt-4">
         Dit is een vereenvoudigde preview. Het echte boek bevat {data.childAge?.includes('2') || data.childAge?.includes('3') ? '16' : '20-24'} volledig geïllustreerde pagina&apos;s.
@@ -630,7 +806,7 @@ function Step4Preview({
   );
 }
 
-// Step 5: Order
+// Step 5: Order with Peecho integration
 function Step5Order({
   data,
   updateData,
@@ -640,22 +816,75 @@ function Step5Order({
   updateData: (updates: Partial<BookData>) => void;
   onBack: () => void;
 }) {
+  const [isLoadingQuote, setIsLoadingQuote] = useState(true);
+  const [quote, setQuote] = useState<api.Quote | null>(null);
   const [isOrdering, setIsOrdering] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [orderError, setOrderError] = useState<string | null>(null);
+
+  // Form state
+  const [email, setEmail] = useState('');
+  const [shipping, setShipping] = useState({
+    name: '',
+    street: '',
+    city: '',
+    postalCode: '',
+    country: 'NL',
+  });
 
   const selectedTheme = themes.find((t) => t.id === data.theme);
+  const book = data.generatedBook;
 
-  const basePrice = 29.95;
-  const hardcoverUpgrade = data.coverType === 'hardcover' ? 5 : 0;
-  const extraCopies = (data.quantity - 1) * 19.95;
-  const total = basePrice + hardcoverUpgrade + extraCopies;
+  // Load quote on mount
+  useEffect(() => {
+    const loadQuote = async () => {
+      if (!book?.id) {
+        setIsLoadingQuote(false);
+        return;
+      }
+
+      try {
+        const q = await api.getQuote(book.id);
+        setQuote(q);
+      } catch {
+        // Use default pricing if quote fails
+      } finally {
+        setIsLoadingQuote(false);
+      }
+    };
+    loadQuote();
+  }, [book?.id]);
+
+  // Calculate pricing
+  const basePrice = quote?.softcoverPrice || 29.95;
+  const hardcoverPrice = quote?.hardcoverPrice || 34.95;
+  const currentPrice = data.coverType === 'hardcover' ? hardcoverPrice : basePrice;
+  const extraCopiesPrice = (data.quantity - 1) * 19.95;
+  const shippingCost = quote?.shippingCost || 0;
+  const total = currentPrice + extraCopiesPrice + shippingCost;
 
   const handleOrder = async () => {
+    if (!book?.id) return;
+
     setIsOrdering(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    setIsOrdering(false);
-    setOrderComplete(true);
+    setOrderError(null);
+
+    try {
+      await api.createOrder(book.id, {
+        coverType: data.coverType,
+        quantity: data.quantity,
+        shippingAddress: shipping,
+        email,
+      });
+      setOrderComplete(true);
+    } catch (err) {
+      setOrderError(err instanceof Error ? err.message : 'Kon bestelling niet plaatsen');
+    } finally {
+      setIsOrdering(false);
+    }
   };
+
+  const isFormValid = email && shipping.name && shipping.street && shipping.city && shipping.postalCode;
 
   if (orderComplete) {
     return (
@@ -668,18 +897,18 @@ function Step5Order({
         </h2>
         <p className="text-nachtblauw/70 mb-8">
           We gaan direct aan de slag met het boek van {data.childName} en {data.toyName}.
-          Je ontvangt een bevestiging per e-mail.
+          Je ontvangt een bevestiging per e-mail op {email}.
         </p>
         <div className="bg-zand rounded-xl p-6 mb-8 text-left">
           <h3 className="font-semibold text-nachtblauw mb-3">Wat gebeurt er nu?</h3>
           <ul className="space-y-2 text-nachtblauw/70">
             <li className="flex items-start gap-2">
               <span className="text-saliegroen">1.</span>
-              We maken de illustraties met jouw knuffel
+              Je ontvangt een betaallink per e-mail
             </li>
             <li className="flex items-start gap-2">
               <span className="text-saliegroen">2.</span>
-              Het boek wordt geprint en gebonden
+              Na betaling wordt het boek geprint
             </li>
             <li className="flex items-start gap-2">
               <span className="text-saliegroen">3.</span>
@@ -691,9 +920,14 @@ function Step5Order({
             </li>
           </ul>
         </div>
-        <Button href="/">
-          Terug naar home
-        </Button>
+        <div className="flex gap-4 justify-center">
+          <Button href="/mijn-boeken">
+            Naar Mijn Boeken
+          </Button>
+          <Button href="/" variant="outline">
+            Terug naar home
+          </Button>
+        </div>
       </div>
     );
   }
@@ -705,12 +939,18 @@ function Step5Order({
           Stap 5: Bestellen
         </h2>
         <p className="text-nachtblauw/70">
-          Controleer je bestelling en rond af.
+          Controleer je bestelling en vul je gegevens in.
         </p>
       </div>
 
+      {orderError && (
+        <div className="bg-red-50 border border-red-200 rounded-xl p-4 mb-6">
+          <p className="text-red-600">{orderError}</p>
+        </div>
+      )}
+
       <div className="grid lg:grid-cols-5 gap-8">
-        {/* Order summary */}
+        {/* Order form */}
         <div className="lg:col-span-3 space-y-6">
           {/* Book summary */}
           <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6">
@@ -720,7 +960,7 @@ function Step5Order({
                 <span className="text-3xl">{selectedTheme?.icon}</span>
               </div>
               <div className="flex-1">
-                <p className="font-semibold text-nachtblauw">{data.childName} en {data.toyName}: {selectedTheme?.name}</p>
+                <p className="font-semibold text-nachtblauw">{book?.title || `${data.childName} en ${data.toyName}: ${selectedTheme?.name}`}</p>
                 <p className="text-sm text-nachtblauw/60">Kind: {data.childName}, {data.childAge}</p>
                 <p className="text-sm text-nachtblauw/60">Knuffel: {data.toyName}</p>
               </div>
@@ -742,7 +982,7 @@ function Step5Order({
               >
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-semibold text-nachtblauw">Softcover</span>
-                  <span className="text-nachtblauw/60 text-sm">Inbegrepen</span>
+                  <span className="text-nachtblauw/60 text-sm">€{basePrice.toFixed(2)}</span>
                 </div>
                 <p className="text-sm text-nachtblauw/60">Flexibele kaft, ideaal voor dagelijks gebruik</p>
               </button>
@@ -757,7 +997,7 @@ function Step5Order({
               >
                 <div className="flex justify-between items-start mb-2">
                   <span className="font-semibold text-nachtblauw">Hardcover</span>
-                  <span className="text-abrikoos text-sm font-medium">+€5,00</span>
+                  <span className="text-abrikoos text-sm font-medium">€{hardcoverPrice.toFixed(2)}</span>
                 </div>
                 <p className="text-sm text-nachtblauw/60">Extra stevig, perfect als cadeau</p>
               </button>
@@ -790,44 +1030,114 @@ function Step5Order({
               )}
             </div>
           </div>
+
+          {/* Shipping address */}
+          <div className="bg-wolwit rounded-xl border border-nachtblauw/10 p-6 space-y-4">
+            <h3 className="font-semibold text-nachtblauw">Verzendadres</h3>
+
+            <div>
+              <label className="block text-sm font-medium text-nachtblauw mb-1">E-mailadres *</label>
+              <input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none"
+                placeholder="jouw@email.nl"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-nachtblauw mb-1">Naam *</label>
+              <input
+                type="text"
+                value={shipping.name}
+                onChange={(e) => setShipping({ ...shipping, name: e.target.value })}
+                className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-nachtblauw mb-1">Straat + huisnummer *</label>
+              <input
+                type="text"
+                value={shipping.street}
+                onChange={(e) => setShipping({ ...shipping, street: e.target.value })}
+                className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-nachtblauw mb-1">Postcode *</label>
+                <input
+                  type="text"
+                  value={shipping.postalCode}
+                  onChange={(e) => setShipping({ ...shipping, postalCode: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-nachtblauw mb-1">Plaats *</label>
+                <input
+                  type="text"
+                  value={shipping.city}
+                  onChange={(e) => setShipping({ ...shipping, city: e.target.value })}
+                  className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-nachtblauw mb-1">Land</label>
+              <select
+                value={shipping.country}
+                onChange={(e) => setShipping({ ...shipping, country: e.target.value })}
+                className="w-full px-4 py-2 rounded-lg border border-nachtblauw/20 focus:border-abrikoos focus:ring-2 focus:ring-abrikoos/20 outline-none bg-wolwit"
+              >
+                <option value="NL">Nederland</option>
+                <option value="BE">België</option>
+              </select>
+            </div>
+          </div>
         </div>
 
         {/* Price summary */}
         <div className="lg:col-span-2">
           <div className="bg-zand rounded-xl p-6 sticky top-24">
             <h3 className="font-semibold text-nachtblauw mb-4">Overzicht</h3>
-            <div className="space-y-3 text-sm">
-              <div className="flex justify-between">
-                <span className="text-nachtblauw/60">Knuffelboek (softcover)</span>
-                <span className="text-nachtblauw">€29,95</span>
-              </div>
-              {data.coverType === 'hardcover' && (
+
+            {isLoadingQuote ? (
+              <p className="text-nachtblauw/60 text-sm">Prijs wordt geladen...</p>
+            ) : (
+              <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
-                  <span className="text-nachtblauw/60">Hardcover upgrade</span>
-                  <span className="text-nachtblauw">€5,00</span>
+                  <span className="text-nachtblauw/60">
+                    Knuffelboek ({data.coverType === 'hardcover' ? 'hardcover' : 'softcover'})
+                  </span>
+                  <span className="text-nachtblauw">€{currentPrice.toFixed(2)}</span>
                 </div>
-              )}
-              {data.quantity > 1 && (
+                {data.quantity > 1 && (
+                  <div className="flex justify-between">
+                    <span className="text-nachtblauw/60">{data.quantity - 1}x extra exemplaar</span>
+                    <span className="text-nachtblauw">€{extraCopiesPrice.toFixed(2)}</span>
+                  </div>
+                )}
                 <div className="flex justify-between">
-                  <span className="text-nachtblauw/60">{data.quantity - 1}x extra exemplaar</span>
-                  <span className="text-nachtblauw">€{((data.quantity - 1) * 19.95).toFixed(2)}</span>
+                  <span className="text-nachtblauw/60">Verzending ({shipping.country})</span>
+                  <span className="text-saliegroen">{shippingCost === 0 ? 'Gratis' : `€${shippingCost.toFixed(2)}`}</span>
                 </div>
-              )}
-              <div className="flex justify-between">
-                <span className="text-nachtblauw/60">Verzending (NL/BE)</span>
-                <span className="text-saliegroen">Gratis</span>
-              </div>
-              <div className="border-t border-nachtblauw/10 pt-3 mt-3">
-                <div className="flex justify-between text-lg">
-                  <span className="font-semibold text-nachtblauw">Totaal</span>
-                  <span className="font-bold text-abrikoos">€{total.toFixed(2)}</span>
+                <div className="border-t border-nachtblauw/10 pt-3 mt-3">
+                  <div className="flex justify-between text-lg">
+                    <span className="font-semibold text-nachtblauw">Totaal</span>
+                    <span className="font-bold text-abrikoos">€{total.toFixed(2)}</span>
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <Button
               onClick={handleOrder}
-              disabled={isOrdering}
+              disabled={isOrdering || !isFormValid}
               size="lg"
               className="w-full mt-6"
             >
@@ -836,7 +1146,7 @@ function Step5Order({
 
             <div className="mt-4 flex items-center justify-center gap-2 text-xs text-nachtblauw/50">
               <span>🔒</span>
-              <span>Veilig betalen via iDEAL, Bancontact of creditcard</span>
+              <span>Veilige online betaling</span>
             </div>
           </div>
         </div>
@@ -911,6 +1221,7 @@ export default function MaakJeBoekPage() {
           {step === 4 && (
             <Step4Preview
               data={bookData}
+              updateData={updateBookData}
               onNext={() => goToStep(5)}
               onBack={() => goToStep(3)}
             />
