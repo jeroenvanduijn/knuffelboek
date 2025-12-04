@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Button, SectionTitle, SheepMascot } from '@/components';
+import { WEBAPP_URL } from '@/components/Header';
 
 // Hero Section - met AI focus
 function HeroSection() {
@@ -18,9 +19,14 @@ function HeroSection() {
               Upload een foto van de lievelingsknuffel, en onze AI maakt automatisch een uniek verhaal met prachtige illustraties. Bestel als gedrukt boek of download de PDF.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-              <Button href="/maak-je-boek" size="lg">
+              <a
+                href={WEBAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
                 Start met jouw knuffel
-              </Button>
+              </a>
               <Button href="/hoe-het-werkt" variant="outline" size="lg">
                 Zo werkt het
               </Button>
@@ -216,9 +222,14 @@ function MijnBoekenSection() {
                     Volg je bestellingen realtime
                   </li>
                 </ul>
-                <Button href="/maak-je-boek">
+                <a
+                  href={WEBAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn btn-primary"
+                >
                   Maak je eerste boek
-                </Button>
+                </a>
               </div>
               <div className="relative">
                 <div className="bg-wolwit rounded-2xl shadow-lg p-6">
@@ -460,9 +471,14 @@ function PricingSection() {
               </li>
             </ul>
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-              <Button href="/maak-je-boek" size="lg">
+              <a
+                href={WEBAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-primary"
+              >
                 Maak je boek
-              </Button>
+              </a>
               <Link href="/prijzen" className="text-abrikoos hover:underline font-medium">
                 Bekijk alle opties →
               </Link>
@@ -486,9 +502,14 @@ function CTASection() {
         <p className="text-xl text-wolwit/80 mb-8 max-w-2xl mx-auto">
           Van de lievelingsknuffel van je kind, naar een echt verhaaltje voor het slapengaan – in een paar minuten geregeld.
         </p>
-        <Button href="/maak-je-boek" size="lg">
+        <a
+          href={WEBAPP_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block bg-abrikoos text-nachtblauw font-semibold px-8 py-4 rounded-xl hover:bg-abrikoos-dark transition-colors"
+        >
           Start met jouw knuffel
-        </Button>
+        </a>
       </div>
     </section>
   );

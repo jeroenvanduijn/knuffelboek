@@ -1,9 +1,15 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useState, useEffect } from 'react';
-import SheepMascot from './SheepMascot';
 import { isAuthenticated } from '@/lib/api';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
+
+// Webapp URL voor het maken van boeken
+export const WEBAPP_URL = process.env.NEXT_PUBLIC_WEBAPP_URL || 'https://app.knuffelboek.nl';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -25,10 +31,16 @@ export default function Header() {
     <header className="bg-wolwit shadow-sm sticky top-0 z-50">
       <nav className="container mx-auto px-4 lg:px-6">
         <div className="flex items-center justify-between h-16 lg:h-20">
-          {/* Logo - Schaapje + woordmerk */}
-          <Link href="/" className="flex items-center space-x-2">
-            <SheepMascot variant="default" size="sm" />
-            <span className="text-xl font-bold text-nachtblauw">Knuffelboek</span>
+          {/* Logo */}
+          <Link href="/" className="flex items-center">
+            <Image
+              src={LOGO_URL}
+              alt="Knuffelboek"
+              width={180}
+              height={50}
+              className="h-10 lg:h-12 w-auto"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}
@@ -59,10 +71,15 @@ export default function Header() {
               </Link>
             )}
 
-            {/* CTA Button */}
-            <Link href="/maak-je-boek" className="btn btn-primary">
+            {/* CTA Button - links naar webapp */}
+            <a
+              href={WEBAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary"
+            >
               Maak je boek
-            </Link>
+            </a>
 
             {/* Account button */}
             {isLoggedIn ? (
@@ -202,13 +219,15 @@ export default function Header() {
                 </Link>
               )}
 
-              <Link
-                href="/maak-je-boek"
+              <a
+                href={WEBAPP_URL}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn btn-primary mt-4 w-full text-center"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 Maak je boek
-              </Link>
+              </a>
             </div>
           </div>
         )}
