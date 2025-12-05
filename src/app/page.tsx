@@ -10,13 +10,13 @@ function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           <div className="text-center lg:text-left">
             <span className="inline-block bg-pastelblauw/30 text-nachtblauw px-4 py-1.5 rounded-full text-sm font-medium mb-6">
-              Automatisch gemaakt met AI
+              Van knuffel naar echt kinderboek
             </span>
             <h1 className="text-4xl lg:text-5xl xl:text-6xl font-bold text-nachtblauw leading-tight mb-6">
-              Van knuffel naar <span className="text-abrikoos">écht kinderboek</span> – automatisch gemaakt met AI
+              Van knuffel naar <span className="text-abrikoos">écht kinderboek</span>
             </h1>
             <p className="text-lg lg:text-xl text-nachtblauw/70 mb-8 max-w-xl mx-auto lg:mx-0">
-              Upload een foto van de lievelingsknuffel, en onze AI maakt automatisch een uniek verhaal met prachtige illustraties. Bestel als gedrukt boek of download de PDF.
+              Upload een foto van de lievelingsknuffel en wij maken automatisch een uniek verhaal met prachtige illustraties. Bestel als gedrukt boek of download de PDF.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
               <a
@@ -61,7 +61,7 @@ function HeroSection() {
   );
 }
 
-// AI Features Section - technisch proces
+// Features Section - technisch proces
 function AIFeaturesSection() {
   const features = [
     {
@@ -73,20 +73,20 @@ function AIFeaturesSection() {
     {
       icon: '🔍',
       title: 'Slimme knuffelanalyse',
-      description: 'Onze AI herkent het type knuffel, kleuren en kenmerken automatisch.',
-      tech: 'Gemini Vision AI',
+      description: 'Onze slimme technologie herkent het type knuffel, de kleuren en de kleine details automatisch.',
+      tech: 'Slimme beeldherkenning',
     },
     {
       icon: '✍️',
       title: 'Verhaal genereren',
-      description: 'Op basis van leeftijd en thema schrijft de AI een uniek, kindvriendelijk verhaal.',
-      tech: 'AI Storytelling',
+      description: 'Op basis van leeftijd en thema maken wij een uniek, kindvriendelijk verhaal.',
+      tech: 'Verhalen op maat',
     },
     {
       icon: '🎨',
       title: 'Illustraties maken',
       description: 'Prachtige illustraties worden gegenereerd met jouw knuffel in de hoofdrol.',
-      tech: 'Imagen AI',
+      tech: 'Illustraties met jouw knuffel in de hoofdrol',
     },
     {
       icon: '📄',
@@ -106,7 +106,7 @@ function AIFeaturesSection() {
     <section className="section bg-gradient-to-b from-wolwit to-zand/30">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Van foto tot boek – volledig automatisch">
-          Hoe de AI magie werkt
+          Hoe de magie werkt
         </SectionTitle>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
           {features.map((feature, index) => (
@@ -154,8 +154,8 @@ function HowItWorksSection() {
     },
     {
       icon: '✨',
-      title: 'AI maakt het boek',
-      description: 'Onze AI genereert automatisch een uniek verhaal en illustraties.',
+      title: 'Wij maken het boek',
+      description: 'Wij maken automatisch een uniek verhaal en prachtige illustraties.',
     },
     {
       icon: '📦',
@@ -347,9 +347,9 @@ function ThemesSection() {
 function USPsSection() {
   const usps = [
     {
-      icon: '🤖',
-      title: 'Gemaakt met AI',
-      description: 'Verhaal en illustraties worden automatisch gegenereerd door AI.',
+      icon: '✨',
+      title: 'Uniek voor jouw kind',
+      description: 'Verhaal en illustraties worden speciaal voor jouw kind gemaakt.',
     },
     {
       icon: '👶',
@@ -455,7 +455,7 @@ function PricingSection() {
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-saliegroen text-xl">✓</span>
-                <span className="text-nachtblauw">16-24 pagina&apos;s met unieke AI illustraties</span>
+                <span className="text-nachtblauw">16-24 pagina&apos;s met unieke illustraties</span>
               </li>
               <li className="flex items-center gap-3">
                 <span className="text-saliegroen text-xl">✓</span>
