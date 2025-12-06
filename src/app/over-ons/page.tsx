@@ -1,5 +1,9 @@
 import { Metadata } from 'next';
-import { Button, SectionTitle, SheepMascot } from '@/components';
+import Image from 'next/image';
+import { Button, SectionTitle } from '@/components';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 export const metadata: Metadata = {
   title: 'Over Knuffelboek - Ons verhaal',
@@ -139,7 +143,7 @@ export default function OverOnsPage() {
           <h2 className="text-2xl font-bold text-nachtblauw mb-8">Onze partners</h2>
           <div className="flex flex-wrap justify-center items-center gap-8 lg:gap-12">
             <div className="text-nachtblauw/70 font-medium">Google Cloud</div>
-            <div className="text-nachtblauw/70 font-medium">Mollie</div>
+            <div className="text-nachtblauw/70 font-medium">Stripe</div>
             <div className="text-nachtblauw/70 font-medium">Gelato</div>
           </div>
           <p className="text-nachtblauw/70 text-sm mt-6 max-w-xl mx-auto">
@@ -151,7 +155,15 @@ export default function OverOnsPage() {
       {/* CTA */}
       <section className="py-16 lg:py-20 bg-nachtblauw text-wolwit">
         <div className="container mx-auto px-4 lg:px-6 text-center">
-          <SheepMascot variant="book" size="lg" className="mx-auto mb-6" />
+          <div className="mb-6">
+            <Image
+              src={LOGO_URL}
+              alt="Knuffelboek"
+              width={200}
+              height={60}
+              className="mx-auto h-16 w-auto brightness-0 invert"
+            />
+          </div>
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
             Maak deel uit van ons verhaal
           </h2>

@@ -21,8 +21,7 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { href: '/hoe-het-werkt', label: 'Hoe het werkt' },
-    { href: '/themas', label: "Thema's & leeftijden" },
+    { href: '/voorbeelden', label: 'Voorbeelden' },
     { href: '/prijzen', label: 'Prijzen' },
     { href: '/faq', label: 'FAQ' },
   ];

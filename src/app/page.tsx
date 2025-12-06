@@ -1,10 +1,13 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button, SectionTitle, SheepMascot } from '@/components';
+import { Button, SectionTitle } from '@/components';
 import { WEBAPP_URL } from '@/components/Header';
 
 // Image base URL
 const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 // Hero Section
 function HeroSection() {
@@ -31,8 +34,8 @@ function HeroSection() {
               >
                 Start met jouw knuffel
               </a>
-              <Button href="/hoe-het-werkt" variant="outline" size="lg">
-                Zo werkt het
+              <Button href="/prijzen" variant="outline" size="lg">
+                Bekijk prijzen
               </Button>
             </div>
             {/* Trust badges */}
@@ -142,11 +145,6 @@ function AIFeaturesSection() {
               </div>
             </div>
           ))}
-        </div>
-        <div className="text-center mt-10">
-          <Button href="/hoe-het-werkt" variant="outline">
-            Meer over het proces
-          </Button>
         </div>
       </div>
     </section>
@@ -313,56 +311,6 @@ function ExampleBooksSection() {
   );
 }
 
-// Themes Section
-function ThemesSection() {
-  const themes = [
-    { name: 'Bedtijd Avontuur', ages: '2-5 jaar', image: `${IMAGE_BASE}/hero-background-92.jpg` },
-    { name: 'Groot Avontuur', ages: '4-8 jaar', image: `${IMAGE_BASE}/hero-background-97.jpg` },
-    { name: 'Vriendschap', ages: '3-8 jaar', image: `${IMAGE_BASE}/hero-background-94.jpg` },
-    { name: 'Moed', ages: '3-8 jaar', image: `${IMAGE_BASE}/hero-background-93.jpg` },
-    { name: 'Fantasie', ages: '4-8 jaar', image: `${IMAGE_BASE}/hero-background-96.jpg` },
-    { name: 'Seizoenen', ages: '2-8 jaar', image: `${IMAGE_BASE}/hero-background-95.jpg` },
-  ];
-
-  return (
-    <section className="section bg-wolwit">
-      <div className="container mx-auto px-4 lg:px-6">
-        <SectionTitle subtitle="Kies het perfecte avontuur voor jouw kind">
-          Thema&apos;s &amp; leeftijden
-        </SectionTitle>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {themes.map((theme, index) => (
-            <Link
-              key={index}
-              href={`/themas#${theme.name.toLowerCase().replace(/\s/g, '-')}`}
-              className="group rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 border border-nachtblauw/5"
-            >
-              <div className="aspect-[16/10] relative">
-                <Image
-                  src={theme.image}
-                  alt={theme.name}
-                  fill
-                  className="object-cover group-hover:scale-105 transition-transform duration-300"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/70 to-transparent" />
-                <div className="absolute bottom-0 left-0 right-0 p-4 text-wolwit">
-                  <h3 className="font-bold text-lg">{theme.name}</h3>
-                  <span className="text-sm text-wolwit/80">{theme.ages}</span>
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="text-center mt-10">
-          <Button href="/themas" variant="outline">
-            Alle thema&apos;s bekijken
-          </Button>
-        </div>
-      </div>
-    </section>
-  );
-}
-
 // Illustration Styles Section
 function IllustrationStylesSection() {
   const styles = [
@@ -379,28 +327,16 @@ function IllustrationStylesSection() {
       color: 'bg-pastelblauw/30',
     },
     {
-      name: 'Zachte Pastel',
-      description: 'Warme, gedempte kleuren voor een rustige en knusse uitstraling.',
-      category: 'Zacht',
-      color: 'bg-saliegroen/20',
-    },
-    {
-      name: 'Kinderboek-cartoon',
-      description: 'Vrolijke cartoon-stijl met heldere kleuren en expressieve gezichten.',
-      category: 'Vrolijk',
-      color: 'bg-abrikoos/30',
-    },
-    {
-      name: 'Digital Painting',
-      description: 'Rijk en gepolijst met vloeiende schaduwen en levendige kleuren.',
-      category: 'Modern',
-      color: 'bg-abrikoos/20',
-    },
-    {
       name: '3D Knuffel',
       description: 'Zachte 3D render met tastbare stoftextuur, alsof je de knuffel kunt aanraken.',
       category: 'Speciaal',
       color: 'bg-pastelblauw/20',
+    },
+    {
+      name: 'Cartoon',
+      description: 'Vrolijke cartoon-stijl met heldere kleuren en expressieve gezichten.',
+      category: 'Vrolijk',
+      color: 'bg-abrikoos/30',
     },
     {
       name: 'Minimalistisch',
@@ -417,9 +353,9 @@ function IllustrationStylesSection() {
           Illustratiestijlen
         </SectionTitle>
         <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
-          Kies uit 7 unieke stijlen, van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
+          Kies uit 5 unieke stijlen, van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {styles.map((style, index) => (
             <div
               key={index}
@@ -432,27 +368,6 @@ function IllustrationStylesSection() {
               <p className="text-sm text-nachtblauw/70">{style.description}</p>
             </div>
           ))}
-        </div>
-        <div className="mt-10 bg-wolwit rounded-2xl p-6 lg:p-8 border border-nachtblauw/5">
-          <div className="flex flex-col lg:flex-row items-center gap-6">
-            <div className="flex-1 text-center lg:text-left">
-              <h3 className="font-bold text-nachtblauw text-lg mb-2">
-                Stijl kiezen in de webapp
-              </h3>
-              <p className="text-nachtblauw/70 text-sm">
-                Bij het maken van je boek kun je eenvoudig je favoriete illustratiestijl selecteren.
-                Combineer dit met een thema voor een perfect gepersonaliseerd kinderboek.
-              </p>
-            </div>
-            <a
-              href={WEBAPP_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-primary whitespace-nowrap"
-            >
-              Bekijk alle stijlen
-            </a>
-          </div>
         </div>
       </div>
     </section>
@@ -618,7 +533,15 @@ function CTASection() {
   return (
     <section className="py-16 lg:py-24 bg-nachtblauw text-wolwit">
       <div className="container mx-auto px-4 lg:px-6 text-center">
-        <SheepMascot variant="happy" size="lg" className="mx-auto mb-6" />
+        <div className="mb-6">
+          <Image
+            src={LOGO_URL}
+            alt="Knuffelboek"
+            width={200}
+            height={60}
+            className="mx-auto h-16 w-auto brightness-0 invert"
+          />
+        </div>
         <h2 className="text-3xl lg:text-4xl font-bold mb-4">
           Klaar om een magisch moment te creëren?
         </h2>
@@ -647,7 +570,6 @@ export default function Home() {
       <HowItWorksSection />
       <MijnBoekenSection />
       <ExampleBooksSection />
-      <ThemesSection />
       <IllustrationStylesSection />
       <USPsSection />
       <ReviewsSection />

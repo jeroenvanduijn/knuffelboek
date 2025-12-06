@@ -1,6 +1,10 @@
 import Link from 'next/link';
-import { Button, SectionTitle, SheepMascot } from '@/components';
+import Image from 'next/image';
+import { Button, SectionTitle } from '@/components';
 import { WEBAPP_URL } from '@/components/Header';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 // Steps section
 function StepsSection() {
@@ -106,7 +110,15 @@ export default function MaakJeBoekPage() {
 
         {/* Hero section */}
         <div className="max-w-3xl mx-auto text-center mb-12">
-          <SheepMascot variant="book" size="xl" className="mx-auto mb-6" />
+          <div className="mb-6">
+          <Image
+            src={LOGO_URL}
+            alt="Knuffelboek"
+            width={200}
+            height={60}
+            className="mx-auto h-20 w-auto"
+          />
+        </div>
 
           <h1 className="text-3xl lg:text-5xl font-bold text-nachtblauw mb-4">
             Maak een <span className="text-abrikoos">gepersonaliseerd</span> kinderboek
@@ -153,7 +165,15 @@ export default function MaakJeBoekPage() {
           {/* Bottom CTA */}
           <div className="text-center py-12">
             <div className="bg-nachtblauw rounded-3xl p-8 lg:p-12 text-wolwit">
-              <SheepMascot variant="happy" size="lg" className="mx-auto mb-4" />
+              <div className="mb-4">
+              <Image
+                src={LOGO_URL}
+                alt="Knuffelboek"
+                width={150}
+                height={45}
+                className="mx-auto h-12 w-auto brightness-0 invert"
+              />
+            </div>
               <h2 className="text-2xl lg:text-3xl font-bold mb-4">
                 Klaar om te beginnen?
               </h2>

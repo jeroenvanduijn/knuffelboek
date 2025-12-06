@@ -2,10 +2,14 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { Button, SectionTitle, SheepMascot } from '@/components';
+import Image from 'next/image';
+import { Button, SectionTitle } from '@/components';
 import { useBooks, useAuth } from '@/hooks/useBooks';
 import * as api from '@/lib/api';
 import type { Book } from '@/lib/api';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 // Status badge component
 function StatusBadge({ status }: { status: Book['status'] }) {
@@ -111,7 +115,15 @@ function BookCard({ book, onDownloadPdf }: { book: Book; onDownloadPdf: (bookId:
 function EmptyState() {
   return (
     <div className="text-center py-16">
-      <SheepMascot variant="camera" size="xl" className="mx-auto mb-6" />
+      <div className="mb-6">
+        <Image
+          src={LOGO_URL}
+          alt="Knuffelboek"
+          width={200}
+          height={60}
+          className="mx-auto h-20 w-auto"
+        />
+      </div>
       <h2 className="text-2xl font-bold text-nachtblauw mb-3">
         Je hebt nog geen boeken
       </h2>
@@ -129,7 +141,15 @@ function EmptyState() {
 function LoadingState() {
   return (
     <div className="text-center py-16">
-      <SheepMascot variant="cloud" size="lg" className="mx-auto mb-6 animate-pulse" />
+      <div className="mb-6">
+        <Image
+          src={LOGO_URL}
+          alt="Knuffelboek"
+          width={150}
+          height={45}
+          className="mx-auto h-16 w-auto animate-pulse"
+        />
+      </div>
       <p className="text-nachtblauw/70">Je boeken worden geladen...</p>
     </div>
   );
@@ -141,7 +161,15 @@ function LoginPrompt() {
     <div className="min-h-screen bg-gradient-to-b from-zand/50 to-wolwit">
       <div className="container mx-auto px-4 lg:px-6 py-16">
         <div className="max-w-md mx-auto text-center">
-          <SheepMascot variant="book" size="xl" className="mx-auto mb-6" />
+          <div className="mb-6">
+            <Image
+              src={LOGO_URL}
+              alt="Knuffelboek"
+              width={200}
+              height={60}
+              className="mx-auto h-20 w-auto"
+            />
+          </div>
           <h1 className="text-3xl font-bold text-nachtblauw mb-4">
             Mijn Boeken
           </h1>

@@ -1,5 +1,9 @@
 import { Metadata } from 'next';
-import { Button, SectionTitle, SheepMascot } from '@/components';
+import Image from 'next/image';
+import { Button, SectionTitle } from '@/components';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 export const metadata: Metadata = {
   title: 'Prijzen - Knuffelboek',
@@ -203,7 +207,15 @@ export default function PrijzenPage() {
       {/* CTA */}
       <section className="py-16 lg:py-20 bg-nachtblauw text-wolwit">
         <div className="container mx-auto px-4 lg:px-6 text-center">
-          <SheepMascot variant="happy" size="lg" className="mx-auto mb-6" />
+          <div className="mb-6">
+            <Image
+              src={LOGO_URL}
+              alt="Knuffelboek"
+              width={200}
+              height={60}
+              className="mx-auto h-16 w-auto brightness-0 invert"
+            />
+          </div>
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
             Een uniek cadeau voor maar €29,95
           </h2>

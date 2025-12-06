@@ -1,5 +1,8 @@
 import Link from 'next/link';
-import SheepMascot from './SheepMascot';
+import Image from 'next/image';
+
+// Logo URL
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
 export default function Footer() {
   return (
@@ -8,9 +11,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {/* Brand */}
           <div className="lg:col-span-1">
-            <Link href="/" className="flex items-center space-x-2 mb-4">
-              <SheepMascot variant="sleeping" size="sm" />
-              <span className="text-xl font-bold text-nachtblauw">Knuffelboek</span>
+            <Link href="/" className="flex items-center mb-4">
+              <Image
+                src={LOGO_URL}
+                alt="Knuffelboek"
+                width={150}
+                height={40}
+                className="h-10 w-auto"
+              />
             </Link>
             <p className="text-nachtblauw/70 text-sm leading-relaxed">
               Van de lievelingsknuffel van je kind, naar een echt verhaaltje voor het slapengaan.
@@ -21,16 +29,6 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold text-nachtblauw mb-4">Product</h4>
             <ul className="space-y-2">
-              <li>
-                <Link href="/hoe-het-werkt" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
-                  Hoe het werkt
-                </Link>
-              </li>
-              <li>
-                <Link href="/themas" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
-                  Thema&apos;s &amp; leeftijden
-                </Link>
-              </li>
               <li>
                 <Link href="/voorbeelden" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
                   Voorbeelden
