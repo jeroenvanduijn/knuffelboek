@@ -1,0 +1,3758 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Knuffelboek</title>
+    <link rel="icon" type="image/png" href="logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --wolwit: #FFF9F1;
+            --zand: #F2E4CF;
+            --nachtblauw: #1F2A44;
+            --pastelblauw: #A7C7E7;
+            --saliegroen: #A8C4A2;
+            --abrikoos: #FFB786;
+            --abrikoos-hover: #FFA366;
+            --screen-padding: 1.5rem;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--wolwit);
+            color: var(--nachtblauw);
+        }
+
+        h1, h2, h3, .logo {
+            font-family: 'Nunito', sans-serif;
+        }
+
+        /* === App Container === */
+        .app {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* === Header === */
+        header {
+            padding: 1rem var(--screen-padding);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-shrink: 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 800;
+            font-size: 1.25rem;
+        }
+
+        .logo img {
+            width: 36px;
+            height: 36px;
+            object-fit: contain;
+        }
+
+        .header-btn {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--nachtblauw);
+            opacity: 0.5;
+            background: none;
+            border: none;
+            padding: 0.5rem;
+            cursor: pointer;
+        }
+
+        .header-btn:active { opacity: 1; }
+        .header-btn.primary {
+            opacity: 1;
+            background: var(--pastelblauw);
+            border-radius: 9999px;
+            padding: 0.5rem 1rem;
+        }
+        .hidden { display: none !important; }
+
+        /* === My Books Styles === */
+        .my-books-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            display: flex;
+            gap: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+            position: relative;
+        }
+
+        .book-card:hover {
+            box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+        }
+
+        .book-card:active {
+            transform: scale(0.97);
+            background: var(--zand);
+        }
+
+        .book-card.loading {
+            opacity: 0.7;
+            pointer-events: none;
+        }
+
+        .book-card.loading::after {
+            content: 'Laden...';
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            color: var(--abrikoos);
+            font-weight: 500;
+        }
+
+        .book-thumb {
+            width: 60px;
+            height: 80px;
+            background: var(--zand);
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            flex-shrink: 0;
+        }
+
+        .book-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .book-info h3 {
+            font-size: 1rem;
+            margin-bottom: 0.25rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .book-info p {
+            font-size: 0.8rem;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.75rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            background: var(--zand);
+        }
+
+        .book-status.generating {
+            background: var(--pastelblauw);
+            color: var(--nachtblauw);
+        }
+
+        .book-status.queued {
+            background: #f5e6d3;
+            color: var(--hout);
+        }
+
+        .book-status.completed {
+            background: var(--saliegroen);
+            color: white;
+        }
+
+        .book-status.failed {
+            background: #ffcccc;
+            color: #cc0000;
+        }
+
+        .book-status.paid {
+            background: #4CAF50;
+            color: white;
+        }
+
+        .book-status.ordered {
+            background: var(--abrikoos);
+            color: white;
+        }
+
+        .book-status.shipped {
+            background: var(--saliegroen);
+            color: white;
+        }
+
+        .delivery-date {
+            font-size: 0.75rem;
+            color: var(--abrikoos);
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        .book-progress {
+            margin-top: 0.5rem;
+            height: 4px;
+            background: var(--zand);
+            border-radius: 2px;
+            overflow: hidden;
+        }
+
+        .book-progress-fill {
+            height: 100%;
+            background: var(--abrikoos);
+            border-radius: 2px;
+            transition: width 0.3s;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem 1rem;
+            opacity: 0.6;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Email login modal */
+        .email-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 100;
+            padding: 1rem;
+        }
+
+        .email-modal {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            width: 100%;
+            max-width: 400px;
+        }
+
+        .email-modal h2 {
+            margin-bottom: 0.5rem;
+        }
+
+        .email-modal p {
+            font-size: 0.9rem;
+            opacity: 0.7;
+            margin-bottom: 1rem;
+        }
+
+        /* === Screen Container === */
+        .screens {
+            flex: 1;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .screen {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            flex-direction: column;
+            padding: var(--screen-padding);
+            padding-bottom: calc(var(--screen-padding) + env(safe-area-inset-bottom, 0));
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .screen.active {
+            transform: translateX(0);
+        }
+
+        .screen.prev {
+            transform: translateX(-100%);
+        }
+
+        /* === Screen Content === */
+        .screen-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .screen-title {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            line-height: 1.2;
+        }
+
+        .screen-subtitle {
+            font-size: 0.95rem;
+            opacity: 0.6;
+            margin-bottom: 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* === Progress Dots === */
+        .progress-dots {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.75rem 0;
+            flex-shrink: 0;
+        }
+
+        .progress-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--zand);
+            transition: all 0.3s;
+        }
+
+        .progress-dot.active {
+            background: var(--nachtblauw);
+            width: 24px;
+            border-radius: 4px;
+        }
+
+        .progress-dot.completed {
+            background: var(--saliegroen);
+        }
+
+        /* === Buttons === */
+        .btn {
+            padding: 1rem 1.5rem;
+            border-radius: 9999px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            transition: all 0.2s;
+            width: 100%;
+        }
+
+        .btn-primary {
+            background: var(--abrikoos);
+            color: var(--nachtblauw);
+            box-shadow: 0 4px 16px rgba(255, 183, 134, 0.4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.98);
+        }
+
+        .btn-primary:disabled {
+            background: var(--zand);
+            opacity: 0.6;
+            box-shadow: none;
+            cursor: not-allowed;
+        }
+
+        .btn-secondary {
+            background: var(--pastelblauw);
+            color: var(--nachtblauw);
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--nachtblauw);
+            opacity: 0.6;
+        }
+
+        .btn-icon {
+            width: 20px;
+            height: 20px;
+        }
+
+        /* === Screen Footer === */
+        .screen-footer {
+            padding-top: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* === Screen 1: Welcome/Upload === */
+        .welcome-hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem 0;
+        }
+
+        .welcome-mascot {
+            width: 140px;
+            height: 140px;
+            object-fit: contain;
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .welcome-hero h1 {
+            font-size: 2rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .welcome-hero p {
+            font-size: 1rem;
+            opacity: 0.6;
+            max-width: 280px;
+            line-height: 1.6;
+        }
+
+        /* === Screen 2: Photo Upload === */
+        .upload-screen-logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .upload-screen-logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-screen-logo span {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 800;
+            font-size: 1.25rem;
+            color: var(--nachtblauw);
+        }
+
+        .upload-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .upload-zone {
+            width: 100%;
+            max-width: 280px;
+            aspect-ratio: 1;
+            background: linear-gradient(145deg, #ffffff, #f8f4ed);
+            border: 3px dashed var(--pastelblauw);
+            border-radius: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            box-shadow: 0 8px 24px rgba(167, 199, 231, 0.15);
+            overflow: hidden;
+        }
+
+        .upload-zone:active {
+            border-color: var(--abrikoos);
+            transform: scale(0.97);
+            box-shadow: 0 4px 12px rgba(167, 199, 231, 0.25);
+        }
+
+        .upload-zone.has-image {
+            border-style: solid;
+            border-color: var(--saliegroen);
+            border-width: 3px;
+        }
+
+        .upload-zone input {
+            display: none;
+        }
+
+        .upload-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.5rem;
+        }
+
+        .upload-icon-circle {
+            width: 80px;
+            height: 80px;
+            background: var(--pastelblauw);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-icon-circle svg {
+            width: 36px;
+            height: 36px;
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .upload-text {
+            font-family: 'Nunito', sans-serif;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--nachtblauw);
+        }
+
+        .upload-hint {
+            font-size: 0.85rem;
+            color: var(--nachtblauw);
+            opacity: 0.5;
+        }
+
+        .upload-preview {
+            position: absolute;
+            inset: 0;
+            display: none;
+        }
+
+        .upload-preview.show {
+            display: block;
+        }
+
+        .upload-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .upload-change {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+
+        /* === Screen 3: Names === */
+        .form-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            opacity: 0.8;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            font-size: 1rem;
+            font-weight: 500;
+            border: 2px solid var(--zand);
+            border-radius: 0.75rem;
+            background: white;
+            color: var(--nachtblauw);
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-input:focus {
+            border-color: var(--pastelblauw);
+        }
+
+        .form-input::placeholder {
+            color: var(--nachtblauw);
+            opacity: 0.3;
+        }
+
+        /* === Screen 4: Age Selection === */
+        .age-selector {
+            text-align: center;
+            padding: 1rem 0;
+        }
+
+        .age-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.5rem;
+        }
+
+        .age-btn {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            border: 2px solid var(--border);
+            background: white;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text);
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .age-btn:hover {
+            border-color: var(--saliegroen);
+            transform: scale(1.05);
+        }
+
+        .age-btn.selected {
+            background: var(--saliegroen);
+            border-color: var(--saliegroen);
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .age-label {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .age-info {
+            background: var(--bg-light);
+            border-radius: 1rem;
+            padding: 1rem;
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .age-description {
+            font-size: 1rem;
+            color: var(--text);
+            margin-bottom: 0.5rem;
+        }
+
+        .age-pages {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* === Cover Type Selection === */
+        .cover-type-selector {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .cover-type-card {
+            flex: 1;
+            background: white;
+            border: 3px solid var(--zand);
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .cover-type-card:hover {
+            border-color: var(--pastelblauw);
+        }
+
+        .cover-type-card.selected {
+            border-color: var(--saliegroen);
+            background: linear-gradient(145deg, #ffffff, #f0fff0);
+        }
+
+        .cover-type-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .cover-type-card h3 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .cover-type-card .cover-desc {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-bottom: 0.5rem;
+        }
+
+        .cover-type-price {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--nachtblauw);
+        }
+
+        .cover-type-price .from {
+            font-size: 0.7rem;
+            font-weight: 400;
+            opacity: 0.6;
+        }
+
+        .shipping-included {
+            font-size: 0.7rem;
+            color: var(--saliegroen);
+            margin-top: 0.25rem;
+            font-weight: 500;
+        }
+
+        /* === Book Summary Box === */
+        .book-summary {
+            background: white;
+            border-radius: 1rem;
+            padding: 1rem;
+            margin-top: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .book-summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--zand);
+        }
+
+        .book-summary-row:last-child {
+            border-bottom: none;
+            padding-top: 0.75rem;
+        }
+
+        .book-summary-label {
+            font-size: 0.875rem;
+            opacity: 0.7;
+        }
+
+        .book-summary-value {
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        .book-summary-total {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--nachtblauw);
+        }
+
+        /* === Screen 5: Theme Selection === */
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+        }
+
+        .theme-card {
+            background: white;
+            border: 2px solid transparent;
+            border-radius: 1rem;
+            padding: 1rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .theme-card:active {
+            transform: scale(0.98);
+        }
+
+        .theme-card.selected {
+            border-color: var(--nachtblauw);
+            background: var(--wolwit);
+        }
+
+        .theme-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .theme-card h3 {
+            font-size: 0.9rem;
+            font-weight: 700;
+        }
+
+        .theme-card p {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 0.25rem;
+        }
+
+        /* Age badge for themes and styles */
+        .age-badge {
+            display: inline-block;
+            background: var(--pastelblauw);
+            color: var(--nachtblauw);
+            font-size: 0.65rem;
+            font-weight: 600;
+            padding: 0.2rem 0.5rem;
+            border-radius: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .theme-card .age-badge {
+            background: linear-gradient(135deg, var(--pastelblauw) 0%, #e8f4f8 100%);
+        }
+
+        .style-card .age-badge {
+            background: var(--zand);
+            color: var(--bruin);
+            font-size: 0.6rem;
+            margin-top: 0.3rem;
+        }
+
+        /* === Screen 6: Extra Options (collapsible) === */
+        .extras-toggle {
+            background: var(--zand);
+            border: none;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            margin-bottom: 1rem;
+        }
+
+        .extras-toggle span {
+            font-weight: 600;
+        }
+
+        .extras-content {
+            display: none;
+        }
+
+        .extras-content.show {
+            display: block;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chip {
+            padding: 0.5rem 1rem;
+            background: white;
+            border: 2px solid var(--zand);
+            border-radius: 9999px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .chip.selected {
+            background: var(--pastelblauw);
+            border-color: var(--pastelblauw);
+        }
+
+        /* Style grid for 11 visual styles */
+        .style-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 400px) {
+            .style-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .style-card {
+            background: white;
+            border: 2px solid var(--zand);
+            border-radius: 12px;
+            padding: 0.75rem 0.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .style-card:hover {
+            border-color: var(--bruin);
+            transform: translateY(-2px);
+        }
+
+        .style-card.selected {
+            background: var(--pastelblauw);
+            border-color: var(--bruin);
+            box-shadow: 0 2px 8px rgba(139, 69, 19, 0.15);
+        }
+
+        .style-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .style-name {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--bruin);
+            margin-bottom: 0.15rem;
+        }
+
+        .style-desc {
+            font-size: 0.65rem;
+            color: #666;
+        }
+
+        /* === Screen 7: Loading === */
+        .loading-screen {
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .loading-mascot-container {
+            position: relative;
+            width: 160px;
+            height: 160px;
+            margin-bottom: 2rem;
+        }
+
+        .loading-cloud {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 140px;
+            height: 50px;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 4px 16px rgba(31, 42, 68, 0.1);
+        }
+
+        .loading-mascot {
+            position: absolute;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            animation: bounce 1.5s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-20px); }
+        }
+
+        .loading-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .loading-subtitle {
+            font-size: 0.9rem;
+            opacity: 0.6;
+            margin-bottom: 1.5rem;
+        }
+
+        .loading-bar {
+            width: 200px;
+            height: 6px;
+            background: var(--zand);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .loading-fill {
+            height: 100%;
+            background: var(--nachtblauw);
+            border-radius: 3px;
+            transition: width 0.5s ease;
+        }
+
+        /* === Screen 8: Preview === */
+        .preview-screen .screen-content {
+            gap: 1rem;
+        }
+
+        .book-preview {
+            background: white;
+            border-radius: 1rem;
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(31, 42, 68, 0.08);
+        }
+
+        .book-page-text {
+            font-family: Georgia, serif;
+            font-size: 1rem;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        .book-page-illustration {
+            width: 100%;
+            aspect-ratio: 1;
+            background: var(--zand);
+            border-radius: 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .book-page-illustration img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .book-page-illustration.loading {
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .page-nav {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 0;
+        }
+
+        .page-nav button {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: none;
+            background: var(--zand);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .page-nav button:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .page-indicator {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .preview-notice {
+            background: linear-gradient(135deg, var(--pastelblauw) 0%, #e8f4f8 100%);
+            border: 1px solid var(--nachtblauw);
+            border-radius: 0.75rem;
+            padding: 0.75rem 1rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .preview-notice p {
+            margin: 0;
+            font-size: 0.8rem;
+            color: var(--nachtblauw);
+            line-height: 1.4;
+        }
+
+        .preview-notice p:first-child {
+            margin-bottom: 0.25rem;
+        }
+
+        .checkout-info {
+            background: var(--zand);
+            border-radius: 1rem;
+            padding: 1rem;
+        }
+
+        .checkout-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .checkout-row:last-child {
+            margin-bottom: 0;
+            font-weight: 700;
+        }
+
+        .checkout-row .free {
+            color: var(--saliegroen);
+        }
+
+        /* === SVG Icons === */
+        .icon {
+            width: 20px;
+            height: 20px;
+            stroke: currentColor;
+            stroke-width: 2;
+            fill: none;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        /* === Checkout Modal === */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(31, 42, 68, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s, visibility 0.3s;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal {
+            background: var(--wolwit);
+            border-radius: 1.5rem;
+            max-width: 500px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: translateY(20px);
+            transition: transform 0.3s;
+        }
+
+        .modal-overlay.active .modal {
+            transform: translateY(0);
+        }
+
+        .modal-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid var(--zand);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            font-size: 1.25rem;
+            margin: 0;
+        }
+
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+            color: var(--nachtblauw);
+            opacity: 0.5;
+        }
+
+        .modal-close:hover {
+            opacity: 1;
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 2px solid var(--zand);
+            border-radius: 0.75rem;
+            font-size: 1rem;
+            font-family: inherit;
+            background: white;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--pastelblauw);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .form-row .form-group {
+            flex: 1;
+        }
+
+        .price-summary {
+            background: var(--zand);
+            border-radius: 1rem;
+            padding: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .price-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+        }
+
+        .price-row:last-child {
+            margin-bottom: 0;
+            font-weight: 700;
+            font-size: 1.1rem;
+            padding-top: 0.5rem;
+            border-top: 1px dashed rgba(31, 42, 68, 0.2);
+        }
+
+        .modal-footer {
+            padding: 1.5rem;
+            border-top: 1px solid var(--zand);
+        }
+
+        .checkout-btn {
+            width: 100%;
+            padding: 1rem;
+            background: var(--abrikoos);
+            border: none;
+            border-radius: 9999px;
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--nachtblauw);
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .checkout-btn:hover {
+            background: var(--abrikoos-hover);
+        }
+
+        .checkout-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .checkout-steps {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .checkout-step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            opacity: 0.5;
+        }
+
+        .checkout-step.active {
+            opacity: 1;
+        }
+
+        .checkout-step.completed {
+            opacity: 1;
+            color: var(--saliegroen);
+        }
+
+        .step-number {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--zand);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+
+        .checkout-step.active .step-number {
+            background: var(--pastelblauw);
+        }
+
+        .checkout-step.completed .step-number {
+            background: var(--saliegroen);
+            color: white;
+        }
+
+        .checkout-info {
+            background: var(--pastelblauw);
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .order-success {
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .order-success h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .order-success p {
+            color: var(--nachtblauw);
+            opacity: 0.7;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Admin Dashboard Styles */
+        .admin-dashboard {
+            max-width: 100%;
+            overflow-x: auto;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        @media (max-width: 600px) {
+            .admin-stats {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        .stat-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .stat-value {
+            font-size: 1.75rem;
+            font-weight: bold;
+            color: var(--koraal);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: var(--nachtblauw);
+            opacity: 0.7;
+            margin-top: 0.25rem;
+        }
+
+        .admin-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .admin-tab {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: var(--crème);
+            color: var(--nachtblauw);
+            border-radius: 0.5rem;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .admin-tab:hover {
+            background: var(--zand);
+        }
+
+        .admin-tab.active {
+            background: var(--koraal);
+            color: white;
+        }
+
+        .admin-tab-content {
+            background: white;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .admin-table-container {
+            overflow-x: auto;
+        }
+
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+        }
+
+        .admin-table th,
+        .admin-table td {
+            padding: 0.75rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--zand);
+        }
+
+        .admin-table th {
+            background: var(--crème);
+            font-weight: 600;
+            color: var(--nachtblauw);
+            white-space: nowrap;
+        }
+
+        .admin-table tr:hover {
+            background: var(--crème);
+        }
+
+        .admin-table .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 0.25rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+
+        .status-badge.paid {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .status-badge.pending {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .status-badge.shipped {
+            background: #cce5ff;
+            color: #004085;
+        }
+
+        .status-badge.completed {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .admin-action-btn {
+            padding: 0.25rem 0.5rem;
+            border: none;
+            background: var(--koraal);
+            color: white;
+            border-radius: 0.25rem;
+            cursor: pointer;
+            font-size: 0.75rem;
+            margin-right: 0.25rem;
+        }
+
+        .admin-action-btn:hover {
+            opacity: 0.9;
+        }
+
+        .admin-action-btn.secondary {
+            background: var(--zand);
+            color: var(--nachtblauw);
+        }
+    </style>
+</head>
+<body>
+    <div class="app">
+        <header>
+            <div class="logo" onclick="goHome()" style="cursor: pointer;">
+                <img src="logo.png" alt="Knuffelboek">
+                <span>Knuffelboek</span>
+            </div>
+            <div style="display: flex; gap: 0.5rem;">
+                <button class="header-btn primary" id="my-books-btn" onclick="showMyBooks()">Mijn Boeken</button>
+                <button class="header-btn hidden" id="restart-btn" onclick="restart()">Opnieuw</button>
+            </div>
+        </header>
+
+        <div class="progress-dots" id="progress-dots">
+            <div class="progress-dot active" data-step="1"></div>
+            <div class="progress-dot" data-step="2"></div>
+            <div class="progress-dot" data-step="3"></div>
+            <div class="progress-dot" data-step="4"></div>
+            <div class="progress-dot" data-step="5"></div>
+        </div>
+
+        <div class="screens">
+            <!-- Screen 1: Welcome -->
+            <div class="screen active" id="screen-1">
+                <div class="screen-content">
+                    <div class="welcome-hero">
+                        <img class="welcome-mascot" src="logo.png" alt="Knuffelboek mascotte">
+                        <h1>Welkom bij Knuffelboek</h1>
+                        <p>Maak een magisch prentenboek met de knuffel van je kind als hoofdpersoon</p>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" onclick="nextScreen()">
+                        Begin avontuur
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Screen 2: Photo Upload -->
+            <div class="screen" id="screen-2">
+                <div class="screen-content">
+                    <div class="upload-screen-logo">
+                        <img src="logo.png" alt="Knuffelboek">
+                        <span>Knuffelboek</span>
+                    </div>
+
+                    <h1 class="screen-title">Foto van de knuffel</h1>
+                    <p class="screen-subtitle">Maak een duidelijke foto tegen een rustige achtergrond</p>
+
+                    <div class="upload-area">
+                        <div class="upload-zone" id="upload-zone" onclick="document.getElementById('file-input').click()">
+                            <input type="file" id="file-input" accept="image/*">
+                            <div class="upload-content" id="upload-content">
+                                <div class="upload-icon-circle">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                                        <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+                                        <circle cx="12" cy="13" r="4"/>
+                                    </svg>
+                                </div>
+                                <span class="upload-text">Maak een foto</span>
+                                <span class="upload-hint">of kies uit galerij</span>
+                            </div>
+                            <div class="upload-preview" id="upload-preview">
+                                <img id="preview-image" src="" alt="Preview">
+                                <span class="upload-change">Wijzig foto</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" id="btn-photo-next" onclick="nextScreen()" disabled>
+                        Volgende
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="prevScreen()" style="margin-top: 0.5rem;">Terug</button>
+                </div>
+            </div>
+
+            <!-- Screen 3: Names -->
+            <div class="screen" id="screen-3">
+                <div class="screen-content">
+                    <h1 class="screen-title">De hoofdrolspelers</h1>
+                    <p class="screen-subtitle">Wie zijn de sterren van dit verhaal?</p>
+
+                    <div class="form-group">
+                        <label class="form-label">Naam van het kind</label>
+                        <input type="text" class="form-input" id="child-name" placeholder="Emma" oninput="validateNames()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Naam van de knuffel</label>
+                        <input type="text" class="form-input" id="toy-name" placeholder="Schaapje Suus" oninput="validateNames()">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Bijnaam kind (optioneel)</label>
+                        <input type="text" class="form-input" id="child-nickname" placeholder="Emmie">
+                    </div>
+
+                    <!-- Child appearance section -->
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--zand);">
+                        <p class="form-label" style="margin-bottom: 0.75rem;">Uiterlijk kind (optioneel)</p>
+                        <p style="font-size: 0.8rem; opacity: 0.6; margin-bottom: 1rem;">Voor consistente illustraties. Laat leeg voor willekeurig.</p>
+
+                        <div class="form-group">
+                            <label class="form-label">Geslacht</label>
+                            <div class="chip-group">
+                                <span class="chip" data-gender="jongen" onclick="selectGender(this)">Jongen</span>
+                                <span class="chip" data-gender="meisje" onclick="selectGender(this)">Meisje</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Haarkleur</label>
+                            <div class="chip-group">
+                                <span class="chip" data-hair="blond" onclick="selectHair(this)">Blond</span>
+                                <span class="chip" data-hair="bruin" onclick="selectHair(this)">Bruin</span>
+                                <span class="chip" data-hair="zwart" onclick="selectHair(this)">Zwart</span>
+                                <span class="chip" data-hair="rood" onclick="selectHair(this)">Rood</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Huidskleur</label>
+                            <div class="chip-group">
+                                <span class="chip" data-skin="licht" onclick="selectSkin(this)">Licht</span>
+                                <span class="chip" data-skin="medium" onclick="selectSkin(this)">Medium</span>
+                                <span class="chip" data-skin="donker" onclick="selectSkin(this)">Donker</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" id="btn-names-next" onclick="nextScreen()" disabled>
+                        Volgende
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="prevScreen()" style="margin-top: 0.5rem;">Terug</button>
+                </div>
+            </div>
+
+            <!-- Screen 4: Age & Cover Type -->
+            <div class="screen" id="screen-4">
+                <div class="screen-content">
+                    <h1 class="screen-title">Leeftijd & Formaat</h1>
+                    <p class="screen-subtitle">We passen het verhaal aan op de leeftijd</p>
+
+                    <div class="age-selector">
+                        <div class="age-buttons">
+                            <button class="age-btn" data-age="2" onclick="selectAge(this)">2</button>
+                            <button class="age-btn" data-age="3" onclick="selectAge(this)">3</button>
+                            <button class="age-btn selected" data-age="4" onclick="selectAge(this)">4</button>
+                            <button class="age-btn" data-age="5" onclick="selectAge(this)">5</button>
+                            <button class="age-btn" data-age="6" onclick="selectAge(this)">6</button>
+                            <button class="age-btn" data-age="7" onclick="selectAge(this)">7</button>
+                            <button class="age-btn" data-age="8" onclick="selectAge(this)">8</button>
+                        </div>
+                        <p class="age-label">jaar</p>
+                    </div>
+
+                    <!-- Cover Type Selection -->
+                    <div class="cover-type-selector">
+                        <div class="cover-type-card selected" data-cover="hardcover" onclick="selectCoverType(this)">
+                            <div class="cover-type-icon">📚</div>
+                            <h3>Hardcover</h3>
+                            <p class="cover-desc">Stevige kaft, premium kwaliteit</p>
+                            <div class="cover-type-price">
+                                <span class="from">vanaf</span> &euro;<span id="hardcover-price">40,35</span>
+                            </div>
+                            <p class="shipping-included">incl. verzending</p>
+                        </div>
+                        <div class="cover-type-card" data-cover="softcover" onclick="selectCoverType(this)">
+                            <div class="cover-type-icon">📖</div>
+                            <h3>Softcover</h3>
+                            <p class="cover-desc">Flexibele kaft, lichtgewicht</p>
+                            <div class="cover-type-price">
+                                <span class="from">vanaf</span> &euro;<span id="softcover-price">30,85</span>
+                            </div>
+                            <p class="shipping-included">incl. verzending</p>
+                        </div>
+                    </div>
+
+                    <!-- Book Summary -->
+                    <div class="book-summary" id="book-summary">
+                        <div class="book-summary-row">
+                            <span class="book-summary-label">Tekstblokken</span>
+                            <span class="book-summary-value" id="summary-stories">9 blokken</span>
+                        </div>
+                        <div class="book-summary-row">
+                            <span class="book-summary-label">Boek pagina's</span>
+                            <span class="book-summary-value" id="summary-pages">26 pagina's</span>
+                        </div>
+                        <div class="book-summary-row">
+                            <span class="book-summary-label">Totaalprijs</span>
+                            <span class="book-summary-total" id="summary-price">&euro;39,95 <small style="font-size: 0.7em; opacity: 0.8;">incl. verzending</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" onclick="nextScreen()">
+                        Volgende
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="prevScreen()" style="margin-top: 0.5rem;">Terug</button>
+                </div>
+            </div>
+
+            <!-- Screen 5: Theme -->
+            <div class="screen" id="screen-5">
+                <div class="screen-content">
+                    <h1 class="screen-title" id="theme-screen-title">Kies een thema</h1>
+                    <p class="screen-subtitle" id="theme-screen-subtitle">Waar gaat het avontuur over?</p>
+
+                    <!-- Multiple themes container (shown when multiple stories needed) -->
+                    <div id="multiple-themes-container" class="hidden" style="margin-bottom: 1rem;">
+                        <div id="story-themes-list">
+                            <!-- Filled dynamically -->
+                        </div>
+                    </div>
+
+                    <!-- Single theme selector (default) -->
+                    <div class="theme-grid" id="single-theme-grid">
+                        <div class="theme-card selected" data-theme="bedtijd_avontuur" onclick="selectTheme(this)">
+                            <div class="theme-icon">🌙</div>
+                            <h3>Bedtijd</h3>
+                            <p>Slaapliedje verhaal</p>
+                            <span class="age-badge">2-5 jaar</span>
+                        </div>
+                        <div class="theme-card" data-theme="groot_avontuur" onclick="selectTheme(this)">
+                            <div class="theme-icon">🗺️</div>
+                            <h3>Avontuur</h3>
+                            <p>Op ontdekkingsreis</p>
+                            <span class="age-badge">4-8 jaar</span>
+                        </div>
+                        <div class="theme-card" data-theme="nieuwe_vriend" onclick="selectTheme(this)">
+                            <div class="theme-icon">🦊</div>
+                            <h3>Vriendschap</h3>
+                            <p>Nieuwe vrienden</p>
+                            <span class="age-badge">2-6 jaar</span>
+                        </div>
+                        <div class="theme-card" data-theme="dapper_zijn" onclick="selectTheme(this)">
+                            <div class="theme-icon">🦁</div>
+                            <h3>Dapper</h3>
+                            <p>Angst overwinnen</p>
+                            <span class="age-badge">3-7 jaar</span>
+                        </div>
+                        <div class="theme-card" data-theme="magische_wereld" onclick="selectTheme(this)">
+                            <div class="theme-icon">✨</div>
+                            <h3>Magie</h3>
+                            <p>Fantasiewereld</p>
+                            <span class="age-badge">4-8 jaar</span>
+                        </div>
+                        <div class="theme-card" data-theme="verjaardagsfeest" onclick="selectTheme(this)">
+                            <div class="theme-icon">🎂</div>
+                            <h3>Verjaardag</h3>
+                            <p>Feestelijk verhaal</p>
+                            <span class="age-badge">2-8 jaar</span>
+                        </div>
+                    </div>
+
+                    <!-- Visual style selection - 11 direct options -->
+                    <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--zand);">
+                        <p class="form-label" style="margin-bottom: 0.75rem;">Visuele stijl</p>
+                        <div class="style-grid" id="style-grid">
+                            <!-- 11 style combinations -->
+                            <div class="style-card selected" data-realism="semi_real" data-style="watercolor" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🎨</div>
+                                <div class="style-name">Waterverf</div>
+                                <div class="style-desc">Warm & dromerig</div>
+                                <span class="age-badge style-age">2-8 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="semi_real" data-style="pastel" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🌸</div>
+                                <div class="style-name">Zachte pastel</div>
+                                <div class="style-desc">Zacht & knus</div>
+                                <span class="age-badge style-age">2-5 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="semi_real" data-style="digital_painting" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">✨</div>
+                                <div class="style-name">Digital painting</div>
+                                <div class="style-desc">Rijk & gedetailleerd</div>
+                                <span class="age-badge style-age">4-8 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="semi_real" data-style="plush_3d" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🧸</div>
+                                <div class="style-name">3D knuffel</div>
+                                <div class="style-desc">Zacht & tastbaar</div>
+                                <span class="age-badge style-age">2-6 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="illustrative" data-style="cartoon" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🎪</div>
+                                <div class="style-name">Cartoon</div>
+                                <div class="style-desc">Vrolijk & speels</div>
+                                <span class="age-badge style-age">3-7 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="illustrative" data-style="watercolor" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🖌️</div>
+                                <div class="style-name">Getekend waterverf</div>
+                                <div class="style-desc">Artistiek & fantasievol</div>
+                                <span class="age-badge style-age">4-8 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="illustrative" data-style="digital_painting" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🌈</div>
+                                <div class="style-name">Getekend digital</div>
+                                <div class="style-desc">Levendig & kleurrijk</div>
+                                <span class="age-badge style-age">5-8 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="illustrative" data-style="pastel" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🌷</div>
+                                <div class="style-name">Getekend pastel</div>
+                                <div class="style-desc">Zacht & vriendelijk</div>
+                                <span class="age-badge style-age">3-6 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="minimal" data-style="minimalistic" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">🍃</div>
+                                <div class="style-name">Minimalistisch</div>
+                                <div class="style-desc">Scandinavisch & rustig</div>
+                                <span class="age-badge style-age">2-4 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="minimal" data-style="pastel" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">☁️</div>
+                                <div class="style-name">Simpel pastel</div>
+                                <div class="style-desc">Eenvoudig & kalm</div>
+                                <span class="age-badge style-age">2-4 jaar</span>
+                            </div>
+                            <div class="style-card" data-realism="photo" data-style="photo_realistic" onclick="selectVisualStyle(this)">
+                                <div class="style-icon">📷</div>
+                                <div class="style-name">Foto-realistisch</div>
+                                <div class="style-desc">Zoals een echte foto</div>
+                                <span class="age-badge style-age">5-8 jaar</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Extra options toggle -->
+                    <button class="extras-toggle" onclick="toggleExtras()" style="margin-top: 1.5rem;">
+                        <span>Extra opties</span>
+                        <svg class="icon" id="extras-arrow" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
+                    </button>
+
+                    <div class="extras-content" id="extras-content">
+                        <div class="form-group">
+                            <label class="form-label">Persoonlijkheid knuffel</label>
+                            <div class="chip-group">
+                                <span class="chip" data-personality="grappig" onclick="selectPersonality(this)">Grappig</span>
+                                <span class="chip" data-personality="dapper" onclick="selectPersonality(this)">Dapper</span>
+                                <span class="chip" data-personality="rustig" onclick="selectPersonality(this)">Rustig</span>
+                                <span class="chip" data-personality="dromerig" onclick="selectPersonality(this)">Dromerig</span>
+                                <span class="chip" data-personality="stoer" onclick="selectPersonality(this)">Stoer</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Waar woont het kind?</label>
+                            <div class="chip-group">
+                                <span class="chip" data-location="stad" onclick="selectLocation(this)">Stad</span>
+                                <span class="chip" data-location="dorp" onclick="selectLocation(this)">Dorp</span>
+                                <span class="chip" data-location="boerderij" onclick="selectLocation(this)">Boerderij</span>
+                                <span class="chip" data-location="aan_zee" onclick="selectLocation(this)">Aan zee</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Extra context (optioneel)</label>
+                            <input type="text" class="form-input" id="theme-context" placeholder="bijv. bang in het donker, net verhuisd">
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" onclick="startMagic()">
+                        Maak mijn boek!
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M12 2l2.4 7.4h7.6l-6 4.6 2.3 7-6.3-4.6-6.3 4.6 2.3-7-6-4.6h7.6z"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="prevScreen()" style="margin-top: 0.5rem;">Terug</button>
+                </div>
+            </div>
+
+            <!-- Screen 6: Loading -->
+            <div class="screen loading-screen" id="screen-6">
+                <div class="screen-content" style="justify-content: center; align-items: center;">
+                    <div class="loading-mascot-container">
+                        <div class="loading-cloud"></div>
+                        <img class="loading-mascot" src="logo.png" alt="Laden...">
+                    </div>
+                    <h2 class="loading-title" id="loading-title">Even geduld...</h2>
+                    <p class="loading-subtitle" id="loading-subtitle">We analyseren de knuffel</p>
+                    <div class="loading-bar">
+                        <div class="loading-fill" id="loading-fill" style="width: 0%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Screen 7: Preview -->
+            <div class="screen preview-screen" id="screen-7">
+                <div class="screen-content">
+                    <div class="book-preview">
+                        <p class="book-page-text" id="book-text">Hier komt het verhaal...</p>
+                        <div class="book-page-illustration loading" id="illustration-container">
+                            <img id="book-illustration" src="" alt="Illustratie" style="display: none;">
+                            <span id="illustration-loading">Illustratie laden...</span>
+                        </div>
+                    </div>
+
+                    <div class="page-nav">
+                        <button onclick="prevPage()" id="btn-prev-page" disabled>
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M15 18l-6-6 6-6"/></svg>
+                        </button>
+                        <span class="page-indicator" id="page-indicator">1 / 6</span>
+                        <button onclick="nextPage()" id="btn-next-page">
+                            <svg class="icon" viewBox="0 0 24 24"><path d="M9 18l6-6-6-6"/></svg>
+                        </button>
+                    </div>
+
+                    <div class="preview-notice">
+                        <p><strong>Dit is een lage resolutie voorbeeld</strong></p>
+                        <p>Je ziet hier alleen het verhaal. Het gedrukte boek krijgt een prachtige hardcover kaft met de titel en naam van je kind.</p>
+                    </div>
+
+                    <div class="checkout-info">
+                        <div class="checkout-row">
+                            <span id="checkout-pages">Hardcover (26 pag.)</span>
+                            <span id="checkout-base-price">€39,95</span>
+                        </div>
+                        <div class="checkout-row">
+                            <span>Verzending</span>
+                            <span class="free">Inbegrepen</span>
+                        </div>
+                        <div class="checkout-row total-row">
+                            <span>Totaal</span>
+                            <span id="checkout-total">€39,95</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" onclick="downloadPDF()">
+                        Download PDF
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+                    </button>
+                    <button class="btn btn-secondary" style="margin-top: 0.5rem;" onclick="showOrderInfo()">
+                        Bestellen als boek
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path><line x1="3" y1="6" x2="21" y2="6"></line><path d="M16 10a4 4 0 0 1-8 0"></path></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="restart()" style="margin-top: 0.5rem;">Opnieuw maken</button>
+                </div>
+            </div>
+
+            <!-- Screen 8: My Books -->
+            <div class="screen" id="screen-8">
+                <div class="screen-content">
+                    <h1 class="screen-title">Mijn Boeken</h1>
+                    <p class="screen-subtitle" id="my-books-email-display"></p>
+
+                    <div class="my-books-grid" id="my-books-grid">
+                        <!-- Books will be loaded here -->
+                        <div class="empty-state" id="my-books-empty">
+                            <div class="empty-state-icon">📚</div>
+                            <p>Je hebt nog geen boeken.<br>Maak je eerste boek!</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-primary" onclick="goHome()">
+                        Nieuw boek maken
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="logoutUser()" style="margin-top: 0.5rem;">Uitloggen</button>
+                </div>
+            </div>
+
+            <!-- Screen 9: Admin Dashboard -->
+            <div class="screen" id="screen-9">
+                <div class="screen-content admin-dashboard">
+                    <h1 class="screen-title">Admin Dashboard</h1>
+                    <p class="screen-subtitle">Beheer gebruikers en bestellingen</p>
+
+                    <!-- Stats Cards -->
+                    <div class="admin-stats" id="admin-stats">
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-users">-</div>
+                            <div class="stat-label">Gebruikers</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-books">-</div>
+                            <div class="stat-label">Boeken</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-orders">-</div>
+                            <div class="stat-label">Betaald</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="stat-shipped">-</div>
+                            <div class="stat-label">Verzonden</div>
+                        </div>
+                    </div>
+
+                    <!-- Tab Navigation -->
+                    <div class="admin-tabs">
+                        <button class="admin-tab active" onclick="showAdminTab('orders')">Bestellingen</button>
+                        <button class="admin-tab" onclick="showAdminTab('users')">Gebruikers</button>
+                    </div>
+
+                    <!-- Orders Tab -->
+                    <div class="admin-tab-content" id="admin-orders-tab">
+                        <div class="admin-table-container">
+                            <table class="admin-table" id="admin-orders-table">
+                                <thead>
+                                    <tr>
+                                        <th>Datum</th>
+                                        <th>Klant</th>
+                                        <th>Boek</th>
+                                        <th>Betaling</th>
+                                        <th>Status</th>
+                                        <th>Acties</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-orders-tbody">
+                                    <tr><td colspan="6" style="text-align:center;">Laden...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Users Tab -->
+                    <div class="admin-tab-content hidden" id="admin-users-tab">
+                        <div class="admin-table-container">
+                            <table class="admin-table" id="admin-users-table">
+                                <thead>
+                                    <tr>
+                                        <th>Email</th>
+                                        <th>Aangemeld</th>
+                                        <th>Laatste login</th>
+                                        <th>Boeken</th>
+                                        <th>Acties</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-users-tbody">
+                                    <tr><td colspan="5" style="text-align:center;">Laden...</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="screen-footer">
+                    <button class="btn btn-secondary" onclick="loadAdminData()">
+                        Vernieuwen
+                        <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                    </button>
+                    <button class="btn btn-ghost" onclick="goHome()" style="margin-top: 0.5rem;">Terug naar Home</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Email Login Modal -->
+    <div class="email-overlay hidden" id="email-overlay">
+        <div class="email-modal">
+            <h2 id="auth-modal-title">Welkom!</h2>
+            <p id="auth-modal-subtitle">Voer je email in om je boeken op te slaan en later terug te vinden.</p>
+            <div class="form-group">
+                <input type="email" class="form-input" id="user-email" placeholder="jouw@email.nl" onkeyup="handleEmailKeyup(event)">
+            </div>
+            <div class="form-group hidden" id="password-group">
+                <input type="password" class="form-input" id="user-password" placeholder="Wachtwoord (min. 6 tekens)" onkeyup="handlePasswordKeyup(event)">
+            </div>
+            <p id="auth-error-message" style="color: #c44; font-size: 0.9rem; margin: 0.5rem 0; display: none;"></p>
+            <button class="btn btn-primary" id="auth-submit-btn" onclick="handleAuthSubmit()" style="margin-top: 0.5rem;">
+                Doorgaan
+            </button>
+            <button class="btn btn-ghost" onclick="cancelEmailModal()" style="margin-top: 0.5rem;">
+                Annuleren
+            </button>
+            <p id="auth-toggle-text" style="font-size: 0.85rem; margin-top: 1rem; color: #666; display: none;">
+                <a href="#" onclick="toggleAuthMode(event)" style="color: var(--hout);">Registreren</a>
+            </p>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="checkout-modal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Boek Bestellen</h2>
+                <button class="modal-close" onclick="closeCheckoutModal()">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div class="checkout-info" style="text-align: center; margin-bottom: 1.5rem;">
+                    <div style="font-size: 3rem; margin-bottom: 1rem;">📚</div>
+                    <p>Je boek wordt gedrukt als een prachtig <strong>hardcover fotoboek</strong> (21x21cm) en thuisbezorgd.</p>
+                </div>
+
+                <div class="price-summary">
+                    <div class="price-row">
+                        <span>Hardcover Fotoboek</span>
+                        <span id="checkout-book-price">€ 39,95</span>
+                    </div>
+                    <div class="price-row">
+                        <span>Verzending</span>
+                        <span id="checkout-shipping-price" class="free">Inbegrepen</span>
+                    </div>
+                    <div class="price-row" style="font-weight: bold; border-top: 2px solid var(--zand); padding-top: 0.75rem; margin-top: 0.5rem;">
+                        <span>Totaal</span>
+                        <span id="checkout-total-price">€ 39,95</span>
+                    </div>
+                </div>
+
+                <div style="background: var(--crème); padding: 1rem; border-radius: 0.75rem; margin-top: 1.5rem; font-size: 0.9rem;">
+                    <p style="margin: 0; opacity: 0.8;">
+                        <strong>Hoe werkt het?</strong><br>
+                        Je rekent veilig af via Stripe. Daarna wordt je boek gedrukt en binnen 5-7 werkdagen thuisbezorgd.
+                    </p>
+                </div>
+
+                <div id="checkout-loading" class="hidden" style="text-align: center; padding: 2rem;">
+                    <div class="spinner" style="margin: 0 auto 1rem;"></div>
+                    <p>Checkout wordt voorbereid...</p>
+                </div>
+
+                <div id="checkout-error" class="hidden" style="background: #fee; padding: 1rem; border-radius: 0.75rem; margin-top: 1rem; color: #c00;">
+                    <p id="checkout-error-message" style="margin: 0;"></p>
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="checkout-btn" id="checkout-btn" onclick="proceedToCheckout()">
+                    Afrekenen
+                </button>
+                <button class="btn btn-ghost" onclick="closeCheckoutModal()" style="width: 100%; margin-top: 0.5rem;">
+                    Annuleren
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Success Modal -->
+    <div class="modal-overlay" id="success-modal">
+        <div class="modal">
+            <div class="modal-header" style="text-align: center; border-bottom: none;">
+                <div style="font-size: 4rem; margin-bottom: 1rem;">🎉</div>
+                <h2 style="color: var(--bos);">Bestelling geplaatst!</h2>
+            </div>
+            <div class="modal-body" style="text-align: center;">
+                <p style="margin-bottom: 1rem;">Je boek wordt gedrukt en binnen <strong>5-7 werkdagen</strong> thuisbezorgd.</p>
+                <p id="success-email-info" style="color: var(--bos); font-size: 0.9rem;"></p>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="closeSuccessModal()" style="width: 100%;">
+                    Bekijk mijn boek
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // API is served from same origin (backend serves frontend too)
+        const API_URL = '';
+
+        // State
+        let currentScreen = 1;
+        const totalScreens = 8;
+        let toyImageFile = null;
+        let toyImageBase64 = null;  // Store base64 of toy image for reference
+        let toyAnalysis = null;
+        let currentStory = null;
+        let selectedAge = 4; // Exact age (2-8)
+        let selectedTheme = 'bedtijd_avontuur';
+        let selectedPersonality = null;
+        let selectedLocation = null;
+        let currentPageIndex = 0;
+        let illustrations = {};
+        // Child appearance
+        let selectedGender = null;
+        let selectedHair = null;
+        let selectedSkin = null;
+        let childDescription = null; // Generated or built from selections
+        // Visual style options
+        let selectedRealismLevel = 'semi_real'; // default
+        let selectedIllustrationStyle = 'watercolor'; // default for semi_real
+        let styleOptions = null; // Will be loaded from API
+        // User account
+        let userEmail = localStorage.getItem('knuffelboek_email') || null;
+        let userBooks = [];
+        let currentBookId = null;
+        let emailModalCallback = null; // Called after email is confirmed
+        let pollInterval = null; // For polling book status
+
+        // File input handler
+        document.getElementById('file-input').addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                toyImageFile = file;
+                const url = URL.createObjectURL(file);
+                document.getElementById('preview-image').src = url;
+                document.getElementById('upload-content').style.display = 'none';
+                document.getElementById('upload-preview').classList.add('show');
+                document.getElementById('upload-zone').classList.add('has-image');
+                document.getElementById('btn-photo-next').disabled = false;
+
+                // Also store as base64 for reference image feature
+                const reader = new FileReader();
+                reader.onload = (event) => {
+                    toyImageBase64 = event.target.result; // This is data:image/...;base64,...
+                    console.log('Stored toy image as base64 for reference');
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Navigation
+        function nextScreen() {
+            if (currentScreen < totalScreens) {
+                setScreen(currentScreen + 1);
+            }
+        }
+
+        function prevScreen() {
+            if (currentScreen > 1) {
+                setScreen(currentScreen - 1);
+            }
+        }
+
+        function updateProgressDots() {
+            const dots = document.querySelectorAll('.progress-dot');
+            // Hide progress on loading and preview screens
+            document.getElementById('progress-dots').style.display =
+                (currentScreen >= 6) ? 'none' : 'flex';
+
+            dots.forEach((dot, i) => {
+                const step = i + 1;
+                dot.classList.remove('active', 'completed');
+                if (step < currentScreen) {
+                    dot.classList.add('completed');
+                } else if (step === currentScreen) {
+                    dot.classList.add('active');
+                }
+            });
+        }
+
+        // Validation
+        function validateNames() {
+            const childName = document.getElementById('child-name').value.trim();
+            const toyName = document.getElementById('toy-name').value.trim();
+            document.getElementById('btn-names-next').disabled = !childName || !toyName;
+        }
+
+        // Age info based on exact age
+        const AGE_INFO = {
+            2: { description: 'Heel korte zinnetjes, veel herhaling', pages: 8 },
+            3: { description: 'Korte zinnetjes, eenvoudige plot', pages: 10 },
+            4: { description: 'Leuke avonturen, duidelijk verhaal', pages: 12 },
+            5: { description: 'Spannende avonturen, meer detail', pages: 14 },
+            6: { description: 'Langer verhaal, karakterontwikkeling', pages: 16 },
+            7: { description: 'Complex verhaal, meerdere scènes', pages: 18 },
+            8: { description: 'Volledige verhaallijn, veel detail', pages: 20 }
+        };
+
+        // Stories required cache
+        let storiesRequired = 1;
+        let currentTextBlocks = 9; // Number of text blocks in the story
+        let selectedThemes = []; // For multiple stories
+        let selectedCoverType = 'hardcover';
+        let totalPages = 26;
+
+        // Pricing (inclusief verzending naar NL/BE)
+        const PRICES = {
+            hardcover: {
+                base: 39.95,
+                perExtraPage: 0.20  // Extra cost per page above minimum
+            },
+            softcover: {
+                base: 29.95,
+                perExtraPage: 0.15
+            }
+        };
+
+        // Theme data for dropdown
+        const THEMES = [
+            { value: 'bedtijd_avontuur', icon: '🌙', label: 'Bedtijd', desc: 'Slaapliedje verhaal' },
+            { value: 'groot_avontuur', icon: '🗺️', label: 'Avontuur', desc: 'Op ontdekkingsreis' },
+            { value: 'nieuwe_vriend', icon: '🦊', label: 'Vriendschap', desc: 'Nieuwe vrienden' },
+            { value: 'dapper_zijn', icon: '🦁', label: 'Dapper', desc: 'Angst overwinnen' },
+            { value: 'magische_wereld', icon: '✨', label: 'Magie', desc: 'Fantasiewereld' },
+            { value: 'verjaardagsfeest', icon: '🎂', label: 'Verjaardag', desc: 'Feestelijk verhaal' },
+            { value: 'seizoensavontuur', icon: '🍂', label: 'Seizoen', desc: 'Seizoensgebonden' },
+            { value: 'beter_worden', icon: '💊', label: 'Troost', desc: 'Beter worden' }
+        ];
+
+        // Convert exact age to age_category for backend compatibility
+        function getAgeCategory(age) {
+            if (age <= 3) return '2-3';
+            if (age <= 5) return '4-5';
+            return '6-8';
+        }
+
+        // Fetch stories required from backend
+        async function fetchStoriesRequired(age, coverType = 'hardcover') {
+            try {
+                const url = `${API_URL}/api/stories-required/${age}?cover_type=${coverType}`;
+                console.log('Fetching:', url);
+                const response = await fetch(url);
+                console.log('Response status:', response.status, response.ok);
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('API response:', data);
+                    return data;
+                }
+            } catch (e) {
+                console.error('Error fetching stories required:', e);
+            }
+            // Fallback calculation
+            console.log('Using fallback calculation');
+            const minPages = coverType === 'hardcover' ? 24 : 20;
+            const pagesPerStory = AGE_INFO[age]?.pages || 12;
+            const extraPages = 6;
+            let stories = 1;
+            while ((stories * pagesPerStory + extraPages) < minPages) {
+                stories++;
+            }
+            return {
+                stories_required: stories,
+                pages_per_story: pagesPerStory,
+                final_page_count: stories * pagesPerStory + extraPages
+            };
+        }
+
+        // Calculate price based on cover type and page count
+        function calculatePrice(coverType, pageCount) {
+            const pricing = PRICES[coverType];
+            const minPages = coverType === 'hardcover' ? 24 : 20;
+            const extraPages = Math.max(0, pageCount - minPages);
+            return pricing.base + (extraPages * pricing.perExtraPage);
+        }
+
+        // Cache for minimum page counts per cover type (fetched once)
+        let minPagesCache = { hardcover: 26, softcover: 26 }; // Default to age 2 (26 pages)
+
+        // Fetch and cache minimum pages (age 2 = lowest price)
+        async function fetchMinimumPages() {
+            try {
+                const [hcResponse, scResponse] = await Promise.all([
+                    fetch(`${API_URL}/api/stories-required/2?cover_type=hardcover`),
+                    fetch(`${API_URL}/api/stories-required/2?cover_type=softcover`)
+                ]);
+                if (hcResponse.ok && scResponse.ok) {
+                    const hcData = await hcResponse.json();
+                    const scData = await scResponse.json();
+                    minPagesCache.hardcover = hcData.final_page_count;
+                    minPagesCache.softcover = scData.final_page_count;
+                }
+            } catch (e) {
+                console.error('Error fetching minimum pages:', e);
+            }
+            updateCoverTypePrices();
+        }
+
+        // Update the "vanaf" prices in cover type cards
+        function updateCoverTypePrices() {
+            const hardcoverPrice = calculatePrice('hardcover', minPagesCache.hardcover);
+            const softcoverPrice = calculatePrice('softcover', minPagesCache.softcover);
+
+            document.getElementById('hardcover-price').textContent =
+                hardcoverPrice.toFixed(2).replace('.', ',');
+            document.getElementById('softcover-price').textContent =
+                softcoverPrice.toFixed(2).replace('.', ',');
+        }
+
+        // Update book summary display
+        function updateBookSummary() {
+            // Show text blocks (from API response)
+            const textBlocks = currentTextBlocks || 9;
+            document.getElementById('summary-stories').textContent = `${textBlocks} blokken`;
+            document.getElementById('summary-pages').textContent = `${totalPages} pagina's`;
+
+            const price = calculatePrice(selectedCoverType, totalPages);
+            document.getElementById('summary-price').innerHTML = `&euro;${price.toFixed(2).replace('.', ',')} <small style="font-size: 0.7em; opacity: 0.8;">incl. verzending</small>`;
+        }
+
+        // Cover type selection
+        function selectCoverType(element) {
+            document.querySelectorAll('.cover-type-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedCoverType = element.dataset.cover;
+
+            // Re-fetch stories required for new cover type
+            updateAgeAndCover();
+        }
+
+        // Combined update for age and cover type
+        async function updateAgeAndCover() {
+            console.log('updateAgeAndCover called - age:', selectedAge, 'coverType:', selectedCoverType);
+            const storiesInfo = await fetchStoriesRequired(selectedAge, selectedCoverType);
+            console.log('storiesInfo received:', storiesInfo);
+            storiesRequired = storiesInfo.stories_required;
+            totalPages = storiesInfo.final_page_count;
+            currentTextBlocks = storiesInfo.text_blocks_per_story || storiesInfo.total_text_blocks || 9;
+            console.log('Updated totalPages to:', totalPages);
+
+            // Update summary
+            updateBookSummary();
+
+            // Update theme screen for multiple stories
+            updateThemeScreen();
+        }
+
+        // Selections
+        async function selectAge(element) {
+            document.querySelectorAll('.age-btn').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedAge = parseInt(element.dataset.age);
+            console.log('Age selected:', selectedAge);
+
+            // Update age and cover info
+            await updateAgeAndCover();
+            console.log('After update - totalPages:', totalPages, 'price:', calculatePrice(selectedCoverType, totalPages));
+        }
+
+        function updateThemeScreen() {
+            const singleGrid = document.getElementById('single-theme-grid');
+            const multiContainer = document.getElementById('multiple-themes-container');
+            const titleEl = document.getElementById('theme-screen-title');
+            const subtitleEl = document.getElementById('theme-screen-subtitle');
+
+            if (storiesRequired > 1) {
+                // Show multiple theme selectors
+                singleGrid.classList.add('hidden');
+                multiContainer.classList.remove('hidden');
+                titleEl.textContent = `Kies ${storiesRequired} thema's`;
+                subtitleEl.textContent = 'Elk verhaal krijgt een eigen thema';
+
+                // Initialize themes array
+                selectedThemes = [];
+                for (let i = 0; i < storiesRequired; i++) {
+                    selectedThemes.push(THEMES[i % THEMES.length].value);
+                }
+
+                // Build theme dropdowns
+                const listEl = document.getElementById('story-themes-list');
+                listEl.innerHTML = '';
+                for (let i = 0; i < storiesRequired; i++) {
+                    const div = document.createElement('div');
+                    div.style.cssText = 'background: white; border-radius: 0.75rem; padding: 1rem; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 1rem;';
+                    div.innerHTML = `
+                        <span style="font-weight: 700; color: var(--nachtblauw); min-width: 80px;">Verhaal ${i + 1}</span>
+                        <select class="form-input" onchange="selectStoryTheme(${i}, this.value)" style="flex: 1;">
+                            ${THEMES.map(t => `<option value="${t.value}" ${t.value === selectedThemes[i] ? 'selected' : ''}>${t.icon} ${t.label}</option>`).join('')}
+                        </select>
+                    `;
+                    listEl.appendChild(div);
+                }
+            } else {
+                // Show single theme grid
+                singleGrid.classList.remove('hidden');
+                multiContainer.classList.add('hidden');
+                titleEl.textContent = 'Kies een thema';
+                subtitleEl.textContent = 'Waar gaat het avontuur over?';
+                selectedThemes = [];
+            }
+        }
+
+        function selectStoryTheme(index, theme) {
+            selectedThemes[index] = theme;
+        }
+
+        function selectTheme(element) {
+            document.querySelectorAll('.theme-card').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedTheme = element.dataset.theme;
+        }
+
+        function selectPersonality(element) {
+            document.querySelectorAll('[data-personality]').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedPersonality = element.dataset.personality;
+        }
+
+        function selectLocation(element) {
+            document.querySelectorAll('[data-location]').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedLocation = element.dataset.location;
+        }
+
+        // Visual style selection - now a single combined selection
+        function selectVisualStyle(element) {
+            // Deselect all style cards
+            document.querySelectorAll('.style-card').forEach(el => el.classList.remove('selected'));
+            // Select clicked card
+            element.classList.add('selected');
+            // Update both values from the selected card
+            selectedRealismLevel = element.dataset.realism;
+            selectedIllustrationStyle = element.dataset.style;
+            console.log(`Selected style: ${selectedRealismLevel} + ${selectedIllustrationStyle}`);
+        }
+
+        function selectGender(element) {
+            document.querySelectorAll('[data-gender]').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedGender = element.dataset.gender;
+        }
+
+        function selectHair(element) {
+            document.querySelectorAll('[data-hair]').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedHair = element.dataset.hair;
+        }
+
+        function selectSkin(element) {
+            document.querySelectorAll('[data-skin]').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedSkin = element.dataset.skin;
+        }
+
+        function buildChildDescription() {
+            // Build description from user selections, or return null for AI to generate
+            if (!selectedGender && !selectedHair && !selectedSkin) {
+                return null; // Let AI generate
+            }
+
+            const parts = [];
+            if (selectedGender) {
+                parts.push(selectedGender === 'jongen' ? 'a young boy' : 'a young girl');
+            } else {
+                parts.push('a young child');
+            }
+            if (selectedHair) {
+                const hairMap = { blond: 'blonde', bruin: 'brown', zwart: 'black', rood: 'red' };
+                parts.push(`with ${hairMap[selectedHair]} hair`);
+            }
+            if (selectedSkin) {
+                const skinMap = { licht: 'light', medium: 'medium', donker: 'dark' };
+                parts.push(`and ${skinMap[selectedSkin]} skin tone`);
+            }
+            return parts.join(' ');
+        }
+
+        function toggleExtras() {
+            const content = document.getElementById('extras-content');
+            const arrow = document.getElementById('extras-arrow');
+            content.classList.toggle('show');
+            arrow.style.transform = content.classList.contains('show') ? 'rotate(180deg)' : '';
+        }
+
+        async function startMagic() {
+            // Check if user is logged in, if not show email modal first
+            if (!userEmail) {
+                showEmailModal(() => startMagic());
+                return;
+            }
+
+            const childName = document.getElementById('child-name').value.trim();
+            const toyName = document.getElementById('toy-name').value.trim();
+            const childNickname = document.getElementById('child-nickname').value.trim() || null;
+            const themeContext = document.getElementById('theme-context').value.trim() || null;
+
+            setScreen(6); // Loading screen
+            document.getElementById('loading-title').textContent = 'Knuffel herkennen...';
+            document.getElementById('loading-subtitle').textContent = 'We analyseren de foto';
+            document.getElementById('loading-fill').style.width = '10%';
+
+            try {
+                // Step 1: Analyze toy
+                const formData = new FormData();
+                formData.append('file', toyImageFile);
+
+                const analyzeResponse = await fetch(`${API_URL}/analyze-toy`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (!analyzeResponse.ok) throw new Error('Analyze failed');
+                toyAnalysis = await analyzeResponse.json();
+
+                // Use full_description from backend (includes colors, features, type)
+                let fullToyDescription = toyAnalysis.full_description || toyAnalysis.description || '';
+                if (!toyAnalysis.full_description) {
+                    if (toyAnalysis.colors && toyAnalysis.colors.length > 0) {
+                        fullToyDescription += ` Kleuren: ${toyAnalysis.colors.join(', ')}.`;
+                    }
+                    if (toyAnalysis.unique_features && toyAnalysis.unique_features.length > 0) {
+                        fullToyDescription += ` Unieke kenmerken: ${toyAnalysis.unique_features.join(', ')}.`;
+                    }
+                    if (toyAnalysis.type) {
+                        fullToyDescription += ` Type: ${toyAnalysis.type}.`;
+                    }
+                }
+                toyAnalysis.fullDescription = fullToyDescription;
+                console.log('Full toy description:', fullToyDescription);
+
+                document.getElementById('loading-title').textContent = 'Boek aanmaken...';
+                document.getElementById('loading-subtitle').textContent = 'Je boek wordt in de wachtrij geplaatst';
+                document.getElementById('loading-fill').style.width = '20%';
+
+                // Step 2: Build child description from user selections
+                childDescription = buildChildDescription();
+
+                // Step 3: Create book via API - this queues it for background processing
+                const bookPayload = {
+                    email: userEmail,
+                    child_name: childName,
+                    toy_name: toyName,
+                    age_category: getAgeCategory(selectedAge), // Convert exact age to category
+                    age: selectedAge, // Also send exact age for future use
+                    theme: selectedTheme,
+                    toy_description: fullToyDescription,
+                    toy_image_base64: toyImageBase64,
+                    realism_level: selectedRealismLevel,
+                    illustration_style: selectedIllustrationStyle
+                };
+
+                // Add optional fields
+                if (childNickname) bookPayload.child_nickname = childNickname;
+                if (selectedPersonality) bookPayload.toy_personality = selectedPersonality;
+                if (selectedLocation) bookPayload.location_type = selectedLocation;
+                if (themeContext) bookPayload.theme_context = themeContext;
+                if (childDescription) bookPayload.child_description = childDescription;
+
+                // Add multiple themes if needed
+                if (selectedThemes.length > 0) {
+                    bookPayload.themes = selectedThemes;
+                }
+
+                const bookResponse = await fetch(`${API_URL}/api/books`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(bookPayload)
+                });
+
+                if (!bookResponse.ok) {
+                    const errorData = await bookResponse.json().catch(() => ({}));
+                    throw new Error(errorData.detail || 'Failed to create book');
+                }
+
+                const bookData = await bookResponse.json();
+                currentBookId = bookData.id;  // Response uses 'id' not 'book_id'
+                console.log('Book created with ID:', currentBookId);
+
+                // Start polling for status updates
+                document.getElementById('loading-title').textContent = 'In de wachtrij...';
+                document.getElementById('loading-subtitle').textContent = 'Je boek wordt gegenereerd';
+                startPolling(currentBookId);
+
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Er ging iets mis. Probeer het opnieuw.');
+                setScreen(5);
+            }
+        }
+
+        function setupPreview() {
+            currentPageIndex = 0;
+            // Use totalPages from API (includes all book pages)
+            const coverLabel = selectedCoverType === 'hardcover' ? 'Hardcover' : 'Softcover';
+            document.getElementById('checkout-pages').textContent =
+                `${coverLabel} (${totalPages} pag.)`;
+
+            // Update prices in checkout screen
+            const price = calculatePrice(selectedCoverType, totalPages);
+            const priceFormatted = `€${price.toFixed(2).replace('.', ',')}`;
+            document.getElementById('checkout-base-price').textContent = priceFormatted;
+            document.getElementById('checkout-total').textContent = priceFormatted;
+
+            displayCurrentPage();
+        }
+
+        function displayCurrentPage() {
+            if (!currentStory || !currentStory.pages.length) return;
+
+            const page = currentStory.pages[currentPageIndex];
+            const total = currentStory.pages.length;
+
+            document.getElementById('book-text').textContent = page.text;
+            // Show as "Pagina X van Y" for clearer understanding
+            document.getElementById('page-indicator').textContent = `Pagina ${currentPageIndex + 1} van ${total}`;
+
+            document.getElementById('btn-prev-page').disabled = currentPageIndex === 0;
+            document.getElementById('btn-next-page').disabled = currentPageIndex === total - 1;
+
+            // Show illustration
+            const container = document.getElementById('illustration-container');
+            const img = document.getElementById('book-illustration');
+            const loading = document.getElementById('illustration-loading');
+
+            // Show model indicator
+            let modelIndicator = document.getElementById('model-indicator');
+            if (!modelIndicator) {
+                modelIndicator = document.createElement('div');
+                modelIndicator.id = 'model-indicator';
+                modelIndicator.style.cssText = 'position: absolute; bottom: 8px; left: 8px; background: rgba(0,0,0,0.6); color: white; padding: 4px 8px; border-radius: 4px; font-size: 10px; z-index: 10;';
+                container.style.position = 'relative';
+                container.appendChild(modelIndicator);
+            }
+
+            if (illustrations[currentPageIndex]) {
+                img.src = `data:image/png;base64,${illustrations[currentPageIndex]}`;
+                img.style.display = 'block';
+                loading.style.display = 'none';
+                container.classList.remove('loading');
+                // Show which model generated this illustration
+                modelIndicator.textContent = illustrationModels[currentPageIndex] || '';
+                modelIndicator.style.display = illustrationModels[currentPageIndex] ? 'block' : 'none';
+            } else {
+                img.style.display = 'none';
+                loading.style.display = 'block';
+                container.classList.add('loading');
+                modelIndicator.style.display = 'none';
+            }
+        }
+
+        function prevPage() {
+            if (currentPageIndex > 0) {
+                currentPageIndex--;
+                displayCurrentPage();
+            }
+        }
+
+        function nextPage() {
+            if (currentStory && currentPageIndex < currentStory.pages.length - 1) {
+                currentPageIndex++;
+                displayCurrentPage();
+            }
+        }
+
+        // Checkout state
+        let checkoutBookId = null;
+
+        async function showOrderInfo() {
+            if (!currentBookId) {
+                alert('Geen boek geselecteerd');
+                return;
+            }
+
+            checkoutBookId = currentBookId;
+
+            // Reset UI
+            document.getElementById('checkout-loading').classList.add('hidden');
+            document.getElementById('checkout-error').classList.add('hidden');
+            document.getElementById('checkout-btn').disabled = false;
+
+            // Update prices in modal
+            const price = calculatePrice(selectedCoverType, totalPages);
+            const priceFormatted = `€ ${price.toFixed(2).replace('.', ',')}`;
+            const coverLabel = selectedCoverType === 'hardcover' ? 'Hardcover Fotoboek' : 'Softcover Fotoboek';
+
+            document.getElementById('checkout-book-price').textContent = priceFormatted;
+            document.getElementById('checkout-total-price').textContent = priceFormatted;
+
+            // Show modal
+            document.getElementById('checkout-modal').classList.add('active');
+        }
+
+        function closeCheckoutModal() {
+            document.getElementById('checkout-modal').classList.remove('active');
+        }
+
+        async function proceedToCheckout() {
+            if (!checkoutBookId) {
+                alert('Geen boek geselecteerd');
+                return;
+            }
+
+            const btn = document.getElementById('checkout-btn');
+            const loading = document.getElementById('checkout-loading');
+            const errorDiv = document.getElementById('checkout-error');
+
+            try {
+                // Show loading
+                btn.disabled = true;
+                btn.textContent = 'Checkout starten...';
+                loading.classList.remove('hidden');
+                errorDiv.classList.add('hidden');
+
+                // Create Stripe checkout session with cover type
+                const response = await fetch(`${API_URL}/api/books/${checkoutBookId}/stripe-checkout?cover_type=${selectedCoverType}`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' }
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.detail || 'Checkout kon niet worden gestart');
+                }
+
+                console.log('Stripe checkout session created:', result.session_id);
+
+                // Redirect to Stripe Checkout
+                if (result.checkout_url) {
+                    window.location.href = result.checkout_url;
+                } else {
+                    throw new Error('Geen checkout URL ontvangen');
+                }
+
+            } catch (error) {
+                console.error('Checkout error:', error);
+                loading.classList.add('hidden');
+                errorDiv.classList.remove('hidden');
+                document.getElementById('checkout-error-message').textContent = error.message;
+                btn.disabled = false;
+                btn.textContent = 'Doorgaan naar Stripe';
+            }
+        }
+
+        // Check for payment success/cancel on page load
+        function checkPaymentStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const payment = urlParams.get('payment');
+            const bookId = urlParams.get('book_id');
+            const sessionId = urlParams.get('session_id');
+
+            if (payment === 'success' && bookId) {
+                // Show success message
+                showPaymentSuccess(bookId, sessionId);
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            } else if (payment === 'cancelled' && bookId) {
+                // Show cancelled message
+                alert('Betaling geannuleerd. Je kunt het opnieuw proberen.');
+                // Clean up URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+
+        async function showPaymentSuccess(bookId, sessionId) {
+            // Get session details if available
+            let emailInfo = '';
+            if (sessionId) {
+                try {
+                    const response = await fetch(`${API_URL}/api/stripe/session/${sessionId}`);
+                    if (response.ok) {
+                        const session = await response.json();
+                        if (session.customer_email) {
+                            emailInfo = `Bevestiging wordt gestuurd naar: ${session.customer_email}`;
+                        }
+                    }
+                } catch (e) {
+                    console.log('Could not fetch session details');
+                }
+            }
+
+            // Show success modal
+            document.getElementById('success-email-info').textContent = emailInfo;
+            document.getElementById('success-modal').classList.add('active');
+
+            // Load the completed book in background
+            currentBookId = bookId;
+            await loadCompletedBook(bookId);
+        }
+
+        function closeSuccessModal() {
+            document.getElementById('success-modal').classList.remove('active');
+            // Show the book preview (data already loaded by showPaymentSuccess)
+            if (currentBookId) {
+                setupPreview();
+                setScreen(7);
+            }
+        }
+
+        // Call on page load
+        document.addEventListener('DOMContentLoaded', () => {
+            checkPaymentStatus();
+            fetchMinimumPages(); // Fetch minimum prices for cover type cards
+        });
+
+        async function downloadPDF() {
+            if (!currentBookId) {
+                alert('Geen boek geselecteerd');
+                return;
+            }
+
+            try {
+                // Show loading state
+                const btn = event.target.closest('button');
+                const originalText = btn.innerHTML;
+                btn.disabled = true;
+                btn.innerHTML = 'PDF maken... <span class="spinner"></span>';
+
+                // Download PDF - include email for authorization (admin can always download)
+                let pdfUrl = `${API_URL}/api/books/${currentBookId}/pdf`;
+                if (userEmail) {
+                    pdfUrl += `?email=${encodeURIComponent(userEmail)}`;
+                }
+                const response = await fetch(pdfUrl);
+
+                if (!response.ok) {
+                    const error = await response.json().catch(() => ({}));
+                    throw new Error(error.detail || 'PDF generatie mislukt');
+                }
+
+                // Create download link
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = response.headers.get('Content-Disposition')?.split('filename=')[1]?.replace(/"/g, '') || 'knuffelboek.pdf';
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                a.remove();
+
+                // Restore button
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+
+            } catch (error) {
+                console.error('PDF download error:', error);
+                alert(`Kon PDF niet downloaden: ${error.message}`);
+                // Restore button
+                const btn = document.querySelector('.btn-primary');
+                if (btn) {
+                    btn.disabled = false;
+                    btn.innerHTML = 'Download PDF <svg class="icon btn-icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>';
+                }
+            }
+        }
+
+        // Track which model was used per illustration
+        let illustrationModels = {};
+
+        function restart() {
+            currentScreen = 1;
+            toyImageFile = null;
+            toyImageBase64 = null;
+            toyAnalysis = null;
+            currentStory = null;
+            selectedAge = 4;
+            selectedTheme = 'bedtijd_avontuur';
+            selectedPersonality = null;
+            selectedLocation = null;
+            selectedGender = null;
+            selectedHair = null;
+            selectedSkin = null;
+            childDescription = null;
+            selectedRealismLevel = 'semi_real';
+            selectedIllustrationStyle = 'watercolor';
+            currentPageIndex = 0;
+            illustrations = {};
+            selectedCoverType = 'hardcover';
+            storiesRequired = 1;
+            currentTextBlocks = 9;
+            totalPages = 26;
+
+            // Reset UI
+            document.getElementById('upload-content').style.display = '';
+            document.getElementById('upload-preview').classList.remove('show');
+            document.getElementById('upload-zone').classList.remove('has-image');
+            document.getElementById('btn-photo-next').disabled = true;
+            document.getElementById('child-name').value = '';
+            document.getElementById('toy-name').value = '';
+            document.getElementById('child-nickname').value = '';
+            document.getElementById('theme-context').value = '';
+            document.getElementById('btn-names-next').disabled = true;
+
+            // Reset all screens
+            document.querySelectorAll('.screen').forEach((s, i) => {
+                s.classList.remove('active', 'prev');
+                if (i === 0) s.classList.add('active');
+            });
+
+            // Reset age selection
+            document.querySelectorAll('.age-btn').forEach(el => {
+                el.classList.toggle('selected', el.dataset.age === '4');
+            });
+
+            // Reset cover type selection
+            document.querySelectorAll('.cover-type-card').forEach(el => {
+                el.classList.toggle('selected', el.dataset.cover === 'hardcover');
+            });
+
+            // Initialize book summary
+            updateAgeAndCover();
+            document.querySelectorAll('.theme-card').forEach((el, i) => {
+                el.classList.toggle('selected', el.dataset.theme === 'bedtijd_avontuur');
+            });
+            document.querySelectorAll('.chip').forEach(el => el.classList.remove('selected'));
+            document.getElementById('extras-content').classList.remove('show');
+
+            // Reset visual style selection - select default (waterverf)
+            document.querySelectorAll('.style-card').forEach(el => {
+                el.classList.toggle('selected',
+                    el.dataset.realism === 'semi_real' && el.dataset.style === 'watercolor');
+            });
+            selectedRealismLevel = 'semi_real';
+            selectedIllustrationStyle = 'watercolor';
+
+            updateProgressDots();
+        }
+
+        // === User Account & My Books Functions ===
+
+        let authStep = 'email'; // 'email', 'login', 'register', 'set-password'
+        let userHasPassword = false;
+
+        function showEmailModal(callback) {
+            emailModalCallback = callback;
+            authStep = 'email';
+            resetAuthModal();
+            document.getElementById('email-overlay').classList.remove('hidden');
+            document.getElementById('user-email').value = userEmail || '';
+            document.getElementById('user-email').focus();
+        }
+
+        function resetAuthModal() {
+            document.getElementById('auth-modal-title').textContent = 'Welkom!';
+            document.getElementById('auth-modal-subtitle').textContent = 'Voer je email in om je boeken op te slaan en later terug te vinden.';
+            document.getElementById('password-group').classList.add('hidden');
+            document.getElementById('user-password').value = '';
+            document.getElementById('auth-submit-btn').textContent = 'Doorgaan';
+            document.getElementById('auth-error-message').style.display = 'none';
+            document.getElementById('auth-toggle-text').style.display = 'none';
+        }
+
+        function showAuthError(message) {
+            const errorEl = document.getElementById('auth-error-message');
+            errorEl.textContent = message;
+            errorEl.style.display = 'block';
+        }
+
+        function hideAuthError() {
+            document.getElementById('auth-error-message').style.display = 'none';
+        }
+
+        function handleEmailKeyup(event) {
+            hideAuthError();
+            if (event.key === 'Enter') {
+                handleAuthSubmit();
+            }
+        }
+
+        function handlePasswordKeyup(event) {
+            hideAuthError();
+            if (event.key === 'Enter') {
+                handleAuthSubmit();
+            }
+        }
+
+        async function handleAuthSubmit() {
+            const email = document.getElementById('user-email').value.trim();
+            const password = document.getElementById('user-password').value;
+
+            if (!email || !email.includes('@')) {
+                showAuthError('Voer een geldig email adres in');
+                return;
+            }
+
+            hideAuthError();
+
+            if (authStep === 'email') {
+                // Check if email exists and has password
+                try {
+                    const response = await fetch(`${API_URL}/api/auth/check-email`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password: '' })
+                    });
+                    const data = await response.json();
+
+                    if (data.exists) {
+                        if (data.has_password) {
+                            // Show login form
+                            authStep = 'login';
+                            document.getElementById('auth-modal-title').textContent = 'Inloggen';
+                            document.getElementById('auth-modal-subtitle').textContent = 'Voer je wachtwoord in';
+                            document.getElementById('password-group').classList.remove('hidden');
+                            document.getElementById('auth-submit-btn').textContent = 'Inloggen';
+                            document.getElementById('user-password').focus();
+                        } else {
+                            // Account exists without password - allow quick login or set password
+                            authStep = 'set-password';
+                            document.getElementById('auth-modal-title').textContent = 'Wachtwoord instellen';
+                            document.getElementById('auth-modal-subtitle').textContent = 'Je account bestaat al. Stel een wachtwoord in (optioneel).';
+                            document.getElementById('password-group').classList.remove('hidden');
+                            document.getElementById('auth-submit-btn').textContent = 'Opslaan';
+                            document.getElementById('auth-toggle-text').innerHTML = '<a href="#" onclick="skipPassword(event)" style="color: var(--hout);">Overslaan</a>';
+                            document.getElementById('auth-toggle-text').style.display = 'block';
+                            document.getElementById('user-password').focus();
+                        }
+                    } else {
+                        // New user - show register form
+                        authStep = 'register';
+                        document.getElementById('auth-modal-title').textContent = 'Account aanmaken';
+                        document.getElementById('auth-modal-subtitle').textContent = 'Kies een wachtwoord voor je account';
+                        document.getElementById('password-group').classList.remove('hidden');
+                        document.getElementById('auth-submit-btn').textContent = 'Registreren';
+                        document.getElementById('user-password').focus();
+                    }
+                } catch (error) {
+                    console.error('Error checking email:', error);
+                    // Fallback: just continue with email only
+                    completeAuth(email);
+                }
+            } else if (authStep === 'login') {
+                // Attempt login
+                if (!password) {
+                    showAuthError('Voer je wachtwoord in');
+                    return;
+                }
+                try {
+                    const response = await fetch(`${API_URL}/api/auth/login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        userHasPassword = data.has_password;
+                        completeAuth(email);
+                    } else {
+                        showAuthError(data.message);
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    showAuthError('Er ging iets mis. Probeer opnieuw.');
+                }
+            } else if (authStep === 'register') {
+                // Attempt registration
+                if (!password || password.length < 6) {
+                    showAuthError('Wachtwoord moet minimaal 6 tekens zijn');
+                    return;
+                }
+                try {
+                    const response = await fetch(`${API_URL}/api/auth/register`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        userHasPassword = true;
+                        completeAuth(email);
+                    } else {
+                        showAuthError(data.message);
+                    }
+                } catch (error) {
+                    console.error('Register error:', error);
+                    showAuthError('Er ging iets mis. Probeer opnieuw.');
+                }
+            } else if (authStep === 'set-password') {
+                // Set password for existing account
+                if (!password || password.length < 6) {
+                    showAuthError('Wachtwoord moet minimaal 6 tekens zijn');
+                    return;
+                }
+                try {
+                    const response = await fetch(`${API_URL}/api/auth/set-password`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email, password })
+                    });
+                    const data = await response.json();
+
+                    if (data.success) {
+                        userHasPassword = true;
+                        completeAuth(email);
+                    } else {
+                        showAuthError(data.message);
+                    }
+                } catch (error) {
+                    console.error('Set password error:', error);
+                    showAuthError('Er ging iets mis. Probeer opnieuw.');
+                }
+            }
+        }
+
+        function skipPassword(event) {
+            event.preventDefault();
+            const email = document.getElementById('user-email').value.trim();
+            completeAuth(email);
+        }
+
+        function completeAuth(email) {
+            userEmail = email;
+            localStorage.setItem('knuffelboek_email', email);
+            document.getElementById('email-overlay').classList.add('hidden');
+
+            if (emailModalCallback) {
+                emailModalCallback();
+                emailModalCallback = null;
+            }
+        }
+
+        function cancelEmailModal() {
+            document.getElementById('email-overlay').classList.add('hidden');
+            emailModalCallback = null;
+            authStep = 'email';
+        }
+
+        // Keep confirmEmail for backwards compatibility
+        function confirmEmail() {
+            handleAuthSubmit();
+        }
+
+        function logoutUser() {
+            userEmail = null;
+            userHasPassword = false;
+            localStorage.removeItem('knuffelboek_email');
+            goHome();
+        }
+
+        function goHome() {
+            restart();
+        }
+
+        async function showMyBooks() {
+            if (!userEmail) {
+                showEmailModal(() => showMyBooks());
+                return;
+            }
+
+            // Show my books screen
+            setScreen(8);
+            document.getElementById('my-books-email-display').textContent = userEmail;
+
+            // Load books
+            await loadUserBooks();
+        }
+
+        async function loadUserBooks() {
+            const grid = document.getElementById('my-books-grid');
+            const empty = document.getElementById('my-books-empty');
+
+            try {
+                const response = await fetch(`${API_URL}/api/users/${encodeURIComponent(userEmail)}/books`);
+                if (!response.ok) throw new Error('Failed to load books');
+
+                const data = await response.json();
+                userBooks = data.books || [];
+
+                if (userBooks.length === 0) {
+                    empty.style.display = 'block';
+                    // Clear any existing book cards
+                    const cards = grid.querySelectorAll('.book-card');
+                    cards.forEach(c => c.remove());
+                } else {
+                    empty.style.display = 'none';
+                    renderBooks();
+                }
+            } catch (error) {
+                console.error('Error loading books:', error);
+                empty.innerHTML = '<div class="empty-state-icon">⚠️</div><p>Er ging iets mis bij het laden.</p>';
+                empty.style.display = 'block';
+            }
+        }
+
+        function renderBooks() {
+            const grid = document.getElementById('my-books-grid');
+            const empty = document.getElementById('my-books-empty');
+
+            // Clear existing book cards (but keep empty state)
+            const existingCards = grid.querySelectorAll('.book-card');
+            existingCards.forEach(c => c.remove());
+
+            userBooks.forEach(book => {
+                const card = document.createElement('div');
+                card.className = 'book-card';
+                card.onclick = (e) => openBook(book.id, e.currentTarget);
+
+                const themeEmojis = {
+                    'bedtijd_avontuur': '🌙',
+                    'groot_avontuur': '🗺️',
+                    'nieuwe_vriend': '🦊',
+                    'dapper_zijn': '🦁',
+                    'magische_wereld': '✨',
+                    'verjaardagsfeest': '🎂'
+                };
+
+                const statusLabels = {
+                    'draft': 'In wachtrij',
+                    'generating_story': 'Verhaal schrijven...',
+                    'generating_images': 'Illustraties maken...',
+                    'processing': 'Verwerken...',
+                    'completed': 'Klaar!',
+                    'failed': 'Mislukt'
+                };
+
+                // Lulu order status labels
+                const orderStatusLabels = {
+                    'CREATED': 'Bestelling ontvangen',
+                    'UNPAID': 'Wachten op betaling',
+                    'PAYMENT_IN_PROGRESS': 'Betaling verwerken',
+                    'PRODUCTION_READY': 'Klaar voor productie',
+                    'IN_PRODUCTION': 'In productie',
+                    'SHIPPED': 'Verzonden',
+                    'REJECTED': 'Geweigerd',
+                    'CANCELLED': 'Geannuleerd'
+                };
+
+                let statusClass, statusText;
+
+                // Check if book is ordered (has lulu_job_id)
+                if (book.is_ordered) {
+                    statusClass = book.lulu_order_status === 'SHIPPED' ? 'shipped' : 'ordered';
+                    statusText = orderStatusLabels[book.lulu_order_status] || 'Besteld';
+                } else if (book.is_paid) {
+                    // Book is paid but not yet ordered at Lulu
+                    statusClass = 'paid';
+                    statusText = 'Betaald';
+                } else {
+                    statusClass = ['generating_story', 'generating_images', 'processing'].includes(book.status)
+                        ? 'generating'
+                        : book.status === 'completed'
+                            ? 'completed'
+                            : book.status === 'failed'
+                                ? 'failed'
+                                : book.status === 'draft'
+                                    ? 'queued'
+                                    : '';
+
+                    // Show queue position and wait time for draft status
+                    if (book.status === 'draft') {
+                        if (book.queue_position !== null && book.queue_position > 0) {
+                            statusText = `In wachtrij (#${book.queue_position})`;
+                            if (book.estimated_wait_minutes) {
+                                statusText += ` ~${book.estimated_wait_minutes} min`;
+                            }
+                        } else if (book.queue_position === 0) {
+                            statusText = 'Start genereren...';
+                            statusClass = 'generating';
+                        } else {
+                            statusText = 'In wachtrij';
+                        }
+                    } else {
+                        statusText = statusLabels[book.status] || book.status;
+                    }
+                }
+
+                const date = new Date(book.created_at).toLocaleDateString('nl-NL', {
+                    day: 'numeric', month: 'short', year: 'numeric'
+                });
+
+                const progressHtml = book.status !== 'completed' && book.status !== 'failed' && book.progress > 0
+                    ? `<div class="book-progress"><div class="book-progress-fill" style="width: ${book.progress}%"></div></div>`
+                    : '';
+
+                // Show expected delivery date for ordered books
+                let deliveryHtml = '';
+                if (book.is_ordered && book.expected_delivery_date) {
+                    const deliveryDate = new Date(book.expected_delivery_date).toLocaleDateString('nl-NL', {
+                        day: 'numeric', month: 'long'
+                    });
+                    deliveryHtml = `<p class="delivery-date">Verwachte levering: ${deliveryDate}</p>`;
+                }
+
+                card.innerHTML = `
+                    <div class="book-thumb">${book.is_ordered ? '📦' : themeEmojis[book.theme] || '📖'}</div>
+                    <div class="book-info">
+                        <h3>${book.story_title || `${book.child_name}'s Avontuur`}</h3>
+                        <p>${book.child_name} & ${book.toy_name} • ${date}</p>
+                        <span class="book-status ${statusClass}">${statusText}</span>
+                        ${progressHtml}
+                        ${deliveryHtml}
+                    </div>
+                `;
+
+                grid.insertBefore(card, empty);
+            });
+        }
+
+        async function openBook(bookId, clickedCard = null) {
+            // Add loading state to clicked card
+            if (clickedCard) {
+                clickedCard.classList.add('loading');
+            }
+
+            try {
+                // Get book details
+                const response = await fetch(`${API_URL}/api/books/${bookId}`);
+                if (!response.ok) throw new Error('Book not found');
+
+                const book = await response.json();
+                currentBookId = bookId;
+
+                if (book.status === 'completed') {
+                    // Load full book and show preview
+                    await loadCompletedBook(bookId);
+                } else if (book.status === 'failed') {
+                    alert(`Dit boek is niet gelukt: ${book.status_message || 'Onbekende fout'}`);
+                } else {
+                    // Show loading screen with progress
+                    setScreen(6);
+                    document.getElementById('loading-title').textContent = book.status_message || 'Bezig met genereren...';
+                    document.getElementById('loading-subtitle').textContent = `${book.progress}% voltooid`;
+                    document.getElementById('loading-fill').style.width = `${book.progress}%`;
+
+                    // Start polling for updates
+                    startPolling(bookId);
+                }
+            } catch (error) {
+                console.error('Error opening book:', error);
+                alert('Kon het boek niet laden');
+            } finally {
+                // Remove loading state
+                if (clickedCard) {
+                    clickedCard.classList.remove('loading');
+                }
+            }
+        }
+
+        async function loadCompletedBook(bookId) {
+            try {
+                // Get story and illustrations
+                const [storyResponse, illustrationsResponse] = await Promise.all([
+                    fetch(`${API_URL}/api/books/${bookId}/story`),
+                    fetch(`${API_URL}/api/books/${bookId}/illustrations`)
+                ]);
+
+                if (storyResponse.ok) {
+                    currentStory = await storyResponse.json();
+                }
+
+                if (illustrationsResponse.ok) {
+                    const data = await illustrationsResponse.json();
+                    illustrations = {};
+                    illustrationModels = {};
+                    data.illustrations.forEach(ill => {
+                        if (ill.image_base64) {
+                            illustrations[ill.page_number - 1] = ill.image_base64;
+                            illustrationModels[ill.page_number - 1] = ill.model_used;
+                        }
+                    });
+                }
+
+                // Show preview
+                setupPreview();
+                setScreen(7);
+
+            } catch (error) {
+                console.error('Error loading completed book:', error);
+                alert('Kon het boek niet laden');
+            }
+        }
+
+        function startPolling(bookId) {
+            if (pollInterval) clearInterval(pollInterval);
+
+            pollInterval = setInterval(async () => {
+                try {
+                    const response = await fetch(`${API_URL}/api/books/${bookId}`);
+                    if (!response.ok) {
+                        clearInterval(pollInterval);
+                        return;
+                    }
+
+                    const book = await response.json();
+
+                    // Update loading screen
+                    document.getElementById('loading-title').textContent = book.status_message || 'Bezig met genereren...';
+                    document.getElementById('loading-subtitle').textContent = `${book.progress}% voltooid`;
+                    document.getElementById('loading-fill').style.width = `${book.progress}%`;
+
+                    if (book.status === 'completed') {
+                        clearInterval(pollInterval);
+                        await loadCompletedBook(bookId);
+                    } else if (book.status === 'failed') {
+                        clearInterval(pollInterval);
+                        alert(`Er ging iets mis: ${book.status_message || 'Onbekende fout'}`);
+                        showMyBooks();
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                }
+            }, 3000); // Poll every 3 seconds
+        }
+
+        // Stop polling when leaving screens
+        function setScreen(num) {
+            // Stop any active polling when changing screens
+            if (num !== 6 && pollInterval) {
+                clearInterval(pollInterval);
+                pollInterval = null;
+            }
+
+            // Reset all screens first
+            document.querySelectorAll('.screen').forEach(s => {
+                s.classList.remove('active', 'prev');
+            });
+
+            // Activate the new screen
+            const newScreen = document.getElementById(`screen-${num}`);
+            newScreen.classList.add('active');
+
+            currentScreen = num;
+            updateProgressDots();
+
+            // Show restart button after first screen (but not on my books screen or admin)
+            document.getElementById('restart-btn').classList.toggle('hidden', currentScreen === 1 || currentScreen === 8 || currentScreen === 9);
+        }
+
+        // Initialize
+        updateProgressDots();
+
+        // Update header button if user is logged in
+        if (userEmail) {
+            console.log('User logged in:', userEmail);
+        }
+
+        // =============================================================================
+        // ADMIN DASHBOARD FUNCTIONS
+        // =============================================================================
+
+        const ADMIN_EMAIL = 'jeroen@crossfitleiden.com';
+
+        function isAdmin() {
+            return userEmail && userEmail.toLowerCase() === ADMIN_EMAIL.toLowerCase();
+        }
+
+        function showAdminDashboard() {
+            if (!isAdmin()) {
+                alert('Alleen admin heeft toegang tot het dashboard.');
+                return;
+            }
+            setScreen(9);
+            loadAdminData();
+        }
+
+        async function loadAdminData() {
+            if (!isAdmin()) return;
+
+            try {
+                // Load stats
+                const statsResponse = await fetch(`${API_URL}/api/admin/stats?email=${encodeURIComponent(userEmail)}`);
+                if (statsResponse.ok) {
+                    const stats = await statsResponse.json();
+                    document.getElementById('stat-users').textContent = stats.users.total;
+                    document.getElementById('stat-books').textContent = stats.books.total;
+                    document.getElementById('stat-orders').textContent = stats.orders.paid;
+                    document.getElementById('stat-shipped').textContent = stats.orders.lulu_orders;
+                }
+
+                // Load orders
+                const ordersResponse = await fetch(`${API_URL}/api/admin/orders?email=${encodeURIComponent(userEmail)}`);
+                if (ordersResponse.ok) {
+                    const data = await ordersResponse.json();
+                    renderOrdersTable(data.orders);
+                }
+
+                // Load users
+                const usersResponse = await fetch(`${API_URL}/api/admin/users?email=${encodeURIComponent(userEmail)}`);
+                if (usersResponse.ok) {
+                    const data = await usersResponse.json();
+                    renderUsersTable(data.users);
+                }
+            } catch (error) {
+                console.error('Error loading admin data:', error);
+            }
+        }
+
+        function renderOrdersTable(orders) {
+            const tbody = document.getElementById('admin-orders-tbody');
+
+            if (!orders || orders.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;">Geen bestellingen gevonden</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = orders.map(order => {
+                const date = order.order_date ? new Date(order.order_date).toLocaleDateString('nl-NL') :
+                             order.created_at ? new Date(order.created_at).toLocaleDateString('nl-NL') : '-';
+
+                const paymentBadge = order.stripe_payment_status === 'paid'
+                    ? '<span class="status-badge paid">Betaald</span>'
+                    : '<span class="status-badge pending">Niet betaald</span>';
+
+                let statusBadge = '-';
+                if (order.lulu_order_status) {
+                    const statusMap = {
+                        'CREATED': 'In behandeling',
+                        'UNPAID': 'Wacht op betaling',
+                        'PRODUCTION_READY': 'In productie',
+                        'IN_PRODUCTION': 'Wordt gedrukt',
+                        'SHIPPED': 'Verzonden',
+                        'DELIVERED': 'Afgeleverd',
+                        'CANCELLED': 'Geannuleerd'
+                    };
+                    const statusClass = ['SHIPPED', 'DELIVERED'].includes(order.lulu_order_status) ? 'shipped' : 'pending';
+                    statusBadge = `<span class="status-badge ${statusClass}">${statusMap[order.lulu_order_status] || order.lulu_order_status}</span>`;
+                }
+
+                const trackingLink = order.tracking_url
+                    ? `<a href="${order.tracking_url}" target="_blank" class="admin-action-btn secondary">Track</a>`
+                    : '';
+
+                return `
+                    <tr>
+                        <td>${date}</td>
+                        <td>${order.user_email}</td>
+                        <td>${order.child_name}'s boek<br><small style="opacity:0.7">${order.toy_name}</small></td>
+                        <td>${paymentBadge}</td>
+                        <td>${statusBadge}</td>
+                        <td>
+                            <button class="admin-action-btn" onclick="viewAdminBook('${order.book_id}')">Bekijk</button>
+                            ${trackingLink}
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function renderUsersTable(users) {
+            const tbody = document.getElementById('admin-users-tbody');
+
+            if (!users || users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Geen gebruikers gevonden</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map((user, idx) => {
+                const created = user.created_at ? new Date(user.created_at).toLocaleDateString('nl-NL') : '-';
+                const lastLogin = user.last_login ? new Date(user.last_login).toLocaleDateString('nl-NL') : '-';
+
+                const booksInfo = user.books_count > 0
+                    ? `${user.books_count} boek${user.books_count > 1 ? 'en' : ''}`
+                    : 'Geen boeken';
+
+                // Generate books sub-table
+                let booksRows = '';
+                if (user.books && user.books.length > 0) {
+                    booksRows = user.books.map(book => {
+                        const bookCreated = book.created_at ? new Date(book.created_at).toLocaleDateString('nl-NL') : '-';
+                        const statusClass = book.status === 'completed' ? 'completed' :
+                                           book.status === 'failed' ? 'failed' : 'pending';
+                        const statusLabel = {
+                            'draft': 'Concept',
+                            'generating_story': 'Verhaal...',
+                            'generating_images': 'Illustraties...',
+                            'completed': 'Klaar',
+                            'failed': 'Mislukt'
+                        }[book.status] || book.status;
+
+                        return `
+                            <tr style="background: #f9f9f9;">
+                                <td style="padding-left: 2rem;">📖 ${book.child_name} & ${book.toy_name}</td>
+                                <td><span class="status-badge ${statusClass}">${statusLabel}</span></td>
+                                <td>${bookCreated}</td>
+                                <td>
+                                    ${book.status === 'completed' ? `<button class="admin-action-btn" onclick="viewAdminBook('${book.id}')">Bekijk</button>` : ''}
+                                </td>
+                            </tr>
+                        `;
+                    }).join('');
+                }
+
+                return `
+                    <tr onclick="toggleUserBooks(${idx})" style="cursor: pointer;">
+                        <td>${user.email}</td>
+                        <td>${created}</td>
+                        <td>${lastLogin}</td>
+                        <td>${booksInfo} ${user.books_count > 0 ? '<span style="font-size:0.8em;">▼</span>' : ''}</td>
+                        <td>
+                            <button class="admin-action-btn secondary" onclick="event.stopPropagation(); viewUserBooks('${user.email}')">Open</button>
+                        </td>
+                    </tr>
+                    ${user.books_count > 0 ? `<tr class="user-books-row hidden" id="user-books-${idx}"><td colspan="5" style="padding:0;">
+                        <table style="width:100%; border-collapse:collapse;">
+                            <thead style="background:#eee;"><tr>
+                                <th style="text-align:left; padding:0.5rem;">Boek</th>
+                                <th style="text-align:left; padding:0.5rem;">Status</th>
+                                <th style="text-align:left; padding:0.5rem;">Datum</th>
+                                <th style="text-align:left; padding:0.5rem;">Acties</th>
+                            </tr></thead>
+                            <tbody>${booksRows}</tbody>
+                        </table>
+                    </td></tr>` : ''}
+                `;
+            }).join('');
+        }
+
+        function toggleUserBooks(idx) {
+            const row = document.getElementById(`user-books-${idx}`);
+            if (row) {
+                row.classList.toggle('hidden');
+            }
+        }
+
+        function showAdminTab(tabName) {
+            // Update tab buttons
+            document.querySelectorAll('.admin-tab').forEach(tab => tab.classList.remove('active'));
+            event.target.classList.add('active');
+
+            // Show/hide tab content
+            document.getElementById('admin-orders-tab').classList.toggle('hidden', tabName !== 'orders');
+            document.getElementById('admin-users-tab').classList.toggle('hidden', tabName !== 'users');
+        }
+
+        async function viewAdminBook(bookId) {
+            // Load the book in preview mode
+            await loadCompletedBook(bookId);
+            setScreen(7);
+        }
+
+        function viewUserBooks(email) {
+            // Set user email and show their books
+            const prevEmail = userEmail;
+            userEmail = email;
+            loadMyBooks();
+            setScreen(8);
+            // Note: This temporarily switches view to that user's books
+        }
+
+        // Check for admin access on URL param
+        function checkAdminAccess() {
+            const urlParams = new URLSearchParams(window.location.search);
+            if (urlParams.get('admin') === 'true' && isAdmin()) {
+                showAdminDashboard();
+            }
+        }
+
+        // Add admin button to header if admin is logged in
+        function updateAdminButton() {
+            const header = document.querySelector('header');
+            const existingBtn = document.getElementById('admin-header-btn');
+
+            if (isAdmin() && !existingBtn) {
+                const adminBtn = document.createElement('button');
+                adminBtn.id = 'admin-header-btn';
+                adminBtn.className = 'header-btn';
+                adminBtn.innerHTML = '⚙️';
+                adminBtn.title = 'Admin Dashboard';
+                adminBtn.onclick = showAdminDashboard;
+                adminBtn.style.cssText = 'margin-left: 0.5rem; font-size: 1.2rem;';
+
+                const myBooksBtn = document.getElementById('my-books-btn');
+                if (myBooksBtn) {
+                    myBooksBtn.parentNode.insertBefore(adminBtn, myBooksBtn.nextSibling);
+                }
+            } else if (!isAdmin() && existingBtn) {
+                existingBtn.remove();
+            }
+        }
+
+        // Call on page load and after login
+        const originalConfirmEmail = confirmEmail;
+        confirmEmail = async function() {
+            await originalConfirmEmail();
+            updateAdminButton();
+            checkAdminAccess();
+        };
+
+        // Initial check
+        updateAdminButton();
+        checkAdminAccess();
+    </script>
+</body>
+</html>

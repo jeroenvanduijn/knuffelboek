@@ -1,0 +1,66 @@
+================================================================================
+                    PEECHO API v3 - ERROR PROOF
+                    Date: 2025-12-04 22:18:30 CET
+================================================================================
+
+ENVIRONMENT: TEST (test.www.peecho.com)
+API KEY:     b3e8d32aaebf84d2725fbff5f32efa325e43548e
+PRODUCT ID:  343190
+
+--------------------------------------------------------------------------------
+REQUEST
+--------------------------------------------------------------------------------
+POST https://test.www.peecho.com/rest/v3/orders/
+Content-Type: application/json
+
+{
+  "merchant_api_key": "b3e8d32aaebf84d2725fbff5f32efa325e43548e",
+  "currency": "EUR",
+  "purchase_order": "test_proof_001",
+  "item_details": [{
+    "item_reference": "knuffelboek_test",
+    "offering_id": "343190",
+    "quantity": 1,
+    "file_details": {
+      "content_url": "https://www.w3.org/WAI/WCAG21/Techniques/pdf/img/table-word.pdf",
+      "content_width": 21.0,
+      "content_height": 21.0,
+      "number_of_pages": 24
+    }
+  }],
+  "address_details": {
+    "email_address": "test@knuffelboek.nl",
+    "shipping_address": {
+      "first_name": "Test",
+      "last_name": "User",
+      "address_line_1": "Teststraat 123",
+      "city": "Amsterdam",
+      "zip_code": "1234AB",
+      "country_code": "NL"
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+RESPONSE
+--------------------------------------------------------------------------------
+HTTP/2 405 Method Not Allowed
+
+Headers:
+  allow: GET, HEAD
+  content-type: text/plain; charset=UTF-8
+  content-length: 0
+  cache-control: no-cache, no-store, must-revalidate
+  x-cache: Error from cloudfront
+
+Body: (empty)
+
+--------------------------------------------------------------------------------
+PROBLEM
+--------------------------------------------------------------------------------
+The API returns 405 Method Not Allowed for POST requests.
+The "allow" header indicates only GET and HEAD methods are permitted.
+
+This suggests the API v3 is not activated for this merchant account.
+
+================================================================================
