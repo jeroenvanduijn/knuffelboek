@@ -145,12 +145,12 @@ export default function ThemasPage() {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/80 via-nachtblauw/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h2 className="text-xl font-bold text-wolwit drop-shadow-md">{theme.name}</h2>
+                    <h2 className="text-xl font-bold text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)]">{theme.name}</h2>
                     <div className="flex flex-wrap gap-2 mt-2">
                       {theme.ages.map((age) => (
                         <span
                           key={age}
-                          className="text-xs font-medium bg-wolwit/90 px-3 py-1 rounded-full text-nachtblauw"
+                          className="text-xs font-medium bg-white/90 px-3 py-1 rounded-full text-nachtblauw"
                         >
                           {age} jaar
                         </span>
