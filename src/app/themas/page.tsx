@@ -143,14 +143,14 @@ export default function ThemasPage() {
                     fill
                     className="object-cover"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/60 to-transparent" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/80 via-nachtblauw/30 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-4">
-                    <h2 className="text-xl font-bold text-wolwit">{theme.name}</h2>
-                    <div className="flex flex-wrap gap-2 mt-1">
+                    <h2 className="text-xl font-bold text-wolwit drop-shadow-md">{theme.name}</h2>
+                    <div className="flex flex-wrap gap-2 mt-2">
                       {theme.ages.map((age) => (
                         <span
                           key={age}
-                          className="text-xs bg-wolwit/20 backdrop-blur-sm px-2 py-0.5 rounded-full text-wolwit"
+                          className="text-xs font-medium bg-wolwit/90 px-3 py-1 rounded-full text-nachtblauw"
                         >
                           {age} jaar
                         </span>
@@ -159,10 +159,10 @@ export default function ThemasPage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <p className="text-nachtblauw/70 mb-3">{theme.description}</p>
-                  <p className="text-sm text-nachtblauw mb-4">{theme.longDescription}</p>
-                  <div className="bg-zand/50 rounded-lg p-4 mb-4">
-                    <p className="text-sm italic text-nachtblauw/70">{theme.exampleSentence}</p>
+                  <p className="text-nachtblauw font-medium mb-3">{theme.description}</p>
+                  <p className="text-nachtblauw/80 mb-4 leading-relaxed">{theme.longDescription}</p>
+                  <div className="bg-zand rounded-lg p-4 mb-4">
+                    <p className="text-sm italic text-nachtblauw/90">{theme.exampleSentence}</p>
                   </div>
                   <a
                     href={WEBAPP_URL}
@@ -186,37 +186,82 @@ export default function ThemasPage() {
             Leeftijd maakt het verschil
           </SectionTitle>
           <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            <div className="bg-wolwit rounded-2xl p-6 lg:p-8">
+            <div className="bg-wolwit rounded-2xl p-6 lg:p-8 shadow-sm">
               <div className="text-4xl mb-4">🐣</div>
-              <h3 className="text-xl font-bold text-nachtblauw mb-3">2-3 jaar</h3>
-              <ul className="space-y-2 text-nachtblauw/70 text-sm">
-                <li>• 12-16 pagina&apos;s</li>
-                <li>• Zeer korte zinnen (5-8 woorden)</li>
-                <li>• Veel herhaling en ritme</li>
-                <li>• Eenvoudige emoties en acties</li>
-                <li>• Grote, kleurrijke illustraties</li>
+              <h3 className="text-xl font-bold text-nachtblauw mb-4">2-3 jaar</h3>
+              <ul className="space-y-3 text-nachtblauw">
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>12-16 pagina&apos;s</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Zeer korte zinnen (5-8 woorden)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Veel herhaling en ritme</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Eenvoudige emoties en acties</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Grote, kleurrijke illustraties</span>
+                </li>
               </ul>
             </div>
-            <div className="bg-wolwit rounded-2xl p-6 lg:p-8">
+            <div className="bg-wolwit rounded-2xl p-6 lg:p-8 shadow-sm">
               <div className="text-4xl mb-4">🦋</div>
-              <h3 className="text-xl font-bold text-nachtblauw mb-3">4-5 jaar</h3>
-              <ul className="space-y-2 text-nachtblauw/70 text-sm">
-                <li>• 16-20 pagina&apos;s</li>
-                <li>• Langere zinnen (8-12 woorden)</li>
-                <li>• Eenvoudige verhaallijn met begin, midden, eind</li>
-                <li>• Meer karakterontwikkeling</li>
-                <li>• Rijke, gedetailleerde illustraties</li>
+              <h3 className="text-xl font-bold text-nachtblauw mb-4">4-5 jaar</h3>
+              <ul className="space-y-3 text-nachtblauw">
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>16-20 pagina&apos;s</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Langere zinnen (8-12 woorden)</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Eenvoudige verhaallijn met begin, midden, eind</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Meer karakterontwikkeling</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Rijke, gedetailleerde illustraties</span>
+                </li>
               </ul>
             </div>
-            <div className="bg-wolwit rounded-2xl p-6 lg:p-8">
+            <div className="bg-wolwit rounded-2xl p-6 lg:p-8 shadow-sm">
               <div className="text-4xl mb-4">🦅</div>
-              <h3 className="text-xl font-bold text-nachtblauw mb-3">6-8 jaar</h3>
-              <ul className="space-y-2 text-nachtblauw/70 text-sm">
-                <li>• 20-24 pagina&apos;s</li>
-                <li>• Complexere zinnen en vocabulaire</li>
-                <li>• Meerdere plotlijnen en wendingen</li>
-                <li>• Diepere emoties en lessen</li>
-                <li>• Meer tekst per pagina</li>
+              <h3 className="text-xl font-bold text-nachtblauw mb-4">6-8 jaar</h3>
+              <ul className="space-y-3 text-nachtblauw">
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>20-24 pagina&apos;s</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Complexere zinnen en vocabulaire</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Meerdere plotlijnen en wendingen</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Diepere emoties en lessen</span>
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-abrikoos font-bold">•</span>
+                  <span>Meer tekst per pagina</span>
+                </li>
               </ul>
             </div>
           </div>
