@@ -367,22 +367,22 @@ function ThemesSection() {
 function USPsSection() {
   const usps = [
     {
-      icon: '✨',
+      image: `${IMAGE_BASE}/hero-background-098.jpg`,
       title: 'Uniek voor jouw kind',
       description: 'Verhaal en illustraties worden speciaal voor jouw kind gemaakt.',
     },
     {
-      icon: '👶',
+      image: `${IMAGE_BASE}/hero-background-101.jpg`,
       title: 'Leeftijd op maat',
       description: 'Verhaallengte en taalgebruik aangepast aan de leeftijd.',
     },
     {
-      icon: '📚',
+      image: `${IMAGE_BASE}/hero-background-099.jpg`,
       title: 'Premium kwaliteit',
       description: 'Gedrukt op stevig papier met levendige kleuren.',
     },
     {
-      icon: '🔒',
+      image: `${IMAGE_BASE}/hero-background-100.jpg`,
       title: 'Privacyvriendelijk',
       description: 'Geen kindergezichten – alleen knuffels worden geanalyseerd.',
     },
@@ -394,14 +394,21 @@ function USPsSection() {
         <SectionTitle subtitle="Dit maakt Knuffelboek zo bijzonder">
           Waarom ouders Knuffelboek kiezen
         </SectionTitle>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {usps.map((usp, index) => (
-            <div key={index} className="text-center">
-              <div className="w-16 h-16 mx-auto mb-4 bg-wolwit rounded-2xl shadow-sm flex items-center justify-center">
-                <span className="text-3xl">{usp.icon}</span>
+            <div key={index} className="bg-wolwit rounded-2xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+              <div className="aspect-[4/3] relative">
+                <Image
+                  src={usp.image}
+                  alt={usp.title}
+                  fill
+                  className="object-cover"
+                />
               </div>
-              <h3 className="font-bold text-nachtblauw mb-2">{usp.title}</h3>
-              <p className="text-sm text-nachtblauw/70">{usp.description}</p>
+              <div className="p-4 text-center">
+                <h3 className="font-bold text-nachtblauw mb-2">{usp.title}</h3>
+                <p className="text-sm text-nachtblauw/70">{usp.description}</p>
+              </div>
             </div>
           ))}
         </div>

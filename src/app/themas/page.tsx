@@ -1,8 +1,12 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
+import Image from 'next/image';
 import { Button, SectionTitle, SheepMascot } from '@/components';
+import { WEBAPP_URL } from '@/components/Header';
+
+// Image base URL
+const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
 
 const themes = [
   {
@@ -11,8 +15,7 @@ const themes = [
     ages: ['2-3', '4-5'],
     description: 'Een rustig verhaaltje om de dag mee af te sluiten. Perfect voor het slapengaan.',
     longDescription: 'De knuffel neemt je kind mee op een dromerig avontuur door wolken en sterren, om uiteindelijk veilig en slaperig weer thuis te komen.',
-    icon: '🌙',
-    color: 'bg-pastelblauw/30',
+    image: `${IMAGE_BASE}/hero-background-92.jpg`,
     exampleSentence: '"Het was tijd om te slapen, maar Beer had nog zo veel zin in een avontuur..."',
   },
   {
@@ -21,8 +24,7 @@ const themes = [
     ages: ['3-4', '4-5', '6-8'],
     description: 'Een verhaal over moed en je angsten overwinnen.',
     longDescription: 'Samen met de knuffel leert je kind dat dapper zijn niet betekent dat je nergens bang voor bent, maar dat je toch doorzet.',
-    icon: '🦁',
-    color: 'bg-abrikoos/20',
+    image: `${IMAGE_BASE}/hero-background-97.jpg`,
     exampleSentence: '"Lotte voelde haar hart bonzen, maar met Draakbeer naast haar wist ze dat ze alles aankon."',
   },
   {
@@ -31,8 +33,7 @@ const themes = [
     ages: ['2-3', '4-5', '6-8'],
     description: 'Een feestelijk verhaal voor de verjaardag van je kind.',
     longDescription: 'De knuffel organiseert in het geheim een verrassingsfeestje. Een perfect cadeau om te geven op de grote dag!',
-    icon: '🎂',
-    color: 'bg-abrikoos/30',
+    image: `${IMAGE_BASE}/hero-background-93.jpg`,
     exampleSentence: '"Vandaag was Emma jarig en Konijn had een geheim plan..."',
   },
   {
@@ -41,8 +42,7 @@ const themes = [
     ages: ['4-5', '6-8'],
     description: 'Over het maken en houden van vrienden.',
     longDescription: 'Een warm verhaal over wat vriendschap echt betekent: er voor elkaar zijn, samen delen, en samen lachen.',
-    icon: '💕',
-    color: 'bg-saliegroen/30',
+    image: `${IMAGE_BASE}/hero-background-94.jpg`,
     exampleSentence: '"Tim had een nieuwe vriend gevonden, maar zou Olifant jaloers zijn?"',
   },
   {
@@ -51,8 +51,7 @@ const themes = [
     ages: ['3-4', '4-5', '6-8'],
     description: 'Een avontuur in de natuur met dieren en planten.',
     longDescription: 'De knuffel en je kind gaan op ontdekkingstocht door het bos, ontmoeten dieren en leren over de natuur.',
-    icon: '🌿',
-    color: 'bg-saliegroen/20',
+    image: `${IMAGE_BASE}/hero-background-95.jpg`,
     exampleSentence: '"Kijk eens hier! riep Lucas. Een spoor van kleine pootjes in de modder..."',
   },
   {
@@ -61,8 +60,7 @@ const themes = [
     ages: ['5-6', '6-8'],
     description: 'Een magisch avontuur in een fantasiewereld.',
     longDescription: 'Door een geheime deur belanden de knuffel en je kind in een wereld vol magie, kastelen en vriendelijke wezens.',
-    icon: '🏰',
-    color: 'bg-pastelblauw/20',
+    image: `${IMAGE_BASE}/hero-background-96.jpg`,
     exampleSentence: '"Achter de kast was een deur die Sophie nooit eerder had gezien..."',
   },
   {
@@ -71,8 +69,7 @@ const themes = [
     ages: ['4-5', '6-8'],
     description: 'Perfect voor kinderen die naar school gaan.',
     longDescription: 'De knuffel helpt je kind om zich minder zenuwachtig te voelen voor de eerste dag op een nieuwe school.',
-    icon: '🎒',
-    color: 'bg-zand',
+    image: `${IMAGE_BASE}/hero-background-92.jpg`,
     exampleSentence: '"Morgen was de grote dag. Gelukkig mocht Nijlpaard stiekem mee in de rugzak..."',
   },
   {
@@ -81,8 +78,7 @@ const themes = [
     ages: ['2-3', '4-5'],
     description: 'Als er een baby op komst is.',
     longDescription: 'Een lief verhaal over een knuffel die ook grote broer of zus wordt, en leert wat dat betekent.',
-    icon: '👶',
-    color: 'bg-pastelblauw/30',
+    image: `${IMAGE_BASE}/hero-background-94.jpg`,
     exampleSentence: '"Er kwam iemand nieuws in huis, en Beer vroeg zich af of hij nog wel knuffels zou krijgen..."',
   },
 ];
@@ -138,17 +134,23 @@ export default function ThemasPage() {
               <div
                 key={theme.id}
                 id={theme.id}
-                className={`${theme.color} rounded-2xl p-6 lg:p-8 transition-all hover:shadow-lg hover:-translate-y-1`}
+                className="bg-wolwit rounded-2xl overflow-hidden transition-all hover:shadow-lg hover:-translate-y-1 border border-nachtblauw/5"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <span className="text-5xl">{theme.icon}</span>
-                  <div>
-                    <h2 className="text-xl font-bold text-nachtblauw">{theme.name}</h2>
+                <div className="aspect-[16/10] relative">
+                  <Image
+                    src={theme.image}
+                    alt={theme.name}
+                    fill
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/60 to-transparent" />
+                  <div className="absolute bottom-0 left-0 right-0 p-4">
+                    <h2 className="text-xl font-bold text-wolwit">{theme.name}</h2>
                     <div className="flex flex-wrap gap-2 mt-1">
                       {theme.ages.map((age) => (
                         <span
                           key={age}
-                          className="text-xs bg-wolwit/60 px-2 py-0.5 rounded-full text-nachtblauw/70"
+                          className="text-xs bg-wolwit/20 backdrop-blur-sm px-2 py-0.5 rounded-full text-wolwit"
                         >
                           {age} jaar
                         </span>
@@ -156,14 +158,21 @@ export default function ThemasPage() {
                     </div>
                   </div>
                 </div>
-                <p className="text-nachtblauw/70 mb-4">{theme.description}</p>
-                <p className="text-sm text-nachtblauw mb-4">{theme.longDescription}</p>
-                <div className="bg-wolwit/50 rounded-lg p-4 mb-4">
-                  <p className="text-sm italic text-nachtblauw/70">{theme.exampleSentence}</p>
+                <div className="p-6">
+                  <p className="text-nachtblauw/70 mb-3">{theme.description}</p>
+                  <p className="text-sm text-nachtblauw mb-4">{theme.longDescription}</p>
+                  <div className="bg-zand/50 rounded-lg p-4 mb-4">
+                    <p className="text-sm italic text-nachtblauw/70">{theme.exampleSentence}</p>
+                  </div>
+                  <a
+                    href={WEBAPP_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn btn-primary inline-block text-sm"
+                  >
+                    Kies dit thema
+                  </a>
                 </div>
-                <Button href="/maak-je-boek" size="sm">
-                  Kies dit thema
-                </Button>
               </div>
             ))}
           </div>
@@ -222,11 +231,16 @@ export default function ThemasPage() {
             Weet je welk thema je wilt?
           </h2>
           <p className="text-xl text-wolwit/80 mb-8 max-w-xl mx-auto">
-            Start nu en kies je favoriete avontuur in de wizard.
+            Start nu en kies je favoriete avontuur in de webapp.
           </p>
-          <Button href="/maak-je-boek" size="lg">
+          <a
+            href={WEBAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-abrikoos text-nachtblauw font-semibold px-8 py-4 rounded-xl hover:bg-abrikoos-dark transition-colors"
+          >
             Start met jouw knuffel
-          </Button>
+          </a>
         </div>
       </section>
     </>
