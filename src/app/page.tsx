@@ -367,31 +367,13 @@ function ThemesSection() {
 function IllustrationStylesSection() {
   const styles = [
     {
-      name: 'Foto-realistisch',
-      description: 'Lijkt op een echte foto met realistische belichting en details.',
-      category: 'Realistisch',
-      color: 'bg-zand',
-    },
-    {
-      name: 'Aquarel',
+      name: 'Waterverf',
       description: 'Zachte waterverf look met zichtbare penseelstreken en dromerige sfeer.',
       category: 'Artistiek',
       color: 'bg-pastelblauw/30',
     },
     {
-      name: 'Pastel',
-      description: 'Zachte, gedempte kleuren voor een rustige en knusse uitstraling.',
-      category: 'Zacht',
-      color: 'bg-saliegroen/20',
-    },
-    {
-      name: 'Digitaal schilderij',
-      description: 'Rijk en gepolijst met vloeiende schaduwen en levendige kleuren.',
-      category: 'Modern',
-      color: 'bg-abrikoos/20',
-    },
-    {
-      name: '3D Pluche',
+      name: '3D Knuffel',
       description: 'Zachte 3D render met tastbare stoftextuur, alsof je de knuffel kunt aanraken.',
       category: 'Speciaal',
       color: 'bg-pastelblauw/20',
@@ -408,6 +390,12 @@ function IllustrationStylesSection() {
       category: 'Scandinavisch',
       color: 'bg-wolwit',
     },
+    {
+      name: 'Foto-realistisch',
+      description: 'Lijkt op een echte foto met realistische belichting en details.',
+      category: 'Realistisch',
+      color: 'bg-zand',
+    },
   ];
 
   return (
@@ -419,7 +407,7 @@ function IllustrationStylesSection() {
         <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
           Elke stijl geeft je boek een unieke uitstraling. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {styles.map((style, index) => (
             <div
               key={index}

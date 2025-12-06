@@ -81,8 +81,8 @@ export default function Header() {
               Maak je boek
             </a>
 
-            {/* Account button */}
-            {isLoggedIn ? (
+            {/* Account button - alleen voor ingelogde gebruikers */}
+            {isLoggedIn && (
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
@@ -123,16 +123,6 @@ export default function Header() {
                   </div>
                 )}
               </div>
-            ) : (
-              <Link
-                href="/inloggen"
-                className="flex items-center gap-2 text-nachtblauw/70 hover:text-nachtblauw transition-colors font-medium"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                </svg>
-                Inloggen
-              </Link>
             )}
           </div>
 
@@ -186,8 +176,8 @@ export default function Header() {
 
               <hr className="border-zand" />
 
-              {/* Auth links voor mobile */}
-              {isLoggedIn ? (
+              {/* Auth links voor mobile - alleen voor ingelogde gebruikers */}
+              {isLoggedIn && (
                 <>
                   <Link
                     href="/account"
@@ -206,17 +196,6 @@ export default function Header() {
                     Uitloggen
                   </button>
                 </>
-              ) : (
-                <Link
-                  href="/inloggen"
-                  className="text-nachtblauw/70 hover:text-nachtblauw transition-colors font-medium py-2 flex items-center gap-2"
-                  onClick={() => setMobileMenuOpen(false)}
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
-                  </svg>
-                  Inloggen
-                </Link>
               )}
 
               <a
