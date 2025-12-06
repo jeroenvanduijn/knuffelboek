@@ -1,5 +1,6 @@
 import { Metadata } from 'next';
 import { Button, SectionTitle, SheepMascot } from '@/components';
+import { WEBAPP_URL } from '@/components/Header';
 
 export const metadata: Metadata = {
   title: 'Hoe het werkt - Knuffelboek',
@@ -129,20 +130,118 @@ export default function HowItWorksPage() {
         </div>
       </section>
 
-      {/* Tech/Trust Section */}
+      {/* Illustration Styles Section */}
       <section className="section bg-zand">
+        <div className="container mx-auto px-4 lg:px-6">
+          <SectionTitle subtitle="Kies de look van je boek">
+            Illustratiestijlen
+          </SectionTitle>
+          <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
+            Elke stijl geeft je boek een compleet andere uitstraling. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past.
+          </p>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-5xl mx-auto">
+            {/* Foto-realistisch */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-zand rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">📷</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Foto-realistisch</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Lijkt op een echte foto met realistische belichting, scherpe details en natuurlijke kleuren.
+              </p>
+              <span className="text-xs bg-zand px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Realistische knuffels</span>
+            </div>
+
+            {/* Aquarel */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-pastelblauw/30 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">🎨</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Aquarel</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Zachte waterverf look met zichtbare penseelstreken, zachte overgangen en een dromerige sfeer.
+              </p>
+              <span className="text-xs bg-pastelblauw/30 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Bedtijdverhalen</span>
+            </div>
+
+            {/* Pastel */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-saliegroen/20 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">🌸</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Pastel</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Zachte, gedempte kleuren voor een rustige en knusse uitstraling. Heel zacht en warm.
+              </p>
+              <span className="text-xs bg-saliegroen/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Jonge kinderen</span>
+            </div>
+
+            {/* Digitaal schilderij */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-abrikoos/20 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">✨</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Digitaal schilderij</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Rijk en gepolijst met vloeiende schaduwen en levendige kleuren. Professionele storybook look.
+              </p>
+              <span className="text-xs bg-abrikoos/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Avonturenverhalen</span>
+            </div>
+
+            {/* 3D Pluche */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-pastelblauw/20 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">🧸</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">3D Pluche</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Zachte 3D render met tastbare stoftextuur, alsof je de knuffel kunt aanraken.
+              </p>
+              <span className="text-xs bg-pastelblauw/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Knuffelliefhebbers</span>
+            </div>
+
+            {/* Cartoon */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-abrikoos/30 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">😄</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Cartoon</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Speels en vrolijk met duidelijke lijnen, heldere kleuren en expressieve gezichten.
+              </p>
+              <span className="text-xs bg-abrikoos/30 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Grappige verhalen</span>
+            </div>
+
+            {/* Minimalistisch */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-wolwit border border-nachtblauw/10 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">○</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Minimalistisch</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Eenvoudige vormen, rustige pasteltinten en veel witte ruimte. Scandinavische stijl.
+              </p>
+              <span className="text-xs bg-zand/50 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Moderne interieurs</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Tech/Trust Section */}
+      <section className="section bg-wolwit">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-3xl mx-auto text-center">
             <SectionTitle subtitle="Hoe we jouw boek maken">
               Techniek met een menselijke touch
             </SectionTitle>
-            <div className="bg-wolwit rounded-2xl p-8 lg:p-10 text-left space-y-6">
+            <div className="bg-zand rounded-2xl p-8 lg:p-10 text-left space-y-6">
               <div className="flex gap-4">
-                <span className="text-3xl">🤖</span>
+                <span className="text-3xl">🪄</span>
                 <div>
-                  <h3 className="font-bold text-nachtblauw mb-2">AI helpt met het verhaal</h3>
+                  <h3 className="font-bold text-nachtblauw mb-2">Slimme technologie</h3>
                   <p className="text-nachtblauw/70">
-                    Onze slimme technologie genereert een uniek verhaal en illustraties op basis van jouw input. Maar jij houdt altijd de controle – kies het thema, bekijk de preview, en bestel alleen als je tevreden bent.
+                    Onze technologie genereert een uniek verhaal en illustraties op basis van jouw input. Maar jij houdt altijd de controle – kies het thema, bekijk de preview, en bestel alleen als je tevreden bent.
                   </p>
                 </div>
               </div>
@@ -179,9 +278,14 @@ export default function HowItWorksPage() {
           <p className="text-xl text-wolwit/80 mb-8 max-w-xl mx-auto">
             Het duurt maar een paar minuten om een magisch cadeau te maken.
           </p>
-          <Button href="/maak-je-boek" size="lg">
+          <a
+            href={WEBAPP_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block bg-abrikoos text-nachtblauw font-semibold px-8 py-4 rounded-xl hover:bg-abrikoos-dark transition-colors"
+          >
             Maak je eerste boek
-          </Button>
+          </a>
         </div>
       </section>
     </>

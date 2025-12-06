@@ -363,6 +363,102 @@ function ThemesSection() {
   );
 }
 
+// Illustration Styles Section
+function IllustrationStylesSection() {
+  const styles = [
+    {
+      name: 'Foto-realistisch',
+      description: 'Lijkt op een echte foto met realistische belichting en details.',
+      category: 'Realistisch',
+      color: 'bg-zand',
+    },
+    {
+      name: 'Aquarel',
+      description: 'Zachte waterverf look met zichtbare penseelstreken en dromerige sfeer.',
+      category: 'Artistiek',
+      color: 'bg-pastelblauw/30',
+    },
+    {
+      name: 'Pastel',
+      description: 'Zachte, gedempte kleuren voor een rustige en knusse uitstraling.',
+      category: 'Zacht',
+      color: 'bg-saliegroen/20',
+    },
+    {
+      name: 'Digitaal schilderij',
+      description: 'Rijk en gepolijst met vloeiende schaduwen en levendige kleuren.',
+      category: 'Modern',
+      color: 'bg-abrikoos/20',
+    },
+    {
+      name: '3D Pluche',
+      description: 'Zachte 3D render met tastbare stoftextuur, alsof je de knuffel kunt aanraken.',
+      category: 'Speciaal',
+      color: 'bg-pastelblauw/20',
+    },
+    {
+      name: 'Cartoon',
+      description: 'Speels en vrolijk met duidelijke lijnen en expressieve gezichten.',
+      category: 'Vrolijk',
+      color: 'bg-abrikoos/30',
+    },
+    {
+      name: 'Minimalistisch',
+      description: 'Eenvoudige vormen, rustige pasteltinten en veel witte ruimte.',
+      category: 'Scandinavisch',
+      color: 'bg-wolwit',
+    },
+  ];
+
+  return (
+    <section className="section bg-gradient-to-b from-wolwit to-zand/30">
+      <div className="container mx-auto px-4 lg:px-6">
+        <SectionTitle subtitle="Kies de perfecte stijl voor jouw boek">
+          Illustratiestijlen
+        </SectionTitle>
+        <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
+          Elke stijl geeft je boek een unieke uitstraling. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
+        </p>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {styles.map((style, index) => (
+            <div
+              key={index}
+              className={`${style.color} rounded-2xl p-5 border border-nachtblauw/5 hover:shadow-md transition-all`}
+            >
+              <span className="inline-block bg-wolwit/60 px-2 py-0.5 rounded text-xs text-nachtblauw/60 mb-3">
+                {style.category}
+              </span>
+              <h3 className="font-bold text-nachtblauw mb-2">{style.name}</h3>
+              <p className="text-sm text-nachtblauw/70">{style.description}</p>
+            </div>
+          ))}
+        </div>
+        <div className="mt-10 bg-wolwit rounded-2xl p-6 lg:p-8 border border-nachtblauw/5">
+          <div className="flex flex-col lg:flex-row items-center gap-6">
+            <div className="flex-1 text-center lg:text-left">
+              <h3 className="font-bold text-nachtblauw text-lg mb-2">
+                Stijl kiezen in de webapp
+              </h3>
+              <p className="text-nachtblauw/70 text-sm">
+                Bij het maken van je boek kun je eenvoudig je favoriete illustratiestijl selecteren.
+                Combineer dit met een thema voor een perfect gepersonaliseerd kinderboek.
+              </p>
+            </div>
+            <a
+              href={WEBAPP_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-primary whitespace-nowrap"
+            >
+              Bekijk alle stijlen
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 // USPs Section
 function USPsSection() {
   const usps = [
@@ -552,6 +648,7 @@ export default function Home() {
       <MijnBoekenSection />
       <ExampleBooksSection />
       <ThemesSection />
+      <IllustrationStylesSection />
       <USPsSection />
       <ReviewsSection />
       <PricingSection />
