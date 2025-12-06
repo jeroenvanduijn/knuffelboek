@@ -94,8 +94,6 @@ export default function Footer() {
             <div className="flex space-x-2 text-nachtblauw/70">
               <span className="text-sm font-medium">iDEAL</span>
               <span className="text-sm">|</span>
-              <span className="text-sm font-medium">Bancontact</span>
-              <span className="text-sm">|</span>
               <span className="text-sm font-medium">Creditcard</span>
             </div>
           </div>

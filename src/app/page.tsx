@@ -317,11 +317,11 @@ function ExampleBooksSection() {
 function ThemesSection() {
   const themes = [
     { name: 'Bedtijd Avontuur', ages: '2-5 jaar', image: `${IMAGE_BASE}/hero-background-92.jpg` },
-    { name: 'Dapper Zijn', ages: '3-6 jaar', image: `${IMAGE_BASE}/hero-background-97.jpg` },
-    { name: 'Verjaardag', ages: '2-8 jaar', image: `${IMAGE_BASE}/hero-background-93.jpg` },
-    { name: 'Vriendschap', ages: '4-7 jaar', image: `${IMAGE_BASE}/hero-background-94.jpg` },
-    { name: 'Natuur Ontdekken', ages: '3-6 jaar', image: `${IMAGE_BASE}/hero-background-95.jpg` },
-    { name: 'Fantasie Wereld', ages: '5-8 jaar', image: `${IMAGE_BASE}/hero-background-96.jpg` },
+    { name: 'Groot Avontuur', ages: '4-8 jaar', image: `${IMAGE_BASE}/hero-background-97.jpg` },
+    { name: 'Vriendschap', ages: '3-8 jaar', image: `${IMAGE_BASE}/hero-background-94.jpg` },
+    { name: 'Moed', ages: '3-8 jaar', image: `${IMAGE_BASE}/hero-background-93.jpg` },
+    { name: 'Fantasie', ages: '4-8 jaar', image: `${IMAGE_BASE}/hero-background-96.jpg` },
+    { name: 'Seizoenen', ages: '2-8 jaar', image: `${IMAGE_BASE}/hero-background-95.jpg` },
   ];
 
   return (
@@ -367,10 +367,34 @@ function ThemesSection() {
 function IllustrationStylesSection() {
   const styles = [
     {
+      name: 'Foto-realistisch',
+      description: 'Lijkt op een echte foto met realistische belichting en natuurlijke details.',
+      category: 'Realistisch',
+      color: 'bg-zand',
+    },
+    {
       name: 'Waterverf',
       description: 'Zachte waterverf look met zichtbare penseelstreken en dromerige sfeer.',
       category: 'Artistiek',
       color: 'bg-pastelblauw/30',
+    },
+    {
+      name: 'Zachte Pastel',
+      description: 'Warme, gedempte kleuren voor een rustige en knusse uitstraling.',
+      category: 'Zacht',
+      color: 'bg-saliegroen/20',
+    },
+    {
+      name: 'Kinderboek-cartoon',
+      description: 'Vrolijke cartoon-stijl met heldere kleuren en expressieve gezichten.',
+      category: 'Vrolijk',
+      color: 'bg-abrikoos/30',
+    },
+    {
+      name: 'Digital Painting',
+      description: 'Rijk en gepolijst met vloeiende schaduwen en levendige kleuren.',
+      category: 'Modern',
+      color: 'bg-abrikoos/20',
     },
     {
       name: '3D Knuffel',
@@ -379,22 +403,10 @@ function IllustrationStylesSection() {
       color: 'bg-pastelblauw/20',
     },
     {
-      name: 'Cartoon',
-      description: 'Speels en vrolijk met duidelijke lijnen en expressieve gezichten.',
-      category: 'Vrolijk',
-      color: 'bg-abrikoos/30',
-    },
-    {
       name: 'Minimalistisch',
       description: 'Eenvoudige vormen, rustige pasteltinten en veel witte ruimte.',
       category: 'Scandinavisch',
       color: 'bg-wolwit',
-    },
-    {
-      name: 'Foto-realistisch',
-      description: 'Lijkt op een echte foto met realistische belichting en details.',
-      category: 'Realistisch',
-      color: 'bg-zand',
     },
   ];
 
@@ -405,9 +417,9 @@ function IllustrationStylesSection() {
           Illustratiestijlen
         </SectionTitle>
         <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
-          Elke stijl geeft je boek een unieke uitstraling. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
+          Kies uit 7 unieke stijlen, van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
         </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {styles.map((style, index) => (
             <div
               key={index}

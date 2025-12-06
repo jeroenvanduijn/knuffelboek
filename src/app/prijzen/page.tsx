@@ -102,14 +102,24 @@ export default function PrijzenPage() {
                   </thead>
                   <tbody className="divide-y divide-nachtblauw/10">
                     <tr>
-                      <td className="p-4 text-nachtblauw">Standaard boek (softcover)</td>
+                      <td className="p-4 text-nachtblauw">Softcover boek</td>
                       <td className="p-4 text-nachtblauw font-semibold">€29,95</td>
-                      <td className="p-4 text-nachtblauw/70">16-24 pagina&apos;s, incl. verzending</td>
+                      <td className="p-4 text-nachtblauw/70">16-24 pagina&apos;s, incl. verzending NL/BE</td>
                     </tr>
                     <tr className="bg-pastelblauw/10">
-                      <td className="p-4 text-nachtblauw">Hardcover upgrade</td>
-                      <td className="p-4 text-nachtblauw font-semibold">+€5,00</td>
-                      <td className="p-4 text-nachtblauw/70">Extra stevig, perfect als cadeau</td>
+                      <td className="p-4 text-nachtblauw">Hardcover boek</td>
+                      <td className="p-4 text-nachtblauw font-semibold">€39,95</td>
+                      <td className="p-4 text-nachtblauw/70">Extra stevig, perfect als cadeau, incl. verzending</td>
+                    </tr>
+                    <tr>
+                      <td className="p-4 text-nachtblauw">PDF download</td>
+                      <td className="p-4 text-nachtblauw font-semibold">€10,00</td>
+                      <td className="p-4 text-nachtblauw/70">Direct downloaden, onbeperkt printen</td>
+                    </tr>
+                    <tr className="bg-pastelblauw/10">
+                      <td className="p-4 text-nachtblauw">PDF na boekaankoop</td>
+                      <td className="p-4 text-nachtblauw font-semibold">€5,00</td>
+                      <td className="p-4 text-nachtblauw/70">Extra PDF bij je bestelling</td>
                     </tr>
                     <tr>
                       <td className="p-4 text-nachtblauw">Extra exemplaar (zelfde boek)</td>
@@ -180,17 +190,11 @@ export default function PrijzenPage() {
                 <span className="font-semibold text-nachtblauw">iDEAL</span>
               </div>
               <div className="flex items-center gap-2 bg-pastelblauw/30 px-4 py-2 rounded-lg">
-                <span className="font-semibold text-nachtblauw">Bancontact</span>
-              </div>
-              <div className="flex items-center gap-2 bg-pastelblauw/30 px-4 py-2 rounded-lg">
                 <span className="font-semibold text-nachtblauw">Creditcard</span>
-              </div>
-              <div className="flex items-center gap-2 bg-pastelblauw/30 px-4 py-2 rounded-lg">
-                <span className="font-semibold text-nachtblauw">Apple Pay</span>
               </div>
             </div>
             <p className="text-nachtblauw/70 mt-6 text-sm">
-              Alle betalingen worden veilig verwerkt via Mollie. Je gegevens zijn altijd beschermd.
+              Alle betalingen worden veilig verwerkt via Stripe. Je gegevens zijn altijd beschermd.
             </p>
           </div>
         </div>

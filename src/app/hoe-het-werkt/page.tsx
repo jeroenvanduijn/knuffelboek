@@ -137,10 +137,22 @@ export default function HowItWorksPage() {
             Illustratiestijlen
           </SectionTitle>
           <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
-            Elke stijl geeft je boek een compleet andere uitstraling. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past.
+            Kies uit 7 unieke stijlen. Van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
           </p>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 max-w-6xl mx-auto">
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 max-w-6xl mx-auto">
+            {/* Foto-realistisch */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-zand rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">📷</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Foto-realistisch</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Lijkt op een echte foto met realistische belichting en natuurlijke kleuren.
+              </p>
+              <span className="text-xs bg-zand px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Realistische knuffels</span>
+            </div>
+
             {/* Waterverf */}
             <div className="bg-wolwit rounded-2xl p-6">
               <div className="w-12 h-12 bg-pastelblauw/30 rounded-xl flex items-center justify-center mb-4">
@@ -151,6 +163,42 @@ export default function HowItWorksPage() {
                 Zachte waterverf look met zichtbare penseelstreken en dromerige sfeer.
               </p>
               <span className="text-xs bg-pastelblauw/30 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Bedtijdverhalen</span>
+            </div>
+
+            {/* Zachte Pastel */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-saliegroen/20 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">🌸</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Zachte Pastel</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Warme, gedempte kleuren voor een rustige en knusse uitstraling.
+              </p>
+              <span className="text-xs bg-saliegroen/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Jonge kinderen</span>
+            </div>
+
+            {/* Kinderboek-cartoon */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-abrikoos/30 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">😄</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Kinderboek-cartoon</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Vrolijke cartoon-stijl met heldere kleuren en expressieve gezichten.
+              </p>
+              <span className="text-xs bg-abrikoos/30 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Grappige verhalen</span>
+            </div>
+
+            {/* Digital Painting */}
+            <div className="bg-wolwit rounded-2xl p-6">
+              <div className="w-12 h-12 bg-abrikoos/20 rounded-xl flex items-center justify-center mb-4">
+                <span className="text-2xl">✨</span>
+              </div>
+              <h3 className="font-bold text-nachtblauw mb-2">Digital Painting</h3>
+              <p className="text-sm text-nachtblauw/70 mb-3">
+                Rijk en gepolijst met vloeiende schaduwen en levendige kleuren.
+              </p>
+              <span className="text-xs bg-abrikoos/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Avonturenverhalen</span>
             </div>
 
             {/* 3D Knuffel */}
@@ -165,18 +213,6 @@ export default function HowItWorksPage() {
               <span className="text-xs bg-pastelblauw/20 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Knuffelliefhebbers</span>
             </div>
 
-            {/* Cartoon */}
-            <div className="bg-wolwit rounded-2xl p-6">
-              <div className="w-12 h-12 bg-abrikoos/30 rounded-xl flex items-center justify-center mb-4">
-                <span className="text-2xl">😄</span>
-              </div>
-              <h3 className="font-bold text-nachtblauw mb-2">Cartoon</h3>
-              <p className="text-sm text-nachtblauw/70 mb-3">
-                Speels en vrolijk met duidelijke lijnen, heldere kleuren en expressieve gezichten.
-              </p>
-              <span className="text-xs bg-abrikoos/30 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Grappige verhalen</span>
-            </div>
-
             {/* Minimalistisch */}
             <div className="bg-wolwit rounded-2xl p-6">
               <div className="w-12 h-12 bg-wolwit border border-nachtblauw/10 rounded-xl flex items-center justify-center mb-4">
@@ -187,18 +223,6 @@ export default function HowItWorksPage() {
                 Eenvoudige vormen, rustige pasteltinten en veel witte ruimte.
               </p>
               <span className="text-xs bg-zand/50 px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Moderne interieurs</span>
-            </div>
-
-            {/* Foto-realistisch */}
-            <div className="bg-wolwit rounded-2xl p-6">
-              <div className="w-12 h-12 bg-zand rounded-xl flex items-center justify-center mb-4">
-                <span className="text-2xl">📷</span>
-              </div>
-              <h3 className="font-bold text-nachtblauw mb-2">Foto-realistisch</h3>
-              <p className="text-sm text-nachtblauw/70 mb-3">
-                Lijkt op een echte foto met realistische belichting en natuurlijke kleuren.
-              </p>
-              <span className="text-xs bg-zand px-2 py-1 rounded text-nachtblauw/60">Perfect voor: Realistische knuffels</span>
             </div>
           </div>
         </div>
