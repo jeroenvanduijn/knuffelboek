@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -226,7 +227,7 @@ export default function ContactPage() {
           <p className="text-nachtblauw/70 mb-6 max-w-xl mx-auto">
             Geen vraag maar klaar om te starten? Maak in een paar minuten een uniek boek!
           </p>
-          <Button href="/maak-je-boek" size="lg">
+          <Button href={WEBAPP_URL} size="lg">
             Start met jouw knuffel
           </Button>
         </div>

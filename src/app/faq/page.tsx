@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 
 const faqItems = [
   {
@@ -22,7 +23,7 @@ const faqItems = [
       },
       {
         q: 'Welke betaalmethoden accepteren jullie?',
-        a: 'We accepteren iDEAL, Bancontact, creditcard (Visa, Mastercard, American Express) en Apple Pay. Alle betalingen worden veilig verwerkt via Mollie.',
+        a: 'We accepteren iDEAL en creditcard (Visa, Mastercard, American Express). Alle betalingen worden veilig verwerkt via Stripe.',
       },
     ],
   },
@@ -151,7 +152,7 @@ export default function FAQPage() {
             <Button href="/contact">
               Neem contact op
             </Button>
-            <Button href="/maak-je-boek" variant="outline">
+            <Button href={WEBAPP_URL} variant="outline">
               Start met je boek
             </Button>
           </div>

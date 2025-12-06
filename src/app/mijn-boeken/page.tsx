@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 import { useBooks, useAuth } from '@/hooks/useBooks';
 import * as api from '@/lib/api';
 import type { Book } from '@/lib/api';
@@ -130,7 +131,7 @@ function EmptyState() {
       <p className="text-nachtblauw/70 mb-8 max-w-md mx-auto">
         Maak je eerste gepersonaliseerde kinderboek met de lievelingsknuffel van je kind.
       </p>
-      <Button href="/maak-je-boek" size="lg">
+      <Button href={WEBAPP_URL} size="lg">
         Maak je eerste boek
       </Button>
     </div>
@@ -193,7 +194,7 @@ function LoginPrompt() {
             <p className="text-sm text-nachtblauw/60 mb-4">
               Je kunt ook zonder account een boek maken. Je ontvangt dan een link per e-mail.
             </p>
-            <Button href="/maak-je-boek" variant="outline">
+            <Button href={WEBAPP_URL} variant="outline">
               Maak een boek
             </Button>
           </div>
@@ -257,7 +258,7 @@ export default function MijnBoekenPage() {
               {books.length} {books.length === 1 ? 'boek' : 'boeken'} in je bibliotheek
             </p>
           </div>
-          <Button href="/maak-je-boek">
+          <Button href={WEBAPP_URL}>
             + Nieuw boek maken
           </Button>
         </div>

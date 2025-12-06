@@ -4,12 +4,10 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { isAuthenticated } from '@/lib/api';
+import { WEBAPP_URL } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
-
-// Webapp URL voor het maken van boeken
-export const WEBAPP_URL = process.env.NEXT_PUBLIC_WEBAPP_URL || 'https://app.knuffelboek.nl';
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);

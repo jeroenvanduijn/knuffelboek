@@ -47,6 +47,14 @@ export default function Button({
   const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if (href) {
+    // External URLs (http/https) open in new tab
+    if (href.startsWith('http://') || href.startsWith('https://')) {
+      return (
+        <a href={href} target="_blank" rel="noopener noreferrer" className={combinedStyles}>
+          {children}
+        </a>
+      );
+    }
     return (
       <Link href={href} className={combinedStyles}>
         {children}

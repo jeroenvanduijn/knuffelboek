@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
@@ -88,7 +89,7 @@ export default function PrijzenPage() {
                 </div>
               </div>
 
-              <Button href="/maak-je-boek" size="lg" className="w-full sm:w-auto">
+              <Button href={WEBAPP_URL} size="lg" className="w-full sm:w-auto">
                 Maak je boek
               </Button>
             </div>
@@ -222,7 +223,7 @@ export default function PrijzenPage() {
           <p className="text-xl text-wolwit/80 mb-8 max-w-xl mx-auto">
             Maak een blijvende herinnering die je kind keer op keer kan lezen.
           </p>
-          <Button href="/maak-je-boek" size="lg">
+          <Button href={WEBAPP_URL} size="lg">
             Start nu
           </Button>
         </div>

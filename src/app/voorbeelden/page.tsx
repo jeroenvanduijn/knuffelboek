@@ -1,6 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
@@ -191,7 +192,7 @@ export default function VoorbeeldenPage() {
           <p className="text-xl text-wolwit/80 mb-8 max-w-xl mx-auto">
             In een paar minuten heb je een uniek, gepersonaliseerd boek.
           </p>
-          <Button href="/maak-je-boek" size="lg">
+          <Button href={WEBAPP_URL} size="lg">
             Start met jouw knuffel
           </Button>
         </div>

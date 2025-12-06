@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { Button, SectionTitle } from '@/components';
-import { WEBAPP_URL } from '@/components/Header';
+import { WEBAPP_URL } from '@/lib/constants';
 
 // Image base URL
 const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
