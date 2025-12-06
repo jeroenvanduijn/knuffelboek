@@ -116,7 +116,7 @@ export default function MaakJeBoekPage() {
             alt="Knuffelboek"
             width={200}
             height={60}
-            className="mx-auto h-20 w-auto"
+            className="mx-auto h-28 w-auto"
           />
         </div>
 
@@ -171,7 +171,7 @@ export default function MaakJeBoekPage() {
                 alt="Knuffelboek"
                 width={150}
                 height={45}
-                className="mx-auto h-12 w-auto brightness-0 invert"
+                className="mx-auto h-20 w-auto brightness-0 invert"
               />
             </div>
               <h2 className="text-2xl lg:text-3xl font-bold mb-4">

@@ -37,7 +37,7 @@ export default function Header() {
               alt="Knuffelboek"
               width={180}
               height={50}
-              className="h-10 lg:h-12 w-auto"
+              className="h-12 lg:h-14 w-auto"
               priority
             />
           </Link>

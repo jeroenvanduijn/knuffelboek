@@ -17,7 +17,7 @@ export default function Footer() {
                 alt="Knuffelboek"
                 width={150}
                 height={40}
-                className="h-10 w-auto"
+                className="h-14 w-auto"
               />
             </Link>
             <p className="text-nachtblauw/70 text-sm leading-relaxed">

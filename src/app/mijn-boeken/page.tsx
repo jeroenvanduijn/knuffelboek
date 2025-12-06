@@ -121,7 +121,7 @@ function EmptyState() {
           alt="Knuffelboek"
           width={200}
           height={60}
-          className="mx-auto h-20 w-auto"
+          className="mx-auto h-28 w-auto"
         />
       </div>
       <h2 className="text-2xl font-bold text-nachtblauw mb-3">
@@ -147,7 +147,7 @@ function LoadingState() {
           alt="Knuffelboek"
           width={150}
           height={45}
-          className="mx-auto h-16 w-auto animate-pulse"
+          className="mx-auto h-24 w-auto animate-pulse"
         />
       </div>
       <p className="text-nachtblauw/70">Je boeken worden geladen...</p>
@@ -167,7 +167,7 @@ function LoginPrompt() {
               alt="Knuffelboek"
               width={200}
               height={60}
-              className="mx-auto h-20 w-auto"
+              className="mx-auto h-28 w-auto"
             />
           </div>
           <h1 className="text-3xl font-bold text-nachtblauw mb-4">
