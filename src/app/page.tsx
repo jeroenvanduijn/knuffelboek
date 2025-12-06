@@ -1,8 +1,12 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button, SectionTitle, SheepMascot } from '@/components';
 import { WEBAPP_URL } from '@/components/Header';
 
-// Hero Section - met AI focus
+// Image base URL
+const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
+
+// Hero Section
 function HeroSection() {
   return (
     <section className="relative bg-wolwit py-16 lg:py-24 overflow-hidden">
@@ -44,12 +48,16 @@ function HeroSection() {
             </div>
           </div>
           <div className="relative">
-            {/* Schaapje met boek */}
-            <div className="aspect-square max-w-lg mx-auto bg-zand rounded-3xl shadow-xl p-8 flex items-center justify-center">
-              <div className="text-center">
-                <SheepMascot variant="book" size="xl" className="mx-auto mb-4" />
-                <p className="text-nachtblauw/60 text-sm">Het schaapje leest voor...</p>
-              </div>
+            {/* Hero afbeelding */}
+            <div className="aspect-square max-w-lg mx-auto rounded-3xl shadow-xl overflow-hidden">
+              <Image
+                src={`${IMAGE_BASE}/hero-background-82.jpg`}
+                alt="Knuffelboek voorbeeld"
+                width={600}
+                height={600}
+                className="w-full h-full object-cover"
+                priority
+              />
             </div>
             {/* Decorative elements */}
             <div className="absolute -top-4 -right-4 w-20 h-20 bg-pastelblauw/40 rounded-full" />
@@ -65,37 +73,37 @@ function HeroSection() {
 function AIFeaturesSection() {
   const features = [
     {
-      icon: '📸',
+      image: `${IMAGE_BASE}/hero-background-83.jpg`,
       title: 'Knuffelfoto uploaden',
       description: 'Maak een foto met je smartphone. De achtergrond wordt automatisch verwijderd.',
       tech: 'Achtergrond-verwijdering',
     },
     {
-      icon: '🔍',
+      image: `${IMAGE_BASE}/hero-background-84.jpg`,
       title: 'Slimme knuffelanalyse',
       description: 'Onze slimme technologie herkent het type knuffel, de kleuren en de kleine details automatisch.',
       tech: 'Slimme beeldherkenning',
     },
     {
-      icon: '✍️',
+      image: `${IMAGE_BASE}/hero-background-85.jpg`,
       title: 'Verhaal genereren',
       description: 'Op basis van leeftijd en thema maken wij een uniek, kindvriendelijk verhaal.',
       tech: 'Verhalen op maat',
     },
     {
-      icon: '🎨',
+      image: `${IMAGE_BASE}/hero-background-86.jpg`,
       title: 'Illustraties maken',
       description: 'Prachtige illustraties worden gegenereerd met jouw knuffel in de hoofdrol.',
       tech: 'Illustraties met jouw knuffel in de hoofdrol',
     },
     {
-      icon: '📄',
+      image: `${IMAGE_BASE}/hero-background-87.jpg`,
       title: 'PDF downloaden',
       description: 'Bekijk direct de preview en download je boek als PDF.',
       tech: 'Direct beschikbaar',
     },
     {
-      icon: '📦',
+      image: `${IMAGE_BASE}/hero-background-88.jpg`,
       title: 'Bestellen als echt boek',
       description: 'Bestel het als gedrukt boek en ontvang het thuis binnen 5-7 werkdagen.',
       tech: 'Print-on-demand',
@@ -112,24 +120,25 @@ function AIFeaturesSection() {
           {features.map((feature, index) => (
             <div
               key={index}
-              className="bg-wolwit rounded-2xl p-6 border border-nachtblauw/5 hover:shadow-lg transition-all hover:-translate-y-1"
+              className="bg-wolwit rounded-2xl overflow-hidden border border-nachtblauw/5 hover:shadow-lg transition-all hover:-translate-y-1"
             >
-              <div className="flex items-start gap-4">
-                <div className="w-14 h-14 bg-zand rounded-xl flex items-center justify-center flex-shrink-0">
-                  <span className="text-3xl">{feature.icon}</span>
+              <div className="aspect-[4/3] relative">
+                <Image
+                  src={feature.image}
+                  alt={feature.title}
+                  fill
+                  className="object-cover"
+                />
+                <div className="absolute top-3 left-3 w-8 h-8 bg-abrikoos text-nachtblauw rounded-full flex items-center justify-center text-sm font-bold shadow-md">
+                  {index + 1}
                 </div>
-                <div className="flex-1">
-                  <div className="flex items-center gap-2 mb-2">
-                    <span className="w-6 h-6 bg-abrikoos text-nachtblauw rounded-full flex items-center justify-center text-xs font-bold">
-                      {index + 1}
-                    </span>
-                    <h3 className="font-bold text-nachtblauw">{feature.title}</h3>
-                  </div>
-                  <p className="text-nachtblauw/70 text-sm mb-3">{feature.description}</p>
-                  <span className="inline-block bg-pastelblauw/20 text-nachtblauw/60 px-2 py-0.5 rounded text-xs">
-                    {feature.tech}
-                  </span>
-                </div>
+              </div>
+              <div className="p-5">
+                <h3 className="font-bold text-nachtblauw mb-2">{feature.title}</h3>
+                <p className="text-nachtblauw/70 text-sm mb-3">{feature.description}</p>
+                <span className="inline-block bg-pastelblauw/20 text-nachtblauw/60 px-2 py-0.5 rounded text-xs">
+                  {feature.tech}
+                </span>
               </div>
             </div>
           ))}
@@ -148,17 +157,17 @@ function AIFeaturesSection() {
 function HowItWorksSection() {
   const steps = [
     {
-      icon: '📸',
+      image: `${IMAGE_BASE}/hero-background-89.jpg`,
       title: 'Knuffel fotograferen',
       description: 'Maak een foto van de lievelingsknuffel van je kind met je telefoon.',
     },
     {
-      icon: '✨',
+      image: `${IMAGE_BASE}/hero-background-90.jpg`,
       title: 'Wij maken het boek',
       description: 'Wij maken automatisch een uniek verhaal en prachtige illustraties.',
     },
     {
-      icon: '📦',
+      image: `${IMAGE_BASE}/hero-background-91.jpg`,
       title: 'Boek bezorgd',
       description: 'Binnen 5-7 dagen ligt het gedrukte boek op de deurmat.',
     },
@@ -173,8 +182,13 @@ function HowItWorksSection() {
         <div className="grid md:grid-cols-3 gap-8 lg:gap-12">
           {steps.map((step, index) => (
             <div key={index} className="text-center">
-              <div className="w-24 h-24 mx-auto mb-6 bg-wolwit rounded-full flex items-center justify-center shadow-sm">
-                <span className="text-4xl">{step.icon}</span>
+              <div className="w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden shadow-lg relative">
+                <Image
+                  src={step.image}
+                  alt={step.title}
+                  fill
+                  className="object-cover"
+                />
               </div>
               <div className="w-8 h-8 mx-auto mb-4 bg-abrikoos text-nachtblauw rounded-full flex items-center justify-center font-bold">
                 {index + 1}
@@ -302,12 +316,12 @@ function ExampleBooksSection() {
 // Themes Section
 function ThemesSection() {
   const themes = [
-    { name: 'Bedtijd Avontuur', ages: '2-5 jaar', icon: '🌙', color: 'bg-pastelblauw/30' },
-    { name: 'Dapper Zijn', ages: '3-6 jaar', icon: '🦁', color: 'bg-abrikoos/30' },
-    { name: 'Verjaardag', ages: '2-8 jaar', icon: '🎂', color: 'bg-abrikoos/20' },
-    { name: 'Vriendschap', ages: '4-7 jaar', icon: '💕', color: 'bg-saliegroen/30' },
-    { name: 'Natuur Ontdekken', ages: '3-6 jaar', icon: '🌿', color: 'bg-saliegroen/20' },
-    { name: 'Fantasie Wereld', ages: '5-8 jaar', icon: '🏰', color: 'bg-pastelblauw/20' },
+    { name: 'Bedtijd Avontuur', ages: '2-5 jaar', image: `${IMAGE_BASE}/hero-background-92.jpg` },
+    { name: 'Dapper Zijn', ages: '3-6 jaar', image: `${IMAGE_BASE}/hero-background-97.jpg` },
+    { name: 'Verjaardag', ages: '2-8 jaar', image: `${IMAGE_BASE}/hero-background-93.jpg` },
+    { name: 'Vriendschap', ages: '4-7 jaar', image: `${IMAGE_BASE}/hero-background-94.jpg` },
+    { name: 'Natuur Ontdekken', ages: '3-6 jaar', image: `${IMAGE_BASE}/hero-background-95.jpg` },
+    { name: 'Fantasie Wereld', ages: '5-8 jaar', image: `${IMAGE_BASE}/hero-background-96.jpg` },
   ];
 
   return (
@@ -321,13 +335,19 @@ function ThemesSection() {
             <Link
               key={index}
               href={`/themas#${theme.name.toLowerCase().replace(/\s/g, '-')}`}
-              className={`${theme.color} p-6 rounded-2xl hover:shadow-lg transition-all hover:-translate-y-1 border border-nachtblauw/5`}
+              className="group rounded-2xl overflow-hidden hover:shadow-lg transition-all hover:-translate-y-1 border border-nachtblauw/5"
             >
-              <div className="flex items-center gap-4">
-                <span className="text-4xl">{theme.icon}</span>
-                <div>
-                  <h3 className="font-bold text-nachtblauw">{theme.name}</h3>
-                  <span className="text-sm text-nachtblauw/70">{theme.ages}</span>
+              <div className="aspect-[16/10] relative">
+                <Image
+                  src={theme.image}
+                  alt={theme.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-nachtblauw/70 to-transparent" />
+                <div className="absolute bottom-0 left-0 right-0 p-4 text-wolwit">
+                  <h3 className="font-bold text-lg">{theme.name}</h3>
+                  <span className="text-sm text-wolwit/80">{theme.ages}</span>
                 </div>
               </div>
             </Link>
