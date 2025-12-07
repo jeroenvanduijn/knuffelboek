@@ -70,7 +70,7 @@ export default function Footer() {
             <ul className="space-y-2">
               <li>
                 <Link href="/privacy" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
-                  Privacybeleid
+                  Privacyverklaring
                 </Link>
               </li>
               <li>
