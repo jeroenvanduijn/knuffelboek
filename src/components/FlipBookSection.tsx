@@ -35,7 +35,7 @@ export default function FlipBookSection({
         </SectionTitle>
         <div className="max-w-4xl mx-auto">
           <div className="bg-wolwit rounded-3xl shadow-xl p-6 lg:p-10">
-            <FlipBook pdfUrl={pdfUrl} width={400} height={560} />
+            <FlipBook pdfUrl={pdfUrl} width={500} height={500} />
           </div>
         </div>
       </div>

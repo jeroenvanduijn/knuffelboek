@@ -34,24 +34,25 @@ const PageContent = forwardRef<HTMLDivElement, { children: React.ReactNode; page
   }
 );
 
-export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBookProps) {
+export default function FlipBook({ pdfUrl, width = 450, height = 450 }: FlipBookProps) {
   const [numPages, setNumPages] = useState<number>(0);
   const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
-  const [containerWidth, setContainerWidth] = useState(width);
+  const [pageSize, setPageSize] = useState(width);
   const bookRef = useRef<any>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Responsive sizing
+  // Responsive sizing - for square pages
   useEffect(() => {
     const updateSize = () => {
       if (containerRef.current) {
         const containerW = containerRef.current.offsetWidth;
-        // On mobile, use single page view with smaller width
+        // On mobile, use single page view with smaller size
         if (window.innerWidth < 768) {
-          setContainerWidth(Math.min(containerW - 40, 350));
+          setPageSize(Math.min(containerW - 40, 320));
         } else {
-          setContainerWidth(Math.min(containerW / 2 - 20, width));
+          // On desktop, allow larger pages for readability
+          setPageSize(Math.min(containerW / 2 - 40, 500));
         }
       }
     };
@@ -82,8 +83,7 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
     }
   };
 
-  const pageHeight = containerWidth; // Square format (21x21 cm)
-
+  // Square format (21x21 cm) - width equals height
   return (
     <div ref={containerRef} className="w-full">
       <Document
@@ -110,13 +110,13 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
               {/* @ts-ignore - HTMLFlipBook types are incomplete */}
               <HTMLFlipBook
                 ref={bookRef}
-                width={containerWidth}
-                height={pageHeight}
-                size="stretch"
+                width={pageSize}
+                height={pageSize}
+                size="fixed"
                 minWidth={280}
-                maxWidth={600}
+                maxWidth={550}
                 minHeight={280}
-                maxHeight={600}
+                maxHeight={550}
                 showCover={true}
                 mobileScrollSupport={true}
                 onFlip={onFlip}
@@ -127,7 +127,7 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
                 flippingTime={600}
                 usePortrait={true}
                 startZIndex={0}
-                autoSize={true}
+                autoSize={false}
                 maxShadowOpacity={0.5}
                 showPageCorners={true}
                 disableFlipByClick={false}
@@ -139,7 +139,7 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
                   <PageContent key={index} pageNumber={index + 1}>
                     <Page
                       pageNumber={index + 1}
-                      width={containerWidth}
+                      height={pageSize}
                       renderTextLayer={false}
                       renderAnnotationLayer={false}
                       className="pdf-page"
