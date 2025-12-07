@@ -5,3 +5,4 @@ export { default as SectionTitle } from './SectionTitle';
 export { default as SheepMascot } from './SheepMascot';
 // FlipBook is client-only and should be dynamically imported
 export { default as FlipBookSection } from './FlipBookSection';
+export { default as FlipBookGallery } from './FlipBookGallery';

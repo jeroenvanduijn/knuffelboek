@@ -1,13 +1,10 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { Button, SectionTitle, FlipBookSection } from '@/components';
+import { Button, SectionTitle, FlipBookGallery } from '@/components';
 import { WEBAPP_URL } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
-
-// PDF URL voor het voorbeeldboek
-const SAMPLE_BOOK_PDF = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%20%284%29.pdf';
 
 export const metadata: Metadata = {
   title: 'Voorbeelden - Knuffelboek',
@@ -117,11 +114,7 @@ export default function VoorbeeldenPage() {
       </section>
 
       {/* FlipBook Viewer */}
-      <FlipBookSection
-        pdfUrl={SAMPLE_BOOK_PDF}
-        title="Blader door een echt boek"
-        subtitle="Bekijk het verhaal van Zoe en haar knuffel"
-      />
+      <FlipBookGallery />
 
       {/* Video/Process */}
       <section className="section bg-wolwit">
