@@ -162,7 +162,7 @@ export default function OverOnsPage() {
               alt="Knuffelboek"
               width={200}
               height={60}
-              className="mx-auto h-24 w-auto brightness-0 invert"
+              className="mx-auto h-24 w-auto "
             />
           </div>
           <h2 className="text-3xl lg:text-4xl font-bold mb-4">
