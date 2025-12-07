@@ -127,11 +127,6 @@ export default function PrijzenPage() {
                       <td className="p-4 text-nachtblauw/70">Extra PDF bij je bestelling</td>
                     </tr>
                     <tr>
-                      <td className="p-4 text-nachtblauw">Extra exemplaar (zelfde boek)</td>
-                      <td className="p-4 text-nachtblauw font-semibold">€19,95</td>
-                      <td className="p-4 text-nachtblauw/70">Ideaal voor opa/oma of als backup</td>
-                    </tr>
-                    <tr className="bg-pastelblauw/10">
                       <td className="p-4 text-nachtblauw">Verzending buiten NL/BE</td>
                       <td className="p-4 text-nachtblauw font-semibold">+€4,95</td>
                       <td className="p-4 text-nachtblauw/70">EU-landen, 7-10 werkdagen</td>
