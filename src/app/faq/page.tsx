@@ -11,7 +11,7 @@ const faqItems = [
     questions: [
       {
         q: 'Hoe lang duurt het voordat het boek er is?',
-        a: 'Na je bestelling duurt het 5-7 werkdagen voordat het boek bij je thuis wordt bezorgd. We sturen je een e-mail met track & trace zodra het boek onderweg is.',
+        a: 'Na je bestelling duurt het 5-7 werkdagen voordat het boek bij je thuis wordt bezorgd. We sturen je een e-mail met track & trace zodra het boek onderweg is. Met feestdagen kan de levertijd langer zijn.',
       },
       {
         q: 'Naar welke landen leveren jullie?',
@@ -53,11 +53,11 @@ const faqItems = [
     questions: [
       {
         q: 'Wat gebeurt er met de foto van mijn knuffel?',
-        a: 'De foto wordt veilig verwerkt om de illustraties te maken. Na het aanmaken van je boek worden de originele foto\'s automatisch verwijderd. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden.',
+        a: 'De foto wordt veilig verwerkt om de illustraties te maken. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden. Na 30 dagen worden alle geüploade foto\'s en gegevens automatisch verwijderd.',
       },
       {
         q: 'Is de betaling veilig?',
-        a: 'Ja, alle betalingen worden verwerkt via Mollie, een gecertificeerde betaalprovider. We slaan geen creditcardgegevens op.',
+        a: 'Ja, alle betalingen worden veilig verwerkt via Stripe, een wereldwijd gecertificeerde betaalprovider. We slaan geen creditcardgegevens op.',
       },
       {
         q: 'Worden mijn gegevens gedeeld?',
