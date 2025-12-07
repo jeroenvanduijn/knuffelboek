@@ -1,10 +1,13 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
-import { Button, SectionTitle } from '@/components';
+import { Button, SectionTitle, FlipBookSection } from '@/components';
 import { WEBAPP_URL } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
+
+// PDF URL voor het voorbeeldboek
+const SAMPLE_BOOK_PDF = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%20%284%29.pdf';
 
 export const metadata: Metadata = {
   title: 'Voorbeelden - Knuffelboek',
@@ -68,14 +71,6 @@ const exampleBooks = [
   },
 ];
 
-const demoPages = [
-  { page: 1, text: 'Het was bijna bedtijd, maar Beer had nog zo veel zin in een avontuur.', bg: 'bg-pastelblauw/30' },
-  { page: 2, text: '"Kom mee," fluisterde Beer. "Ik weet iets leuks!"', bg: 'bg-pastelblauw/20' },
-  { page: 3, text: 'Samen vlogen ze op een wolk door de sterrenhemel.', bg: 'bg-abrikoos/30' },
-  { page: 4, text: '"Kijk, een vallende ster!" riep Emma.', bg: 'bg-saliegroen/30' },
-  { page: 5, text: 'Beer glimlachte. "Doe een wens..."', bg: 'bg-pastelblauw/30' },
-  { page: 6, text: 'En zo vlogen ze terug naar huis, klaar om te dromen.', bg: 'bg-zand' },
-];
 
 export default function VoorbeeldenPage() {
   return (
@@ -121,40 +116,12 @@ export default function VoorbeeldenPage() {
         </div>
       </section>
 
-      {/* Demo Book Viewer */}
-      <section className="section bg-zand">
-        <div className="container mx-auto px-4 lg:px-6">
-          <SectionTitle subtitle="Blader door een voorbeeld">
-            Hoe een boek eruitziet
-          </SectionTitle>
-          <div className="max-w-4xl mx-auto">
-            <div className="bg-wolwit rounded-3xl shadow-xl p-6 lg:p-10">
-              <div className="mb-6 text-center">
-                <span className="text-sm text-nachtblauw/70">Demo boek: &quot;Emma en het Droomavontuur&quot;</span>
-              </div>
-              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-                {demoPages.map((page) => (
-                  <div
-                    key={page.page}
-                    className={`${page.bg} aspect-square rounded-xl p-6 flex flex-col justify-between`}
-                  >
-                    <span className="text-xs text-nachtblauw/70">Pagina {page.page}</span>
-                    <div className="flex-1 flex items-center justify-center">
-                      <span className="text-4xl">🧸</span>
-                    </div>
-                    <p className="text-sm text-nachtblauw text-center italic">{page.text}</p>
-                  </div>
-                ))}
-              </div>
-              <div className="mt-8 text-center">
-                <p className="text-nachtblauw/70 mb-4">
-                  Dit is slechts een kleine preview. Elk boek bevat 16-24 volledig geïllustreerde pagina&apos;s met jouw knuffel in elke scene.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      {/* FlipBook Viewer */}
+      <FlipBookSection
+        pdfUrl={SAMPLE_BOOK_PDF}
+        title="Blader door een echt boek"
+        subtitle="Bekijk het verhaal van Zoe en haar knuffel"
+      />
 
       {/* Video/Process */}
       <section className="section bg-wolwit">
