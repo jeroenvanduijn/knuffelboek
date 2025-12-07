@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { Metadata } from 'next';
 import Link from 'next/link';
 import { Button, SectionTitle } from '@/components';
+import { WEBAPP_URL } from '@/lib/constants';
 
 const faqItems = [
   {
@@ -11,7 +11,7 @@ const faqItems = [
     questions: [
       {
         q: 'Hoe lang duurt het voordat het boek er is?',
-        a: 'Na je bestelling duurt het 5-7 werkdagen voordat het boek bij je thuis wordt bezorgd. We sturen je een e-mail met track & trace zodra het boek onderweg is.',
+        a: 'Na je bestelling duurt het 5-7 werkdagen voordat het boek bij je thuis wordt bezorgd. We sturen je een e-mail met track & trace zodra het boek onderweg is. Met feestdagen kan de levertijd langer zijn.',
       },
       {
         q: 'Naar welke landen leveren jullie?',
@@ -23,7 +23,7 @@ const faqItems = [
       },
       {
         q: 'Welke betaalmethoden accepteren jullie?',
-        a: 'We accepteren iDEAL, Bancontact, creditcard (Visa, Mastercard, American Express) en Apple Pay. Alle betalingen worden veilig verwerkt via Mollie.',
+        a: 'We accepteren iDEAL en creditcard (Visa, Mastercard, American Express). Alle betalingen worden veilig verwerkt via Stripe.',
       },
     ],
   },
@@ -53,11 +53,11 @@ const faqItems = [
     questions: [
       {
         q: 'Wat gebeurt er met de foto van mijn knuffel?',
-        a: 'De foto wordt veilig verwerkt om de illustraties te maken. Na het aanmaken van je boek worden de originele foto\'s automatisch verwijderd. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden.',
+        a: 'De foto wordt veilig verwerkt om de illustraties te maken. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden. Na 30 dagen worden alle geüploade foto\'s en gegevens automatisch verwijderd.',
       },
       {
         q: 'Is de betaling veilig?',
-        a: 'Ja, alle betalingen worden verwerkt via Mollie, een gecertificeerde betaalprovider. We slaan geen creditcardgegevens op.',
+        a: 'Ja, alle betalingen worden veilig verwerkt via Stripe, een wereldwijd gecertificeerde betaalprovider. We slaan geen creditcardgegevens op.',
       },
       {
         q: 'Worden mijn gegevens gedeeld?',
@@ -88,13 +88,13 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
-    <div className="border-b border-sky-dark/30 last:border-0">
+    <div className="border-b border-nachtblauw/10 last:border-0">
       <button
         className="w-full py-5 flex items-center justify-between text-left"
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="font-semibold text-text pr-4">{question}</span>
-        <span className={`text-primary transition-transform ${isOpen ? 'rotate-180' : ''}`}>
+        <span className="font-semibold text-nachtblauw pr-4">{question}</span>
+        <span className={`text-abrikoos transition-transform ${isOpen ? 'rotate-180' : ''}`}>
           <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
           </svg>
@@ -102,7 +102,7 @@ function FAQItem({ question, answer }: { question: string; answer: string }) {
       </button>
       {isOpen && (
         <div className="pb-5 pr-8">
-          <p className="text-text-light">{answer}</p>
+          <p className="text-nachtblauw/70">{answer}</p>
         </div>
       )}
     </div>
@@ -113,25 +113,25 @@ export default function FAQPage() {
   return (
     <>
       {/* Hero */}
-      <section className="bg-gradient-to-br from-lavender via-lavender/50 to-white py-16 lg:py-20">
+      <section className="bg-gradient-to-br from-pastelblauw/40 via-pastelblauw/20 to-wolwit py-16 lg:py-20">
         <div className="container mx-auto px-4 lg:px-6 text-center">
-          <h1 className="text-4xl lg:text-5xl font-bold text-text mb-6">
+          <h1 className="text-4xl lg:text-5xl font-bold text-nachtblauw mb-6">
             Veelgestelde vragen
           </h1>
-          <p className="text-xl text-text-light max-w-2xl mx-auto">
+          <p className="text-xl text-nachtblauw/70 max-w-2xl mx-auto">
             Antwoorden op de meest gestelde vragen over Knuffelboek.
           </p>
         </div>
       </section>
 
       {/* FAQ Sections */}
-      <section className="section bg-white">
+      <section className="section bg-wolwit">
         <div className="container mx-auto px-4 lg:px-6">
           <div className="max-w-3xl mx-auto space-y-12">
             {faqItems.map((category) => (
               <div key={category.category}>
-                <h2 className="text-2xl font-bold text-text mb-6">{category.category}</h2>
-                <div className="bg-white rounded-xl border border-sky-dark/30">
+                <h2 className="text-2xl font-bold text-nachtblauw mb-6">{category.category}</h2>
+                <div className="bg-wolwit rounded-xl border border-nachtblauw/10">
                   {category.questions.map((item, index) => (
                     <FAQItem key={index} question={item.q} answer={item.a} />
                   ))}
@@ -143,7 +143,7 @@ export default function FAQPage() {
       </section>
 
       {/* Still have questions */}
-      <section className="section bg-sky/30">
+      <section className="section bg-zand">
         <div className="container mx-auto px-4 lg:px-6 text-center">
           <SectionTitle subtitle="We helpen je graag verder">
             Staat je vraag er niet tussen?
@@ -152,7 +152,7 @@ export default function FAQPage() {
             <Button href="/contact">
               Neem contact op
             </Button>
-            <Button href="/maak-je-boek" variant="outline">
+            <Button href={WEBAPP_URL} variant="outline">
               Start met je boek
             </Button>
           </div>

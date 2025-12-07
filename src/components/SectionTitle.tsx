@@ -9,11 +9,11 @@ interface SectionTitleProps {
 export default function SectionTitle({ children, subtitle, centered = true }: SectionTitleProps) {
   return (
     <div className={`mb-10 lg:mb-14 ${centered ? 'text-center' : ''}`}>
-      <h2 className="text-3xl lg:text-4xl font-bold text-text mb-4">
+      <h2 className="text-3xl lg:text-4xl font-bold text-nachtblauw mb-4">
         {children}
       </h2>
       {subtitle && (
-        <p className="text-lg text-text-light max-w-2xl mx-auto">
+        <p className="text-lg text-nachtblauw/70 max-w-2xl mx-auto">
           {subtitle}
         </p>
       )}
