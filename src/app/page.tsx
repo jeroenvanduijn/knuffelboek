@@ -273,10 +273,10 @@ function MijnBoekenSection() {
 // Example Books Section
 function ExampleBooksSection() {
   const examples = [
-    { name: 'Lotte', title: 'Lotte en de Dappere Draakbeer', age: '5 jaar', theme: 'Dapper zijn', color: 'bg-abrikoos/30' },
-    { name: 'Tim', title: 'Tim en het Slaapavontuur', age: '3 jaar', theme: 'Bedtijd', color: 'bg-pastelblauw/30' },
-    { name: 'Emma', title: "Emma's Verjaardagsfeest", age: '4 jaar', theme: 'Verjaardag', color: 'bg-saliegroen/30' },
-    { name: 'Lucas', title: 'Lucas en de Vriendschap', age: '6 jaar', theme: 'Vriendschap', color: 'bg-zand' },
+    { name: 'Lotte', title: 'Lotte en de Dappere Draakbeer', age: '5 jaar', theme: 'Dapper zijn', image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-121.jpg` },
+    { name: 'Tim', title: 'Tim en het Slaapavontuur', age: '3 jaar', theme: 'Bedtijd', image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-120.jpg` },
+    { name: 'Emma', title: "Emma's Verjaardagsfeest", age: '4 jaar', theme: 'Verjaardag', image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-119.jpg` },
+    { name: 'Lucas', title: 'Lucas en de Vriendschap', age: '6 jaar', theme: 'Vriendschap', image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-118.jpg` },
   ];
 
   return (
@@ -288,11 +288,13 @@ function ExampleBooksSection() {
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {examples.map((book, index) => (
             <div key={index} className="card group cursor-pointer">
-              <div className={`aspect-[3/4] ${book.color} rounded-lg mb-4 flex items-center justify-center`}>
-                <div className="text-center p-4">
-                  <span className="text-5xl block mb-2">📖</span>
-                  <p className="text-sm font-medium text-nachtblauw">{book.title}</p>
-                </div>
+              <div className="aspect-[3/4] rounded-lg mb-4 overflow-hidden relative">
+                <Image
+                  src={book.image}
+                  alt={book.title}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
               </div>
               <div className="space-y-1">
                 <p className="font-semibold text-nachtblauw">{book.name}, {book.age}</p>
