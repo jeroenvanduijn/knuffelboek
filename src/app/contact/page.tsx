@@ -160,8 +160,8 @@ export default function ContactPage() {
                         <p className="text-nachtblauw/70 text-sm mb-2">
                           Voor vragen en ondersteuning
                         </p>
-                        <a href="mailto:hallo@knuffelboek.nl" className="text-abrikoos hover:underline">
-                          hallo@knuffelboek.nl
+                        <a href="mailto:info@knuffelboek.nl" className="text-abrikoos hover:underline">
+                          info@knuffelboek.nl
                         </a>
                       </div>
                     </div>
@@ -195,23 +195,6 @@ export default function ContactPage() {
                   </div>
                 </div>
 
-                <div className="mt-8 p-6 bg-wolwit rounded-xl border border-nachtblauw/10">
-                  <h3 className="font-semibold text-nachtblauw mb-3">Tips voor snelle hulp</h3>
-                  <ul className="space-y-2 text-sm text-nachtblauw/70">
-                    <li className="flex items-start gap-2">
-                      <span className="text-abrikoos">•</span>
-                      Vermeld je bestelnummer als je vraag over een bestelling gaat
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-abrikoos">•</span>
-                      Beschrijf het probleem zo specifiek mogelijk
-                    </li>
-                    <li className="flex items-start gap-2">
-                      <span className="text-abrikoos">•</span>
-                      Voeg screenshots toe als er iets misgaat
-                    </li>
-                  </ul>
-                </div>
               </div>
             </div>
           </div>
