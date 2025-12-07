@@ -6,6 +6,9 @@ import { WEBAPP_URL } from '@/lib/constants';
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
 
+// Image base URL
+const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
+
 export const metadata: Metadata = {
   title: 'Voorbeelden - Knuffelboek',
   description: 'Bekijk voorbeelden van gepersonaliseerde kinderboeken gemaakt met Knuffelboek.',
@@ -18,7 +21,7 @@ const exampleBooks = [
     age: '5 jaar',
     theme: 'Dapper Zijn',
     toyName: 'Draakbeer',
-    color: 'bg-abrikoos/30',
+    image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-121.jpg`,
     description: 'Een verhaal over kleine Lotte die samen met haar dappere Draakbeer leert dat moed niet betekent dat je nergens bang voor bent.',
   },
   {
@@ -27,7 +30,7 @@ const exampleBooks = [
     age: '3 jaar',
     theme: 'Bedtijd',
     toyName: 'Olifant',
-    color: 'bg-pastelblauw/30',
+    image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-120.jpg`,
     description: 'Een dromerig avontuur door de wolken, perfect voor het slapengaan. Olifant en Tim vliegen naar de sterren.',
   },
   {
@@ -36,7 +39,7 @@ const exampleBooks = [
     age: '4 jaar',
     theme: 'Verjaardag',
     toyName: 'Konijn',
-    color: 'bg-saliegroen/30',
+    image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-119.jpg`,
     description: 'Konijn organiseert stiekem het mooiste verjaardagsfeest ooit voor Emma. Met ballonnen, taart en heel veel vrienden!',
   },
   {
@@ -45,26 +48,8 @@ const exampleBooks = [
     age: '6 jaar',
     theme: 'Vriendschap',
     toyName: 'Nijlpaard',
-    color: 'bg-zand',
+    image: `${IMAGE_BASE}/voorbeeldboeken/hero-background-118.jpg`,
     description: 'Lucas leert van Nijlpaard wat echte vriendschap betekent: er altijd voor elkaar zijn, ook als het even moeilijk is.',
-  },
-  {
-    title: 'Sophie in Wonderland',
-    childName: 'Sophie',
-    age: '7 jaar',
-    theme: 'Fantasie Wereld',
-    toyName: 'Eenhoorn',
-    color: 'bg-pastelblauw/20',
-    description: 'Door een geheime deur belanden Sophie en Eenhoorn in een wereld vol magie. Samen ontdekken ze kastelen en maken nieuwe vrienden.',
-  },
-  {
-    title: 'Max in het Bos',
-    childName: 'Max',
-    age: '4 jaar',
-    theme: 'Natuur Ontdekken',
-    toyName: 'Vos',
-    color: 'bg-saliegroen/20',
-    description: 'Vos neemt Max mee op een spannende tocht door het bos. Ze ontmoeten eekhoorns, kijken naar de sterren en leren over de natuur.',
   },
 ];
 
@@ -90,22 +75,23 @@ export default function VoorbeeldenPage() {
           <SectionTitle subtitle="Elk boek is 100% uniek">
             Gemaakte boeken
           </SectionTitle>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {exampleBooks.map((book, index) => (
-              <div key={index} className="card">
-                <div className={`aspect-[3/4] ${book.color} rounded-xl mb-6 flex items-center justify-center`}>
-                  <div className="text-center p-6">
-                    <span className="text-6xl block mb-4">📖</span>
-                    <p className="font-bold text-nachtblauw text-lg">{book.title}</p>
-                  </div>
+              <div key={index} className="card group">
+                <div className="aspect-[3/4] rounded-xl mb-4 overflow-hidden relative">
+                  <Image
+                    src={book.image}
+                    alt={book.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   <div className="flex items-center justify-between">
                     <span className="font-semibold text-nachtblauw">{book.childName}, {book.age}</span>
-                    <span className="text-sm bg-pastelblauw/30 px-3 py-1 rounded-full text-nachtblauw/70">{book.theme}</span>
+                    <span className="text-xs bg-pastelblauw/30 px-2 py-1 rounded-full text-nachtblauw/70">{book.theme}</span>
                   </div>
                   <p className="text-sm text-nachtblauw/70">Knuffel: {book.toyName}</p>
-                  <p className="text-nachtblauw/70">{book.description}</p>
                 </div>
               </div>
             ))}
