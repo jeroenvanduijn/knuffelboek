@@ -30,8 +30,13 @@ export default function Footer() {
             <h4 className="font-semibold text-nachtblauw mb-4">Product</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/voorbeelden" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
-                  Voorbeelden
+                <Link href="/#voorbeeldboeken" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
+                  Voorbeeldboeken
+                </Link>
+              </li>
+              <li>
+                <Link href="/#illustratiestijlen" className="text-nachtblauw/70 hover:text-abrikoos transition-colors text-sm">
+                  Illustratiestijlen
                 </Link>
               </li>
               <li>

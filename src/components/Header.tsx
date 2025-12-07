@@ -19,7 +19,8 @@ export default function Header() {
   }, []);
 
   const navLinks = [
-    { href: '/voorbeelden', label: 'Voorbeelden' },
+    { href: '/#voorbeeldboeken', label: 'Voorbeeldboeken' },
+    { href: '/#illustratiestijlen', label: 'Illustratiestijlen' },
     { href: '/prijzen', label: 'Prijzen' },
     { href: '/faq', label: 'FAQ' },
   ];

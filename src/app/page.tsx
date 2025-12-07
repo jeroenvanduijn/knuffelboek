@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
-import { Button, SectionTitle } from '@/components';
+import { Button, SectionTitle, FlipBookGallery } from '@/components';
 import { WEBAPP_URL } from '@/lib/constants';
 
 // Image base URL
@@ -280,7 +280,7 @@ function ExampleBooksSection() {
   ];
 
   return (
-    <section className="section bg-zand">
+    <section id="voorbeeldboeken" className="section bg-zand">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Bekijk wat andere ouders hebben gemaakt">
           Voorbeeldboeken
@@ -302,11 +302,6 @@ function ExampleBooksSection() {
               </div>
             </div>
           ))}
-        </div>
-        <div className="text-center mt-10">
-          <Button href="/voorbeelden">
-            Bekijk meer voorbeelden
-          </Button>
         </div>
       </div>
     </section>
@@ -349,7 +344,7 @@ function IllustrationStylesSection() {
   ];
 
   return (
-    <section className="section bg-gradient-to-b from-wolwit to-zand/30">
+    <section id="illustratiestijlen" className="section bg-gradient-to-b from-wolwit to-zand/30">
       <div className="container mx-auto px-4 lg:px-6">
         <SectionTitle subtitle="Kies de perfecte stijl voor jouw boek">
           Illustratiestijlen
@@ -582,6 +577,7 @@ export default function Home() {
       <HowItWorksSection />
       <MijnBoekenSection />
       <ExampleBooksSection />
+      <FlipBookGallery />
       <IllustrationStylesSection />
       <USPsSection />
       <ReviewsSection />
