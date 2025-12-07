@@ -29,7 +29,7 @@ const sampleBooks: SampleBook[] = [
     id: 'zoe',
     name: 'Zoe',
     title: 'Het avontuur van Zoe en haar knuffel',
-    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%20%284%29.pdf',
+    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%CC%88.pdf',
   },
   {
     id: 'tom',
