@@ -20,6 +20,7 @@ const FlipBook = dynamic(() => import('./FlipBook'), {
 interface SampleBook {
   id: string;
   name: string;
+  age: string;
   title: string;
   pdfUrl: string;
 }
@@ -28,14 +29,16 @@ const sampleBooks: SampleBook[] = [
   {
     id: 'zoe',
     name: 'Zoe',
+    age: '6 jaar',
     title: 'Het avontuur van Zoe en haar knuffel',
     pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%CC%88.pdf',
   },
   {
     id: 'tom',
     name: 'Tom',
+    age: '2 jaar',
     title: 'Het avontuur van Tom en zijn knuffel',
-    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-tom%20%284%29.pdf',
+    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-tom%20%285%29.pdf',
   },
 ];
 
@@ -61,7 +64,7 @@ export default function FlipBookGallery() {
                   : 'bg-wolwit text-nachtblauw/70 hover:bg-wolwit/80'
               }`}
             >
-              {book.name}&apos;s boek
+              {book.name} ({book.age})
             </button>
           ))}
         </div>
