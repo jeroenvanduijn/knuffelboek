@@ -82,7 +82,7 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
     }
   };
 
-  const pageHeight = Math.round(containerWidth * 1.4); // A4-ish aspect ratio
+  const pageHeight = containerWidth; // Square format (21x21 cm)
 
   return (
     <div ref={containerRef} className="w-full">
@@ -115,8 +115,8 @@ export default function FlipBook({ pdfUrl, width = 400, height = 500 }: FlipBook
                 size="stretch"
                 minWidth={280}
                 maxWidth={600}
-                minHeight={400}
-                maxHeight={800}
+                minHeight={280}
+                maxHeight={600}
                 showCover={true}
                 mobileScrollSupport={true}
                 onFlip={onFlip}
