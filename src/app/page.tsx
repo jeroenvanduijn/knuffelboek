@@ -318,31 +318,31 @@ function IllustrationStylesSection() {
       name: 'Foto-realistisch',
       description: 'Lijkt op een echte foto met realistische belichting en natuurlijke details.',
       category: 'Realistisch',
-      color: 'bg-zand',
+      image: `${IMAGE_BASE}/stijlen/hero-background-113.jpg`,
     },
     {
       name: 'Waterverf',
       description: 'Zachte waterverf look met zichtbare penseelstreken en dromerige sfeer.',
       category: 'Artistiek',
-      color: 'bg-pastelblauw/30',
+      image: `${IMAGE_BASE}/stijlen/hero-background-114.jpg`,
     },
     {
       name: '3D Knuffel',
       description: 'Zachte 3D render met tastbare stoftextuur, alsof je de knuffel kunt aanraken.',
       category: 'Speciaal',
-      color: 'bg-pastelblauw/20',
+      image: `${IMAGE_BASE}/stijlen/hero-background-115.jpg`,
     },
     {
       name: 'Cartoon',
       description: 'Vrolijke cartoon-stijl met heldere kleuren en expressieve gezichten.',
       category: 'Vrolijk',
-      color: 'bg-abrikoos/30',
+      image: `${IMAGE_BASE}/stijlen/hero-background-116.jpg`,
     },
     {
       name: 'Minimalistisch',
       description: 'Eenvoudige vormen, rustige pasteltinten en veel witte ruimte.',
       category: 'Scandinavisch',
-      color: 'bg-wolwit',
+      image: `${IMAGE_BASE}/stijlen/hero-background-118.jpg`,
     },
   ];
 
@@ -353,19 +353,29 @@ function IllustrationStylesSection() {
           Illustratiestijlen
         </SectionTitle>
         <p className="text-center text-nachtblauw/70 max-w-2xl mx-auto mb-10">
-          Kies uit 5 unieke stijlen, van foto-realistisch tot speelse cartoon – jij kiest wat het beste past bij jouw kind en knuffel.
+          Kies uit 5 unieke stijlen, van foto-realistisch tot speelse cartoon - jij kiest wat het beste past bij jouw kind en knuffel.
         </p>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4">
           {styles.map((style, index) => (
             <div
               key={index}
-              className={`${style.color} rounded-2xl p-5 border border-nachtblauw/5 hover:shadow-md transition-all`}
+              className="bg-wolwit rounded-2xl overflow-hidden border border-nachtblauw/5 hover:shadow-lg transition-all group"
             >
-              <span className="inline-block bg-wolwit/60 px-2 py-0.5 rounded text-xs text-nachtblauw/60 mb-3">
-                {style.category}
-              </span>
-              <h3 className="font-bold text-nachtblauw mb-2">{style.name}</h3>
-              <p className="text-sm text-nachtblauw/70">{style.description}</p>
+              <div className="aspect-[4/3] relative overflow-hidden">
+                <Image
+                  src={style.image}
+                  alt={style.name}
+                  fill
+                  className="object-cover group-hover:scale-105 transition-transform duration-300"
+                />
+              </div>
+              <div className="p-4">
+                <span className="inline-block bg-zand px-2 py-0.5 rounded text-xs text-nachtblauw/60 mb-2">
+                  {style.category}
+                </span>
+                <h3 className="font-bold text-nachtblauw mb-1">{style.name}</h3>
+                <p className="text-sm text-nachtblauw/70">{style.description}</p>
+              </div>
             </div>
           ))}
         </div>
