@@ -390,17 +390,17 @@ function IllustrationStylesSection() {
 function USPsSection() {
   const usps = [
     {
-      image: `${IMAGE_BASE}/hero-background-098.jpg`,
+      image: `${IMAGE_BASE}/hero-background-128.jpg`,
       title: 'Uniek voor jouw kind',
       description: 'Verhaal en illustraties worden speciaal voor jouw kind gemaakt.',
     },
     {
-      image: `${IMAGE_BASE}/hero-background-101.jpg`,
+      image: `${IMAGE_BASE}/hero-background-127.jpg`,
       title: 'Leeftijd op maat',
       description: 'Verhaallengte en taalgebruik aangepast aan de leeftijd.',
     },
     {
-      image: `${IMAGE_BASE}/hero-background-099.jpg`,
+      image: `${IMAGE_BASE}/hero-background-126.jpg`,
       title: 'Premium kwaliteit',
       description: 'Gedrukt op stevig papier met levendige kleuren.',
     },
