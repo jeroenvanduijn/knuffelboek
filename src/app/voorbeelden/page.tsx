@@ -98,7 +98,7 @@ export default function VoorbeeldenPage() {
       <FlipBookGallery />
 
       {/* CTA */}
-      <section className="py-16 lg:py-20 bg-nachtblauw">
+      <section className="py-16 lg:py-20 bg-nachtblauw text-wolwit">
         <div className="container mx-auto px-4 lg:px-6 text-center">
           <div className="mb-6">
             <Image
