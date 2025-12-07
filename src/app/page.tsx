@@ -342,7 +342,7 @@ function IllustrationStylesSection() {
       name: 'Minimalistisch',
       description: 'Eenvoudige vormen, rustige pasteltinten en veel witte ruimte.',
       category: 'Scandinavisch',
-      image: `${IMAGE_BASE}/stijlen/hero-background-118.jpg`,
+      image: `${IMAGE_BASE}/stijlen/hero-background-117.jpg`,
     },
   ];
 
