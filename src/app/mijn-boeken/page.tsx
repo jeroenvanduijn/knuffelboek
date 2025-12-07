@@ -10,7 +10,7 @@ import * as api from '@/lib/api';
 import type { Book } from '@/lib/api';
 
 // Logo URL
-const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2850%29.png';
 
 // Status badge component
 function StatusBadge({ status }: { status: Book['status'] }) {

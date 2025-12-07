@@ -7,7 +7,7 @@ import { WEBAPP_URL } from '@/lib/constants';
 const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
 
 // Logo URL
-const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2847%29.png';
+const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2850%29.png';
 
 // Hero Section
 function HeroSection() {
