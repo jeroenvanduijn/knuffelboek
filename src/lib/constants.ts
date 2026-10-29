@@ -23,5 +23,5 @@ export const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com
 
 export const CONTACT_EMAIL = 'info@knuffelboek.nl';
 
-// Levertijd van Lulu is nog niet bekend: zichtbare placeholder tot de testbestelling binnen is.
-export const LEVERTIJD = '[LEVERTIJD]';
+// Levertijd: voorzichtige schatting tot de echte Lulu-levertijd van de testbestelling bekend is.
+export const LEVERTIJD = '2 tot 3 weken';

@@ -58,7 +58,7 @@ function Hero() {
             fill
             priority
             sizes="100vw"
-            className="object-cover object-[55%_45%]"
+            className="origin-top-left scale-[1.07] object-cover object-[55%_45%]"
           />
         </div>
       </div>
@@ -68,10 +68,6 @@ function Hero() {
       <Ster className="kb-ster h-[7px] w-[7px] bg-creme" style={{ left: '80%', top: '12%' }} />
       <Ster className="kb-ster2 h-[9px] w-[9px] bg-geel" style={{ left: '90%', top: '28%' }} />
       <Ster className="kb-ster h-[5px] w-[5px] bg-creme" style={{ left: '74%', top: '34%' }} />
-
-      <p className="absolute bottom-6 right-6 z-[2] m-0 hidden max-w-[300px] rounded-[14px] border-[3px] border-inkt bg-creme/95 px-4 py-2.5 text-sm font-extrabold text-inkt md:block">
-        Wordt een echte foto of video van het boek
-      </p>
 
       <div className="relative z-[2] mx-auto w-full max-w-[1200px] px-4 pb-10 pt-[300px] sm:px-6 sm:pt-[380px] md:px-10 md:pb-16 md:pt-28">
         <div className="relative flex max-w-[600px] flex-col gap-5 rounded-[28px] border-4 border-inkt bg-creme px-6 pb-8 pt-16 shadow-[0_18px_40px_rgba(31,42,68,0.25)] sm:px-10 sm:pb-9 sm:pt-10">
@@ -190,12 +186,13 @@ function VideoPlek() {
         <Ster className="kb-ster h-[7px] w-[7px] bg-creme" style={{ left: '84%', top: '24%' }} />
         <Ster className="kb-ster2 h-[9px] w-[9px] bg-geel" style={{ left: '92%', top: '66%' }} />
         <span aria-hidden="true" className="flex h-[72px] w-[72px] items-center justify-center rounded-full border-[5px] border-creme bg-koraal md:h-24 md:w-24">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="#1F2A44" stroke="none">
-            <path d="M8 5v14l11-7z" />
+          <svg width="38" height="38" viewBox="0 0 24 24" fill="none" stroke="#1F2A44" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M3 5.5c3-1.3 6-1.3 9 .8 3-2.1 6-2.1 9-.8v13c-3-1.3-6-1.3-9 .8-3-2.1-6-2.1-9-.8z" />
+            <path d="M12 6.3v13" />
           </svg>
         </span>
         <p className="m-0 font-display text-[26px] font-extrabold leading-[1.1] md:text-4xl">Kijk mee in een echt Knuffelboek</p>
-        <p className="m-0 rounded-[14px] bg-creme px-4 py-2.5 text-[15px] font-extrabold text-inkt">Hier komt de video van het echte boek</p>
+        <a href="#voorbeelden" className="rounded-[14px] bg-creme px-5 py-3 text-[15px] font-extrabold text-inkt no-underline hover:bg-geel">Blader door een voorbeeldboek</a>
       </div>
     </section>
   );
