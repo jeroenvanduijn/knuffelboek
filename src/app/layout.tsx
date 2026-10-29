@@ -1,28 +1,33 @@
 import type { Metadata } from "next";
-import { Baloo_2, Nunito, Caveat } from "next/font/google";
+import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 
-const baloo = Baloo_2({
-  subsets: ["latin"],
-  weight: ["700", "800"],
+// Zelf gehost (variabele fonts, latin, OFL). next/font/google faalt op Vercel af en toe
+// tijdens de build omdat Google Fonts dan niet bereikbaar is.
+const baloo = localFont({
+  src: "./fonts/baloo2-latin.woff2",
+  weight: "400 800",
   variable: "--font-baloo",
   display: "swap",
+  fallback: ["Arial", "sans-serif"],
 });
 
-const nunito = Nunito({
-  subsets: ["latin"],
-  weight: ["400", "600", "700", "800"],
+const nunito = localFont({
+  src: "./fonts/nunito-latin.woff2",
+  weight: "200 1000",
   variable: "--font-nunito",
   display: "swap",
+  fallback: ["Arial", "sans-serif"],
 });
 
-const caveat = Caveat({
-  subsets: ["latin"],
-  weight: ["600", "700"],
+const caveat = localFont({
+  src: "./fonts/caveat-latin.woff2",
+  weight: "400 700",
   variable: "--font-caveat",
   display: "swap",
+  fallback: ["Comic Sans MS", "cursive"],
 });
 
 export const metadata: Metadata = {
