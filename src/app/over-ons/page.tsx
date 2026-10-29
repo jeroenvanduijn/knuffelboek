@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Image from 'next/image';
 import { Button, SectionTitle } from '@/components';
-import { WEBAPP_URL } from '@/lib/constants';
+import { appUrl } from '@/lib/constants';
 
 // Logo URL
 const LOGO_URL = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures/logo/Ontwerp%20zonder%20titel%20%2850%29.png';
@@ -76,7 +76,7 @@ export default function OverOnsPage() {
               <div className="text-4xl mb-4">✨</div>
               <h3 className="text-xl font-bold text-nachtblauw mb-3">Magie toegankelijk</h3>
               <p className="text-nachtblauw/70">
-                Wat vroeger alleen voor de rijken was – een boek op maat – is nu voor iedereen beschikbaar.
+                Wat vroeger alleen voor de rijken was, een boek op maat, is nu voor iedereen beschikbaar.
               </p>
             </div>
           </div>
@@ -171,7 +171,7 @@ export default function OverOnsPage() {
           <p className="text-xl text-wolwit/80 mb-8 max-w-xl mx-auto">
             Creëer je eigen Knuffelboek en schrijf een nieuw hoofdstuk.
           </p>
-          <Button href={WEBAPP_URL} size="lg">
+          <Button href={appUrl('over-ons', 'over-ons')} size="lg">
             Start met jouw knuffel
           </Button>
         </div>

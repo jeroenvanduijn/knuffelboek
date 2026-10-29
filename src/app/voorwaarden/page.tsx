@@ -96,7 +96,7 @@ export default function VoorwaardenPage() {
               <ul className="list-disc pl-6 space-y-2">
                 <li>Je boek wordt on demand gedrukt en verzonden naar Nederland of Belgie.</li>
                 <li>Levertijden zijn een schatting en geen garantie.</li>
-                <li>Meestal is het boek binnen 5 tot 10 werkdagen in huis.</li>
+                <li>Meestal is het boek binnen [LEVERTIJD] in huis.</li>
                 <li>Als levering langer dan 30 dagen duurt mag je annuleren en krijg je je geld terug.</li>
               </ul>
               <p className="mt-4">

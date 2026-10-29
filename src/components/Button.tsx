@@ -13,6 +13,8 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit';
   className?: string;
+  /** Externe link in een nieuw tabblad openen */
+  newTab?: boolean;
 }
 
 export default function Button({
@@ -24,18 +26,15 @@ export default function Button({
   disabled = false,
   type = 'button',
   className = '',
+  newTab = false,
 }: ButtonProps) {
-  // Base styles - licht afgeronde hoeken (niet volledig rond)
-  const baseStyles = 'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed';
+  const baseStyles =
+    'inline-flex items-center justify-center text-center font-extrabold rounded-[18px] no-underline transition-transform duration-150 cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed hover:-translate-y-0.5';
 
-  // Variant styles met nieuwe brand kleuren
   const variantStyles = {
-    // Primary: Abrikoos knop met nachtblauwe tekst
-    primary: 'bg-abrikoos text-nachtblauw hover:bg-abrikoos-dark hover:shadow-lg hover:-translate-y-0.5',
-    // Secondary: Pastelblauw knop met nachtblauwe tekst
-    secondary: 'bg-pastelblauw text-nachtblauw hover:bg-pastelblauw/80 hover:shadow-lg hover:-translate-y-0.5',
-    // Outline: Transparant met nachtblauwe rand
-    outline: 'bg-transparent border-2 border-nachtblauw text-nachtblauw hover:bg-nachtblauw hover:text-wolwit',
+    primary: 'bg-koraal text-inkt border-b-4 border-koraal-donker',
+    secondary: 'bg-geel text-inkt border-b-4 border-geel-donker',
+    outline: 'bg-creme text-inkt border-[3px] border-inkt',
   };
 
   const sizeStyles = {
@@ -47,10 +46,13 @@ export default function Button({
   const combinedStyles = `${baseStyles} ${variantStyles[variant]} ${sizeStyles[size]} ${className}`;
 
   if (href) {
-    // External URLs (http/https) open in new tab
     if (href.startsWith('http://') || href.startsWith('https://')) {
       return (
-        <a href={href} target="_blank" rel="noopener noreferrer" className={combinedStyles}>
+        <a
+          href={href}
+          className={combinedStyles}
+          {...(newTab ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
+        >
           {children}
         </a>
       );
@@ -63,12 +65,7 @@ export default function Button({
   }
 
   return (
-    <button
-      type={type}
-      onClick={onClick}
-      disabled={disabled}
-      className={combinedStyles}
-    >
+    <button type={type} onClick={onClick} disabled={disabled} className={combinedStyles}>
       {children}
     </button>
   );

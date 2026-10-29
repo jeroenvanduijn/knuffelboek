@@ -1,9 +1,8 @@
 'use client';
 
 import { useState } from 'react';
-import Link from 'next/link';
 import { Button, SectionTitle } from '@/components';
-import { WEBAPP_URL } from '@/lib/constants';
+import { appUrl, CONTACT_EMAIL, LEVERTIJD } from '@/lib/constants';
 
 const faqItems = [
   {
@@ -11,11 +10,11 @@ const faqItems = [
     questions: [
       {
         q: 'Hoe lang duurt het voordat het boek er is?',
-        a: 'Na je bestelling duurt het 5-7 werkdagen voordat het boek bij je thuis wordt bezorgd. We sturen je een e-mail met track & trace zodra het boek onderweg is. Met feestdagen kan de levertijd langer zijn.',
+        a: `Het voorproefje heb je binnen een paar minuten. Na je bestelling duurt drukken en bezorgen ${LEVERTIJD}. We sturen je een e-mail met track & trace zodra het boek onderweg is. Met feestdagen kan de levertijd langer zijn.`,
       },
       {
         q: 'Naar welke landen leveren jullie?',
-        a: 'We leveren standaard naar Nederland en België. Verzending naar andere EU-landen is ook mogelijk tegen een meerprijs van €4,95. Levertijd buiten NL/BE is 7-10 werkdagen.',
+        a: `We leveren standaard naar Nederland en België. Verzending naar andere EU-landen is ook mogelijk tegen een meerprijs van €4,95. Levertijd buiten NL/BE: ${LEVERTIJD}.`,
       },
       {
         q: 'Kan ik meerdere exemplaren bestellen?',
@@ -70,11 +69,11 @@ const faqItems = [
     questions: [
       {
         q: 'Hoe is de kwaliteit van het boek?',
-        a: 'We gebruiken premium papier (170 gsm mat gecoat) en professionele full-color druktechnieken. Het boek heeft een formaat van 21x21 cm en is gemaakt om tegen een stootje te kunnen.',
+        a: 'Elk boek heeft 32 pagina\'s en wordt in full color gedrukt op stevig papier. Kies je hardcover, dan krijg je een harde kaft die tegen een stootje kan. Bij een gedrukt boek krijg je de PDF erbij.',
       },
       {
         q: 'Wat als het boek beschadigd aankomt?',
-        a: 'Neem contact met ons op via het contactformulier met foto\'s van de schade. We sturen dan kosteloos een nieuw exemplaar.',
+        a: `Mail ons via ${CONTACT_EMAIL} met foto's van de schade. We sturen dan kosteloos een nieuw exemplaar.`,
       },
       {
         q: 'Kan ik het boek retourneren?',
@@ -152,7 +151,7 @@ export default function FAQPage() {
             <Button href="/contact">
               Neem contact op
             </Button>
-            <Button href={WEBAPP_URL} variant="outline">
+            <Button href={appUrl('faq', 'faq')} variant="outline">
               Start met je boek
             </Button>
           </div>

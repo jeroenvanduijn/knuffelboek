@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import { Button } from '@/components';
-import { WEBAPP_URL } from '@/lib/constants';
+import { appUrl } from '@/lib/constants';
 
 export default function ContactPage() {
   return (
@@ -80,7 +80,7 @@ export default function ContactPage() {
           <p className="text-nachtblauw/70 mb-6 max-w-xl mx-auto">
             Geen vraag maar klaar om te starten? Maak in een paar minuten een uniek boek!
           </p>
-          <Button href={WEBAPP_URL} size="lg">
+          <Button href={appUrl('contact', 'contact')} size="lg">
             Start met jouw knuffel
           </Button>
         </div>

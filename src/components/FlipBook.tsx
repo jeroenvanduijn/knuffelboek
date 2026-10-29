@@ -4,118 +4,91 @@ import { useState, useEffect, useRef, forwardRef } from 'react';
 import HTMLFlipBook from 'react-pageflip';
 import { Document, Page, pdfjs } from 'react-pdf';
 
-// Set up PDF.js worker
+// PDF.js worker
 pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.mjs`;
 
 interface FlipBookProps {
   pdfUrl: string;
+  /** Voorkeursbreedte van één pagina in px */
   width?: number;
-  height?: number;
 }
 
-// Page component that forwards ref properly
-const PageCover = forwardRef<HTMLDivElement, { children: React.ReactNode }>(
-  function PageCover({ children }, ref) {
+interface PageFlipApi {
+  pageFlip(): { flipPrev(): void; flipNext(): void };
+}
+
+const PageContent = forwardRef<HTMLDivElement, { children: React.ReactNode }>(
+  function PageContent({ children }, ref) {
     return (
-      <div ref={ref} className="bg-nachtblauw flex items-center justify-center">
+      <div ref={ref} className="flex items-center justify-center bg-white" data-density="soft">
         {children}
       </div>
     );
   }
 );
 
-const PageContent = forwardRef<HTMLDivElement, { children: React.ReactNode; pageNumber: number }>(
-  function PageContent({ children, pageNumber }, ref) {
-    return (
-      <div ref={ref} className="bg-white flex items-center justify-center" data-density="soft">
-        {children}
+function Laden() {
+  return (
+    <div className="flex items-center justify-center py-20">
+      <div className="text-center">
+        <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-4 border-koraal border-t-transparent" />
+        <p className="font-bold text-inkt">Boek wordt geladen...</p>
       </div>
-    );
-  }
-);
+    </div>
+  );
+}
 
-export default function FlipBook({ pdfUrl, width = 450, height = 450 }: FlipBookProps) {
+export default function FlipBook({ pdfUrl, width = 450 }: FlipBookProps) {
   const [numPages, setNumPages] = useState<number>(0);
-  const [isLoading, setIsLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
   const [pageSize, setPageSize] = useState(width);
-  const bookRef = useRef<any>(null);
+  const bookRef = useRef<PageFlipApi | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Responsive sizing - for square pages
+  // Vierkante pagina's, meeschalend met de container
   useEffect(() => {
     const updateSize = () => {
-      if (containerRef.current) {
-        const containerW = containerRef.current.offsetWidth;
-        // On mobile, use single page view with smaller size
-        if (window.innerWidth < 768) {
-          setPageSize(Math.min(containerW - 40, 320));
-        } else {
-          // On desktop, allow larger pages for readability
-          setPageSize(Math.min(containerW / 2 - 40, 500));
-        }
+      if (!containerRef.current) return;
+      const containerW = containerRef.current.offsetWidth;
+      if (window.innerWidth < 768) {
+        setPageSize(Math.max(240, Math.min(containerW - 16, 340)));
+      } else {
+        setPageSize(Math.min(containerW / 2 - 24, 500));
       }
     };
 
     updateSize();
     window.addEventListener('resize', updateSize);
     return () => window.removeEventListener('resize', updateSize);
-  }, [width]);
+  }, []);
 
-  function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
-    setNumPages(numPages);
-    setIsLoading(false);
-  }
-
-  const onFlip = (e: any) => {
+  const onFlip = (e: { data: number }) => {
     setCurrentPage(e.data);
   };
 
-  const goToPrevPage = () => {
-    if (bookRef.current) {
-      bookRef.current.pageFlip().flipPrev();
-    }
-  };
-
-  const goToNextPage = () => {
-    if (bookRef.current) {
-      bookRef.current.pageFlip().flipNext();
-    }
-  };
-
-  // Square format (21x21 cm) - width equals height
   return (
     <div ref={containerRef} className="w-full">
       <Document
         file={pdfUrl}
-        onLoadSuccess={onDocumentLoadSuccess}
-        loading={
-          <div className="flex items-center justify-center py-20">
-            <div className="text-center">
-              <div className="w-12 h-12 border-4 border-abrikoos border-t-transparent rounded-full animate-spin mx-auto mb-4" />
-              <p className="text-nachtblauw/70">Boek wordt geladen...</p>
-            </div>
-          </div>
-        }
+        onLoadSuccess={({ numPages: n }) => setNumPages(n)}
+        loading={<Laden />}
         error={
           <div className="flex items-center justify-center py-20">
-            <p className="text-red-500">Kon het boek niet laden. Probeer het later opnieuw.</p>
+            <p className="font-bold text-koraal-donker">Kon het boek niet laden. Probeer het later opnieuw.</p>
           </div>
         }
       >
-        {!isLoading && numPages > 0 && (
+        {numPages > 0 && (
           <div className="flex flex-col items-center">
-            {/* Book */}
-            <div className="shadow-2xl rounded-lg overflow-hidden">
-              {/* @ts-ignore - HTMLFlipBook types are incomplete */}
+            <div className="overflow-hidden rounded-lg shadow-2xl">
               <HTMLFlipBook
                 ref={bookRef}
                 width={pageSize}
                 height={pageSize}
                 size="fixed"
-                minWidth={280}
+                minWidth={240}
                 maxWidth={550}
-                minHeight={280}
+                minHeight={240}
                 maxHeight={550}
                 showCover={true}
                 mobileScrollSupport={true}
@@ -136,7 +109,7 @@ export default function FlipBook({ pdfUrl, width = 450, height = 450 }: FlipBook
                 useMouseEvents={true}
               >
                 {Array.from({ length: numPages }, (_, index) => (
-                  <PageContent key={index} pageNumber={index + 1}>
+                  <PageContent key={index}>
                     <Page
                       pageNumber={index + 1}
                       height={pageSize}
@@ -149,29 +122,28 @@ export default function FlipBook({ pdfUrl, width = 450, height = 450 }: FlipBook
               </HTMLFlipBook>
             </div>
 
-            {/* Navigation */}
-            <div className="flex items-center justify-center gap-4 mt-6">
+            <div className="mt-6 flex items-center justify-center gap-3 sm:gap-4">
               <button
-                onClick={goToPrevPage}
+                type="button"
+                onClick={() => bookRef.current?.pageFlip().flipPrev()}
                 disabled={currentPage === 0}
-                className="px-4 py-2 bg-zand text-nachtblauw rounded-lg hover:bg-abrikoos disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="rounded-[14px] border-[3px] border-inkt bg-creme px-4 py-2 font-extrabold text-inkt disabled:cursor-not-allowed disabled:opacity-40"
               >
-                ← Vorige
+                Vorige
               </button>
-              <span className="text-nachtblauw/70 text-sm">
-                Pagina {currentPage + 1} van {numPages}
+              <span className="text-sm font-bold text-inkt">
+                {currentPage + 1} van {numPages}
               </span>
               <button
-                onClick={goToNextPage}
+                type="button"
+                onClick={() => bookRef.current?.pageFlip().flipNext()}
                 disabled={currentPage >= numPages - 1}
-                className="px-4 py-2 bg-zand text-nachtblauw rounded-lg hover:bg-abrikoos disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                className="rounded-[14px] border-[3px] border-inkt bg-creme px-4 py-2 font-extrabold text-inkt disabled:cursor-not-allowed disabled:opacity-40"
               >
-                Volgende →
+                Volgende
               </button>
             </div>
-            <p className="text-nachtblauw/50 text-xs mt-2">
-              Klik op de hoek of sleep om te bladeren
-            </p>
+            <p className="mt-2 text-xs font-bold text-inkt/70">Tik op een hoek of veeg om te bladeren</p>
           </div>
         )}
       </Document>

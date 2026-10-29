@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { appUrl } from "./src/lib/constants";
 
 const nextConfig: NextConfig = {
   images: {
@@ -9,6 +10,13 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
     ],
+  },
+  async redirects() {
+    // "Mijn boeken" bestaat alleen in de app (knop rechtsboven); de site heeft geen eigen login.
+    return [
+      { source: '/mijn-boeken', destination: appUrl('redirect', 'mijn-boeken'), permanent: false },
+      { source: '/mijn-boeken/:path*', destination: appUrl('redirect', 'mijn-boeken'), permanent: false },
+    ];
   },
 };
 
