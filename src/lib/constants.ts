@@ -15,6 +15,21 @@ export function appUrl(content: string, campaign = 'home'): string {
   return `${WEBAPP_URL}/?${params.toString()}`;
 }
 
+/**
+ * Link naar "Mijn boeken" in de app. De app opent dat scherm meteen
+ * (niet ingelogd = eerst het inlogvenster).
+ */
+export function myBooksUrl(content: string): string {
+  const params = new URLSearchParams({
+    view: 'mijn-boeken',
+    utm_source: 'website',
+    utm_medium: 'nav',
+    utm_campaign: 'mijn-boeken',
+    utm_content: content,
+  });
+  return `${WEBAPP_URL}/?${params.toString()}`;
+}
+
 // Beelden staan in Vercel Blob
 export const IMAGE_BASE = 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/pictures';
 

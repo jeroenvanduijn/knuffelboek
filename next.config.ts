@@ -1,5 +1,5 @@
 import type { NextConfig } from "next";
-import { appUrl } from "./src/lib/constants";
+import { myBooksUrl } from "./src/lib/constants";
 
 const nextConfig: NextConfig = {
   images: {
@@ -12,10 +12,11 @@ const nextConfig: NextConfig = {
     ],
   },
   async redirects() {
-    // "Mijn boeken" bestaat alleen in de app (knop rechtsboven); de site heeft geen eigen login.
+    // "Mijn boeken" bestaat alleen in de app; de site heeft geen eigen login.
+    // ?view=mijn-boeken laat de app meteen dat scherm (of het inlogvenster) openen.
     return [
-      { source: '/mijn-boeken', destination: appUrl('redirect', 'mijn-boeken'), permanent: false },
-      { source: '/mijn-boeken/:path*', destination: appUrl('redirect', 'mijn-boeken'), permanent: false },
+      { source: '/mijn-boeken', destination: myBooksUrl('redirect'), permanent: false },
+      { source: '/mijn-boeken/:path*', destination: myBooksUrl('redirect'), permanent: false },
     ];
   },
 };
