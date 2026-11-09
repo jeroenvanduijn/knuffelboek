@@ -28,7 +28,7 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
           <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€29,95</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
-              <li>Zachte kaft, 32 pagina&apos;s</li>
+              <li>Zachte kaft, 34 pagina&apos;s</li>
               <li>Gedrukt en thuisbezorgd</li>
               <li>De PDF krijg je erbij</li>
             </ul>
@@ -52,7 +52,7 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
           <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€39,95</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
-              <li>Harde kaft, stevig papier, 32 pagina&apos;s</li>
+              <li>Harde kaft, stevig papier, 34 pagina&apos;s</li>
               <li>Gedrukt en thuisbezorgd</li>
               <li>De PDF krijg je erbij</li>
               <li>Extra exemplaar €19,95</li>
@@ -72,7 +72,7 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
           <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€10</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
-              <li>Het hele boek als PDF, 32 pagina&apos;s</li>
+              <li>Het hele boek als PDF, 34 pagina&apos;s</li>
               <li>Dezelfde dag in je mail</li>
               <li>Ook als het te laat is voor drukken</li>
             </ul>

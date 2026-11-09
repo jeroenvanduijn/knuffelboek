@@ -267,7 +267,7 @@ function EchtBoek() {
             Een harde kaft om elke avond opnieuw uit voor te lezen. Met de knuffel ernaast, natuurlijk.
           </p>
           <ul className="m-0 flex list-none flex-col gap-3 p-0 text-lg font-bold md:text-[19px]">
-            <li className="flex items-center gap-3"><Vinkje /><span>Hardcover van 32 pagina&apos;s, in het Nederlands</span></li>
+            <li className="flex items-center gap-3"><Vinkje /><span>Hardcover van 34 pagina&apos;s, in het Nederlands</span></li>
             <li className="flex items-center gap-3"><Vinkje /><span>Het verhaal past bij de leeftijd, van 2 tot 8</span></li>
             <li className="flex items-center gap-3"><Vinkje /><span>De PDF krijg je erbij, om te bewaren</span></li>
           </ul>
