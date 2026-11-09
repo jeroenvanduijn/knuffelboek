@@ -39,7 +39,7 @@ const faqItems = [
       },
       {
         q: 'Kan ik meerdere kinderen in één boek zetten?',
-        a: 'Op dit moment kan het boek over één kind gaan, maar je kunt wel broertjes, zusjes of ouders toevoegen als bijpersonages in het verhaal.',
+        a: 'Nee, het boek gaat over één kind en zijn of haar knuffel. Die twee staan samen op elke tekening. Papa of mama worden soms even genoemd in de tekst, maar broertjes, zusjes of ouders staan niet als personage in het boek.',
       },
       {
         q: 'Wat als ik niet tevreden ben met de preview?',
