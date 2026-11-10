@@ -69,7 +69,7 @@ const faqItems = [
     questions: [
       {
         q: 'Hoe is de kwaliteit van het boek?',
-        a: 'Elk boek heeft 32 pagina\'s en wordt in full color gedrukt op stevig papier. Kies je hardcover, dan krijg je een harde kaft die tegen een stootje kan. Bij een gedrukt boek krijg je de PDF erbij.',
+        a: 'Elk boek heeft 34 pagina\'s en wordt in full color gedrukt op stevig papier. Kies je hardcover, dan krijg je een harde kaft die tegen een stootje kan. Bij een gedrukt boek krijg je de PDF erbij.',
       },
       {
         q: 'Wat als het boek beschadigd aankomt?',
