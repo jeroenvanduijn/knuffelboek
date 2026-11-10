@@ -14,7 +14,7 @@ const faqItems = [
       },
       {
         q: 'Naar welke landen leveren jullie?',
-        a: `We leveren standaard naar Nederland en België. Verzending naar andere EU-landen is ook mogelijk tegen een meerprijs van €4,95. Levertijd buiten NL/BE: ${LEVERTIJD}.`,
+        a: 'We leveren in Nederland, België, Duitsland, Frankrijk, Oostenrijk, Luxemburg, het Verenigd Koninkrijk en Zwitserland. De verzendkosten zijn overal hetzelfde: gewone post zit in de prijs. Buiten Nederland kan het een paar dagen langer duren.',
       },
       {
         q: 'Kan ik meerdere exemplaren bestellen?',
@@ -52,7 +52,7 @@ const faqItems = [
     questions: [
       {
         q: 'Wat gebeurt er met de foto van mijn knuffel?',
-        a: 'De foto wordt veilig verwerkt om de illustraties te maken. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden. Na 30 dagen worden alle geüploade foto\'s en gegevens automatisch verwijderd.',
+        a: 'De foto wordt veilig verwerkt om de illustraties te maken. We gebruiken geen gezichtsherkenning en delen geen gegevens met derden. We bewaren de foto\'s en het boek maximaal 6 maanden na levering. Wil je dat we alles eerder verwijderen? Mail ons, dan doen we dat.',
       },
       {
         q: 'Is de betaling veilig?',

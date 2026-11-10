@@ -24,7 +24,6 @@ const kaften = [
 
 const marqueeItems = [
   'Kerst: bestel vóór 30 november',
-  'Sinterklaas: stop een cadeaubon in de schoen',
   'Gedrukt als hardcover',
   'De PDF krijg je erbij',
   'Voor kinderen van 2 tot 8',
@@ -75,7 +74,7 @@ function Hero() {
             <SheepBadge size={96} border={5} />
           </span>
           <p className="m-0 inline-flex self-start rounded-full bg-inkt px-4 py-2 text-[14px] font-extrabold text-creme sm:text-[15px]">
-            Voor Kerst, Sinterklaas en elke avond
+            Voor Kerst en elke avond
           </p>
           <h1 className="m-0 font-display text-[clamp(40px,8vw,64px)] font-extrabold leading-none [text-wrap:pretty]">
             Vanavond voorlezen over jullie eigen knuffel
@@ -341,22 +340,15 @@ function Cadeaubon() {
   );
 }
 
-/* 10. Kerst en Sinterklaas */
+/* 10. Kerst */
 function Feestdagen() {
   return (
-    <section className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-7 px-4 pb-12 pt-16 sm:px-6 md:pt-20 lg:grid-cols-2 lg:px-10">
+    <section className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-7 px-4 pb-12 pt-16 sm:px-6 md:pt-20 lg:px-10">
       <article className="flex flex-col gap-3.5 rounded-[28px] border-4 border-koraal bg-white p-6 sm:p-9">
         <p className="m-0 text-[15px] font-extrabold uppercase tracking-[2px] text-koraal-donker">Kerst, 25 december</p>
         <h3 className="m-0 font-display text-[clamp(32px,6vw,40px)] font-extrabold leading-none">Bestel vóór 30 november</h3>
         <p className="m-0 text-grijs">
           Dan ligt het gedrukte boek op tijd onder de boom. Tot 24 december kun je nog de PDF geven, en straks ook een cadeaubon.
-        </p>
-      </article>
-      <article className="flex flex-col gap-3.5 rounded-[28px] border-4 border-blauw bg-white p-6 sm:p-9">
-        <p className="m-0 text-[15px] font-extrabold uppercase tracking-[2px] text-blauw">Sinterklaas, 5 december</p>
-        <h3 className="m-0 font-display text-[clamp(32px,6vw,40px)] font-extrabold leading-none">Stop een cadeaubon in de schoen</h3>
-        <p className="m-0 text-grijs">
-          Te laat voor een gedrukt boek? Met de bon maakt je kind samen met jou het eigen boek, met de eigen knuffel. De cadeaubon is binnenkort te koop.
         </p>
       </article>
     </section>
