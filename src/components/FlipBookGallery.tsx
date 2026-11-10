@@ -24,21 +24,28 @@ interface SampleBook {
   pdfUrl: string;
 }
 
-// Tom eerst: die PDF is kleiner (±6 MB) dan die van Zoe (±13 MB)
+// Echte boeken uit de app (digitale PDF, verkleind tot ±1,5 MB voor het web), één per stijl
 const sampleBooks: SampleBook[] = [
   {
-    id: 'tom',
-    name: 'Tom',
-    age: '2 jaar',
-    title: 'Het avontuur van Tom en zijn knuffel',
-    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-tom%20%285%29.pdf',
+    id: 'lotte',
+    name: 'Lotte',
+    age: '3 jaar',
+    title: 'Kerst met Flapje (cartoon)',
+    pdfUrl: '/voorbeelden/knuffelboek-lotte.pdf',
   },
   {
-    id: 'zoe',
-    name: 'Zoë',
+    id: 'noor',
+    name: 'Noor',
+    age: '4 jaar',
+    title: 'Noor en Bobbie vieren Kerst (waterverf)',
+    pdfUrl: '/voorbeelden/knuffelboek-noor.pdf',
+  },
+  {
+    id: 'daan',
+    name: 'Daan',
     age: '6 jaar',
-    title: 'Het avontuur van Zoë en haar knuffel',
-    pdfUrl: 'https://smt0i9fnjglr6owb.public.blob.vercel-storage.com/voorbeeld%20boeken/knuffelboek-zoe%CC%88.pdf',
+    title: 'Hamish en de verdwenen ster (3D knuffel)',
+    pdfUrl: '/voorbeelden/knuffelboek-daan.pdf',
   },
 ];
 

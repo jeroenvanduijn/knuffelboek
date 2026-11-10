@@ -1,25 +1,26 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { FlipBookGallery, Pricing, SheepBadge } from '@/components';
-import { appUrl, IMAGE_BASE, LEVERTIJD, CONTACT_EMAIL } from '@/lib/constants';
+import { appUrl, LEVERTIJD, CONTACT_EMAIL } from '@/lib/constants';
 
-/* Afbeeldingen uit Vercel Blob (AI-beelden van de huidige site; echte foto's volgen) */
+/* Beelden in public/beelden: mock-ups van echte Knuffelboeken (kaft en pagina's uit de drukbestanden van
+   de app, in een gegenereerde scène gezet), en de stijlen zijn echte pagina's uit die boeken. */
 const IMG = {
-  hero: `${IMAGE_BASE}/hero-background-128.jpg`, // kind leest met knuffel bij lamplicht
-  stap1: `${IMAGE_BASE}/hero-background-89.jpg`, // ouder fotografeert knuffel op een stoel
-  stap2: `${IMAGE_BASE}/hero-background-124.jpg`, // voorproefje op een tablet
-  stap3: `${IMAGE_BASE}/hero-background-91.jpg`, // pakket met het boek voor de deur
-  inHanden: `${IMAGE_BASE}/hero-background-82.jpg`, // gedrukt boek in handen
-  waterverf: `${IMAGE_BASE}/stijlen/hero-background-114.jpg`,
-  knuffel3d: `${IMAGE_BASE}/stijlen/hero-background-115.jpg`,
-  cartoon: `${IMAGE_BASE}/stijlen/hero-background-116.jpg`,
+  hero: '/beelden/hero-kerst.jpg', // kind leest Kerst met Flapje bij lamplicht
+  stap1: '/beelden/stap1.jpg', // ouder fotografeert een teddybeer op een stoel
+  stap2: '/beelden/stap2.jpg', // kaft van Kerst met Flapje op een tablet
+  stap3: '/beelden/stap3.jpg', // pakket met Noor en Bobbie vieren Kerst voor de deur
+  inHanden: '/beelden/inhanden.jpg', // open boek op schoot
+  waterverf: '/beelden/stijl-waterverf.jpg',
+  knuffel3d: '/beelden/stijl-3d.jpg',
+  cartoon: '/beelden/stijl-cartoon.jpg',
 };
 
 const kaften = [
-  { src: `${IMAGE_BASE}/voorbeeldboeken/hero-background-118.jpg`, alt: 'Voorbeeldboek Lucas en de Vriendschap', rotate: '-rotate-[4deg]' },
-  { src: `${IMAGE_BASE}/voorbeeldboeken/hero-background-119.jpg`, alt: "Voorbeeldboek Emma's Verjaardagsfeest", rotate: 'rotate-[3deg]' },
-  { src: `${IMAGE_BASE}/voorbeeldboeken/hero-background-120.jpg`, alt: 'Voorbeeldboek Tim en het Slaapavontuur', rotate: '-rotate-[2deg]' },
-  { src: `${IMAGE_BASE}/voorbeeldboeken/hero-background-121.jpg`, alt: 'Voorbeeldboek Lotte en de Dappere Draakbeer', rotate: 'rotate-[4deg]' },
+  { src: '/beelden/vb-noor-raam.jpg', alt: 'Voorbeeldboek Noor en Bobbie vieren Kerst, in waterverf', rotate: '-rotate-[4deg]' },
+  { src: '/beelden/vb-lotte-keuken.jpg', alt: 'Voorbeeldboek Kerst met Flapje, in cartoon', rotate: 'rotate-[3deg]' },
+  { src: '/beelden/vb-daan-deken.jpg', alt: 'Voorbeeldboek Hamish en de verdwenen ster, in 3D knuffel', rotate: '-rotate-[2deg]' },
+  { src: '/beelden/vb-noor-boom.jpg', alt: 'Voorbeeldboek Noor en Bobbie vieren Kerst bij de kerstboom', rotate: 'rotate-[4deg]' },
 ];
 
 const marqueeItems = [
@@ -54,11 +55,11 @@ function Hero() {
         <div className="kb-zoom absolute inset-0">
           <Image
             src={IMG.hero}
-            alt="Kind leest 's avonds een Knuffelboek, de knuffel op schoot, in zacht lamplicht"
+            alt="Kind leest 's avonds haar eigen Knuffelboek bij de kerstboom, in zacht lamplicht"
             fill
             priority
             sizes="100vw"
-            className="origin-top-left scale-[1.07] object-cover object-[55%_45%]"
+            className="origin-top-left scale-[1.07] object-cover object-[92%_50%]"
           />
         </div>
       </div>
@@ -137,7 +138,7 @@ function ZoWerktHet() {
     },
     {
       img: IMG.stap2,
-      alt: 'Het voorproefje van het boek op een tablet, met de getekende knuffel op de kaft',
+      alt: 'Het voorproefje van het boek op een tablet: de kaft met de getekende knuffel',
       rotate: 'rotate-2',
       bol: 'bg-blauw text-creme',
       titel: 'Voorproefje bekijken',
@@ -145,7 +146,7 @@ function ZoWerktHet() {
     },
     {
       img: IMG.stap3,
-      alt: 'Het gedrukte boek wordt bezorgd',
+      alt: 'Het gedrukte boek is bezorgd en staat bij het pakket voor de deur',
       rotate: '-rotate-1',
       bol: 'bg-geel text-inkt',
       titel: 'Boek op de mat',
@@ -228,8 +229,8 @@ function Voorbeelden() {
 /* 6. Drie stijlen */
 function Stijlen() {
   const stijlen = [
-    { naam: 'Waterverf', sub: 'Warm en dromerig', img: IMG.waterverf, rand: 'border-blauw', pos: 'object-[35%_50%]' },
-    { naam: '3D knuffel', sub: 'Zacht en tastbaar', img: IMG.knuffel3d, rand: 'border-geel', pos: 'object-[38%_50%]' },
+    { naam: 'Waterverf', sub: 'Warm en dromerig', img: IMG.waterverf, rand: 'border-blauw', pos: 'object-[50%_50%]' },
+    { naam: '3D knuffel', sub: 'Zacht en tastbaar', img: IMG.knuffel3d, rand: 'border-geel', pos: 'object-[50%_50%]' },
     { naam: 'Cartoon', sub: 'Vrolijk en speels', img: IMG.cartoon, rand: 'border-koraal', pos: 'object-[50%_50%]' },
   ];
 
@@ -273,7 +274,7 @@ function EchtBoek() {
           </ul>
         </div>
         <div className="relative aspect-[4/3] overflow-hidden rounded-[28px] border-[6px] border-white shadow-[0_24px_50px_rgba(31,42,68,0.2)] rotate-2">
-          <Image src={IMG.inHanden} alt="Het gedrukte Knuffelboek in handen, samen voorlezen op de bank" fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
+          <Image src={IMG.inHanden} alt="Het gedrukte Knuffelboek open op schoot, samen voorlezen op de bank" fill sizes="(min-width: 1024px) 560px, 100vw" className="object-cover" />
         </div>
       </div>
     </section>
