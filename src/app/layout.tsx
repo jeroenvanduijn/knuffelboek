@@ -34,7 +34,7 @@ export const metadata: Metadata = {
   title: "Knuffelboek: een echt voorleesboek over de eigen knuffel van je kind",
   description:
     "Maak een foto van de knuffel. Wij schrijven een verhaal met de naam van je kind, tekenen alle plaatjes en drukken er een echt boek van. Hardcover €39,95, de PDF krijg je erbij.",
-  keywords: ["kinderboek", "gepersonaliseerd", "knuffel", "cadeau", "kerst", "sinterklaas", "voorleesboek", "hardcover"],
+  keywords: ["kinderboek", "gepersonaliseerd", "knuffel", "cadeau", "kerst", "voorleesboek", "hardcover"],
   openGraph: {
     title: "Knuffelboek: vanavond voorlezen over jullie eigen knuffel",
     description:
