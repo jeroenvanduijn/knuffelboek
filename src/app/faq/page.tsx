@@ -14,7 +14,7 @@ const faqItems = [
       },
       {
         q: 'Naar welke landen leveren jullie?',
-        a: 'We leveren in Nederland, België, Duitsland, Frankrijk, Oostenrijk, Luxemburg, het Verenigd Koninkrijk en Zwitserland. De verzendkosten zijn overal hetzelfde: gewone post zit in de prijs. Buiten Nederland kan het een paar dagen langer duren.',
+        a: 'We leveren in Nederland, België, Duitsland, Frankrijk, Oostenrijk en Luxemburg. De verzendkosten zijn overal hetzelfde: gewone post zit in de prijs. Buiten Nederland kan het een paar dagen langer duren.',
       },
       {
         q: 'Kan ik meerdere exemplaren bestellen?',

@@ -9,8 +9,9 @@ import { appUrl, LEVERTIJD, CONTACT_EMAIL } from '@/lib/constants';
    de knuffelfoto's zijn met AI gemaakt, dus geen merk-knuffels. */
 const IMG = {
   hero: '/beelden/hero-kerst.jpg', // kind leest Kerst met Dons bij lamplicht
-  stap1: '/beelden/stap1.jpg', // ouder fotografeert een teddybeer op een stoel
-  stap2: '/beelden/stap2.jpg', // kaft van Kerst met Dons op een tablet
+  // Stap 1, 2 en 3 tonen dezelfde knuffel (Brom de beer): foto, voorproefje, boek op de mat
+  stap1: '/beelden/stap1.jpg', // ouder fotografeert Brom de beer op een stoel
+  stap2: '/beelden/stap2.jpg', // kaft van Noor en Brom vieren Kerst op een tablet
   stap3: '/beelden/stap3.jpg', // pakket met Noor en Brom vieren Kerst voor de deur
   inHanden: '/beelden/inhanden.jpg', // open boek op schoot
   waterverf: '/beelden/stijl-waterverf.jpg',
@@ -151,7 +152,7 @@ function ZoWerktHet() {
       rotate: '-rotate-1',
       bol: 'bg-geel text-inkt',
       titel: 'Boek op de mat',
-      tekst: 'Gedrukt als hardcover en thuisbezorgd. De PDF krijg je er meteen bij, om alvast voor te lezen.',
+      tekst: 'Gedrukt in Europa als hardcover en thuisbezorgd. De PDF krijg je er meteen bij, om alvast voor te lezen.',
     },
   ];
 
@@ -292,20 +293,28 @@ function Cadeaubon() {
           <p className="m-0 text-lg md:text-xl">
             Voor opa&apos;s, oma&apos;s, ooms en tantes. De ontvanger maakt zelf een foto van de knuffel en kiest het verhaal. Ook als het te laat is voor een gedrukt boek.
           </p>
+          <p className="m-0 text-lg font-extrabold md:text-xl">Je kiest zelf hoe je hem geeft:</p>
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="flex flex-col gap-1 rounded-[18px] border-[3px] border-inkt bg-creme px-5 py-[18px] text-inkt">
-              <span className="font-display text-[22px] font-extrabold leading-[1.1]">Direct in je mail</span>
+              <span className="font-display text-[22px] font-extrabold leading-[1.1]">Ontvang de cadeaubon direct in je mail</span>
               <span className="text-base text-grijs">Als PDF om te printen, ook op 24 december</span>
             </div>
             <div className="flex flex-col gap-1 rounded-[18px] border-[3px] border-inkt bg-geel px-5 py-[18px] text-inkt">
-              <span className="font-display text-[22px] font-extrabold leading-[1.1]">Handgeschreven kaart</span>
+              <span className="font-display text-[22px] font-extrabold leading-[1.1]">Cadeaubon als handgeschreven kaart</span>
               <span className="text-base text-grijs">Met jouw tekst, per post in een envelop</span>
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-3">
-            <span className="rounded-[14px] bg-creme px-[18px] py-2.5 font-extrabold text-inkt">€29,95</span>
-            <span className="rounded-[14px] bg-creme px-[18px] py-2.5 font-extrabold text-inkt">€39,95</span>
-            <span className="rounded-[14px] bg-creme px-[18px] py-2.5 font-extrabold text-inkt">€50</span>
+            {[
+              ['€29,95', 'Softcover'],
+              ['€39,95', 'Hardcover'],
+              ['€50', 'Naar keuze'],
+            ].map(([bedrag, wat]) => (
+              <span key={bedrag} className="flex flex-col items-center rounded-[14px] bg-creme px-[18px] py-2 text-inkt">
+                <span className="font-extrabold">{bedrag}</span>
+                <span className="text-sm text-grijs">{wat}</span>
+              </span>
+            ))}
             <span className="inline-flex items-center gap-2 rounded-[20px] border-[3px] border-dashed border-geel px-6 py-3 text-lg font-extrabold text-geel">
               <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <circle cx="12" cy="12" r="9" />
