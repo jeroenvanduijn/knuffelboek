@@ -7,7 +7,7 @@ interface PricingProps {
   headingLevel?: 'h1' | 'h2';
 }
 
-/** "Wat kost het?": softcover, hardcover (het cadeau) en alleen digitaal. */
+/** "Wat kost het?": softcover, hardcover (onze tip) en alleen digitaal. */
 export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: PricingProps) {
   const Kop = headingLevel;
 
@@ -24,12 +24,13 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
       <div className="mx-auto grid w-full max-w-[560px] grid-cols-1 items-stretch gap-7 lg:max-w-none lg:grid-cols-3">
         {/* Softcover */}
         <article className="order-2 flex flex-col gap-[18px] overflow-hidden rounded-[28px] border-4 border-inkt bg-white pb-8 lg:order-none">
-          <h3 className="m-0 bg-blauw px-6 py-3.5 sm:px-8 font-display text-2xl font-extrabold text-creme">Softcover</h3>
-          <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
+          <h3 className="m-0 bg-blauw px-6 py-3.5 text-center sm:px-8 font-display text-2xl font-extrabold text-creme">Softcover</h3>
+          <div className="flex flex-grow flex-col gap-[18px] px-6 text-center sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€29,95</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
               <li>Zachte kaft, 34 pagina&apos;s</li>
-              <li>Gedrukt en thuisbezorgd</li>
+              <li>Gedrukt in Europa</li>
+              <li>Gewone bezorging inbegrepen</li>
               <li>De PDF krijg je erbij</li>
             </ul>
             <a
@@ -41,19 +42,20 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
           </div>
         </article>
 
-        {/* Hardcover: het cadeau */}
+        {/* Hardcover: onze tip */}
         <article className="order-1 flex flex-col gap-[18px] overflow-hidden rounded-[28px] border-4 border-inkt bg-white pb-8 shadow-[0_24px_50px_rgba(31,42,68,0.18)] lg:order-none lg:scale-[1.04]">
-          <div className="flex items-center justify-between gap-3 bg-koraal px-6 py-3.5 sm:px-8">
+          <div className="flex flex-wrap items-center justify-center gap-3 bg-koraal px-6 py-3.5 sm:px-8">
             <h3 className="m-0 font-display text-2xl font-extrabold text-inkt">Hardcover</h3>
             <span className="rounded-full bg-inkt px-3 py-1.5 font-sans text-[13px] font-extrabold uppercase tracking-[1px] text-creme">
-              Het cadeau
+              Onze tip
             </span>
           </div>
-          <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
+          <div className="flex flex-grow flex-col gap-[18px] px-6 text-center sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€39,95</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
               <li>Harde kaft, stevig papier, 34 pagina&apos;s</li>
-              <li>Gedrukt en thuisbezorgd</li>
+              <li>Gedrukt in Europa</li>
+              <li>Gewone bezorging inbegrepen</li>
               <li>De PDF krijg je erbij</li>
               <li>Extra exemplaar €19,95</li>
             </ul>
@@ -68,8 +70,8 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
 
         {/* Alleen digitaal */}
         <article className="order-3 flex flex-col gap-[18px] overflow-hidden rounded-[28px] border-4 border-inkt bg-white pb-8 lg:order-none">
-          <h3 className="m-0 bg-geel px-6 py-3.5 sm:px-8 font-display text-2xl font-extrabold text-inkt">Alleen digitaal</h3>
-          <div className="flex flex-grow flex-col gap-[18px] px-6 sm:px-8">
+          <h3 className="m-0 bg-geel px-6 py-3.5 text-center sm:px-8 font-display text-2xl font-extrabold text-inkt">Alleen digitaal</h3>
+          <div className="flex flex-grow flex-col gap-[18px] px-6 text-center sm:px-8">
             <p className="m-0 font-display text-[56px] font-extrabold leading-none">€10</p>
             <ul className="m-0 flex list-none flex-col gap-2 p-0 text-[17px] text-grijs">
               <li>Het hele boek als PDF, 34 pagina&apos;s</li>
@@ -85,6 +87,10 @@ export default function Pricing({ campaign = 'home', headingLevel = 'h2' }: Pric
           </div>
         </article>
       </div>
+
+      <p className="m-0 max-w-[720px] self-center text-center text-[17px] font-bold text-inkt">
+        Sneller in huis? Dat kan tegen een meerprijs. Je kiest het bij het afrekenen.
+      </p>
 
       <p className="m-0 max-w-[720px] self-center text-center text-[15px] text-grijs">
         Elk boek wordt speciaal voor jou gemaakt, met jouw knuffel en namen. Daarom geldt er geen bedenktijd van 14 dagen. Is er iets mis met de druk? Mail ons, dan lossen we het op.
