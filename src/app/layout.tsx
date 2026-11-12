@@ -3,6 +3,7 @@ import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import BronDoorgeven from "@/components/BronDoorgeven";
 
 // Zelf gehost (variabele fonts, latin, OFL). next/font/google faalt op Vercel af en toe
 // tijdens de build omdat Google Fonts dan niet bereikbaar is.
@@ -52,6 +53,7 @@ export default function RootLayout({
   return (
     <html lang="nl" className={`${baloo.variable} ${nunito.variable} ${caveat.variable}`}>
       <body className="antialiased min-h-screen flex flex-col font-sans">
+        <BronDoorgeven />
         <Header />
         <main className="flex-grow">{children}</main>
         <Footer />
