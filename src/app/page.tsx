@@ -27,7 +27,7 @@ const kaften = [
 ];
 
 const marqueeItems = [
-  'Kerst: bestel vóór 30 november',
+  'Kerst: bestel t/m 30 november',
   'Gedrukt als hardcover',
   'De PDF krijg je erbij',
   'Voor kinderen van 2 tot 8',
@@ -358,7 +358,7 @@ function Feestdagen() {
     <section className="mx-auto grid w-full max-w-[1200px] grid-cols-1 gap-7 px-4 pb-12 pt-16 sm:px-6 md:pt-20 lg:px-10">
       <article className="flex flex-col gap-3.5 rounded-[28px] border-4 border-koraal bg-white p-6 sm:p-9">
         <p className="m-0 text-[15px] font-extrabold uppercase tracking-[2px] text-koraal-donker">Kerst, 25 december</p>
-        <h3 className="m-0 font-display text-[clamp(32px,6vw,40px)] font-extrabold leading-none">Bestel vóór 30 november</h3>
+        <h3 className="m-0 font-display text-[clamp(32px,6vw,40px)] font-extrabold leading-none">Bestel t/m 30 november</h3>
         <p className="m-0 text-grijs">
           Dan ligt het gedrukte boek op tijd onder de boom. Tot 24 december kun je nog de PDF geven, en straks ook een cadeaubon.
         </p>

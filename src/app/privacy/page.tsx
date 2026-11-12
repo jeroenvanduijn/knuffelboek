@@ -52,6 +52,7 @@ export default function PrivacyPage() {
                   </ul>
                 </li>
                 <li>Technische gegevens (IP, apparaat, cookies)</li>
+                <li>Via welke link je bij ons kwam (bijvoorbeeld een advertentie)</li>
               </ol>
             </section>
 
@@ -63,6 +64,7 @@ export default function PrivacyPage() {
                 <li>Om je bestelling te kunnen verwerken en informeren</li>
                 <li>Voor klantenservice en klachten</li>
                 <li>Om onze website en app te verbeteren</li>
+                <li>Om te zien welke reclame werkt (we bewaren alleen via welke link je kwam)</li>
                 <li>Voor administratie en wettelijke verplichtingen</li>
                 <li>Voor marketing alleen met jouw toestemming</li>
               </ul>
