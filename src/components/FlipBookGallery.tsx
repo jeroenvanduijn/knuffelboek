@@ -25,8 +25,7 @@ interface SampleBook {
 }
 
 // Echte boeken uit de app (digitale PDF, verkleind tot ±1,5 MB voor het web), één per stijl.
-// Lotte en Noor: de knuffelfoto's zijn met AI gemaakt (eigen ontwerp, geen merk-knuffels).
-// Daan is nog het oude boek met Hamish; die PDF moet nog vervangen worden.
+// De knuffelfoto's zijn met AI gemaakt (eigen ontwerp, geen merk-knuffels).
 const sampleBooks: SampleBook[] = [
   {
     id: 'lotte',
@@ -46,7 +45,7 @@ const sampleBooks: SampleBook[] = [
     id: 'daan',
     name: 'Daan',
     age: '6 jaar',
-    title: 'Hamish en de verdwenen ster (3D knuffel)',
+    title: 'Koos en de verdwenen ster (3D knuffel)',
     pdfUrl: '/voorbeelden/knuffelboek-daan.pdf',
   },
 ];
