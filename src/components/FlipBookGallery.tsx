@@ -24,20 +24,22 @@ interface SampleBook {
   pdfUrl: string;
 }
 
-// Echte boeken uit de app (digitale PDF, verkleind tot ±1,5 MB voor het web), één per stijl
+// Echte boeken uit de app (digitale PDF, verkleind tot ±1,5 MB voor het web), één per stijl.
+// Lotte en Noor: de knuffelfoto's zijn met AI gemaakt (eigen ontwerp, geen merk-knuffels).
+// Daan is nog het oude boek met Hamish; die PDF moet nog vervangen worden.
 const sampleBooks: SampleBook[] = [
   {
     id: 'lotte',
     name: 'Lotte',
     age: '3 jaar',
-    title: 'Kerst met Flapje (cartoon)',
+    title: 'Kerst met Dons (cartoon)',
     pdfUrl: '/voorbeelden/knuffelboek-lotte.pdf',
   },
   {
     id: 'noor',
     name: 'Noor',
     age: '4 jaar',
-    title: 'Noor en Bobbie vieren Kerst (waterverf)',
+    title: 'Noor en Brom vieren Kerst (waterverf)',
     pdfUrl: '/voorbeelden/knuffelboek-noor.pdf',
   },
   {

@@ -4,12 +4,16 @@ import { FlipBookGallery, Pricing, SheepBadge } from '@/components';
 import { appUrl, LEVERTIJD, CONTACT_EMAIL } from '@/lib/constants';
 
 /* Beelden in public/beelden: mock-ups van echte Knuffelboeken (kaft en pagina's uit de drukbestanden van
-   de app, in een gegenereerde scène gezet), en de stijlen zijn echte pagina's uit die boeken. */
+   de app, in een gegenereerde scène gezet), en de stijlen zijn echte pagina's uit die boeken.
+   De knuffels in de boeken van Noor en Lotte (Brom de beer, Dons het eendje) zijn eigen ontwerpen:
+   de knuffelfoto's zijn met AI gemaakt, dus geen merk-knuffels. Het 3D-boek van Daan is nog het oude
+   boek (Hamish): vb-daan-deken.jpg en knuffelboek-daan.pdf moeten nog vervangen worden. Alleen de
+   stijlplaat stijl-3d.jpg komt al uit het nieuwe 3D-boek (Koos de koala). */
 const IMG = {
-  hero: '/beelden/hero-kerst.jpg', // kind leest Kerst met Flapje bij lamplicht
+  hero: '/beelden/hero-kerst.jpg', // kind leest Kerst met Dons bij lamplicht
   stap1: '/beelden/stap1.jpg', // ouder fotografeert een teddybeer op een stoel
-  stap2: '/beelden/stap2.jpg', // kaft van Kerst met Flapje op een tablet
-  stap3: '/beelden/stap3.jpg', // pakket met Noor en Bobbie vieren Kerst voor de deur
+  stap2: '/beelden/stap2.jpg', // kaft van Kerst met Dons op een tablet
+  stap3: '/beelden/stap3.jpg', // pakket met Noor en Brom vieren Kerst voor de deur
   inHanden: '/beelden/inhanden.jpg', // open boek op schoot
   waterverf: '/beelden/stijl-waterverf.jpg',
   knuffel3d: '/beelden/stijl-3d.jpg',
@@ -17,10 +21,10 @@ const IMG = {
 };
 
 const kaften = [
-  { src: '/beelden/vb-noor-raam.jpg', alt: 'Voorbeeldboek Noor en Bobbie vieren Kerst, in waterverf', rotate: '-rotate-[4deg]' },
-  { src: '/beelden/vb-lotte-keuken.jpg', alt: 'Voorbeeldboek Kerst met Flapje, in cartoon', rotate: 'rotate-[3deg]' },
+  { src: '/beelden/vb-noor-raam.jpg', alt: 'Voorbeeldboek Noor en Brom vieren Kerst, in waterverf', rotate: '-rotate-[4deg]' },
+  { src: '/beelden/vb-lotte-keuken.jpg', alt: 'Voorbeeldboek Kerst met Dons, in cartoon', rotate: 'rotate-[3deg]' },
   { src: '/beelden/vb-daan-deken.jpg', alt: 'Voorbeeldboek Hamish en de verdwenen ster, in 3D knuffel', rotate: '-rotate-[2deg]' },
-  { src: '/beelden/vb-noor-boom.jpg', alt: 'Voorbeeldboek Noor en Bobbie vieren Kerst bij de kerstboom', rotate: 'rotate-[4deg]' },
+  { src: '/beelden/vb-noor-boom.jpg', alt: 'Voorbeeldboek Noor en Brom vieren Kerst bij de kerstboom', rotate: 'rotate-[4deg]' },
 ];
 
 const marqueeItems = [
